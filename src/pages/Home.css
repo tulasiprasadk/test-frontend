@@ -165,24 +165,27 @@
 }
 
 .cat-row {
-  display: flex !important;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  grid-auto-rows: 90px;
+  gap: 18px;
+  justify-items: center;
   align-items: center;
-  gap: 25px;
   position: relative;
   z-index: 10;
   min-height: 100px;
   width: 100%;
+  max-width: 100%;
 }
 
 .cat-card {
   background: #ffe84b !important;
-  padding: 20px 16px;
-  border-radius: 12px;
+  padding: 10px 8px;
+  border-radius: 10px;
   text-align: center;
-  width: 140px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  width: 90px;
+  min-width: 90px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.07);
   cursor: pointer;
   transition: transform 0.3s ease;
   display: flex;
@@ -199,23 +202,26 @@
 .cat-card .label {
   color: #c8102e;
   font-weight: 700;
-  font-size: 16px;
-  margin-top: 8px;
+  font-size: 13px;
+  margin-top: 4px;
 }
 
-.cat-image {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
-.icon {
-  font-size: 48px;
-  margin-bottom: 6px;
-  display: block;
-}
+  width: 90px;
+  height: 90px;
+  min-width: 90px;
+  min-height: 90px;
+  max-width: 90px;
+  max-height: 90px;
+  padding: 0;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
 /* -----------------------------------
    ADS MARQUEE (RIGHT → LEFT)

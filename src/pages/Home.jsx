@@ -41,12 +41,16 @@ import ad4 from "../assets/ads/ad4.jpg";
 
 /* ================= FALLBACK CATEGORIES ================= */
 const defaultCategories = [
-  { id: 1, name: "Flowers", nameKannada: "ಹೂವುಗಳು", icon: "🌸" },
-  { id: 2, name: "Crackers", nameKannada: "ಪಟಾಕಿಗಳು", icon: "🎆" },
-  { id: 3, name: "Vegetables", nameKannada: "ತರಕಾರಿಗಳು", icon: "🥬" },
-  { id: 4, name: "Fruits", nameKannada: "ಹಣ್ಣುಗಳು", icon: "🍎" },
-  { id: 5, name: "Milk Products", nameKannada: "ಹಾಲು ಉತ್ಪನ್ನಗಳು", icon: "🥛" },
-  { id: 6, name: "Groceries", nameKannada: "ಕಿರಾಣಿ ವಸ್ತುಗಳು", icon: "🛒" },
+  { id: 1, name: "Fresh Fruits & Vegetables", nameKannada: "ಹಣ್ಣುಗಳು ಮತ್ತು ತರಕಾರಿಗಳು", icon: "🥦" },
+  { id: 2, name: "Flowers & Bouquets", nameKannada: "ಹೂವುಗಳು ಮತ್ತು ಗುಚ್ಛಗಳು", icon: "🌸" },
+  { id: 3, name: "Bakery & Sweets", nameKannada: "ಬೇಕರಿ ಮತ್ತು ಮಿಠಾಯಿ", icon: "🍰" },
+  { id: 4, name: "Dairy & Milk Products", nameKannada: "ಹಾಲು ಉತ್ಪನ್ನಗಳು", icon: "🥛" },
+  { id: 5, name: "Groceries & Staples", nameKannada: "ಕಿರಾಣಿ ವಸ್ತುಗಳು", icon: "🛒" },
+  { id: 6, name: "Snacks & Beverages", nameKannada: "ತಿಂಡಿಗಳು ಮತ್ತು ಪಾನೀಯಗಳು", icon: "🥤" },
+  { id: 7, name: "Personal Care & Essentials", nameKannada: "ವೈಯಕ್ತಿಕ ಆರೈಕೆ ಮತ್ತು ಅಗತ್ಯ ವಸ್ತುಗಳು", icon: "🧴" },
+  { id: 8, name: "Home & Cleaning", nameKannada: "ಮನೆ ಮತ್ತು ಸ್ವಚ್ಛತೆ", icon: "🧹" },
+  { id: 9, name: "Festive Crackers", nameKannada: "ಹಬ್ಬದ ಪಟಾಕಿಗಳು", icon: "🎆" },
+  { id: 10, name: "Pet Supplies", nameKannada: "ಪಶುಪಾಲನಾ ವಸ್ತುಗಳು", icon: "🐾" },
 ];
 
 export default function Home() {
@@ -164,7 +168,14 @@ export default function Home() {
       navigate("/crackers");
       return;
     }
-
+    if (category?.name?.toLowerCase().includes("vegetable")) {
+      navigate("/vegetables");
+      return;
+    }
+    if (category?.name?.toLowerCase().includes("flower")) {
+      navigate("/flowers");
+      return;
+    }
     navigate(`/browse?category=${id}`);
   }
 
