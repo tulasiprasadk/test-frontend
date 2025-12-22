@@ -67,13 +67,6 @@ export default function Crackers() {
                     gap: 16,
                     marginTop: 16
                   }}
-                <div
-                  className="product-grid"
-                  style={{
-                    display: "grid",
-                    gap: 16,
-                    marginTop: 16
-                  }}
                 >
                   {cat.products.map((product) => {
                     // Try to match by product name (case-insensitive, partial match)
