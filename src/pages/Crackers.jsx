@@ -58,7 +58,6 @@ export default function Crackers() {
                 >
                   {cat.category}
                 </h2>
-// ...existing code...
                 <div
                   className="product-grid"
                   style={{
@@ -69,7 +68,6 @@ export default function Crackers() {
                   }}
                 >
                   {cat.products.map((product) => {
-                    // Try to match by product name (case-insensitive, partial match)
                     const key = Object.keys(crackerInfo).find(k => product.name && product.name.toLowerCase().includes(k.toLowerCase()));
                     const info = crackerInfo[key] || {};
                     return (
@@ -92,40 +90,7 @@ export default function Crackers() {
                     );
                   })}
                 </div>
-                </div>
-// ...existing code...
-              <div
-                className="product-grid"
-                style={{
-                  display: "grid",
-                  gap: 16,
-                  marginTop: 16
-                }}
-              >
-                {cat.products.map((product) => {
-                  // Try to match by product name (case-insensitive, partial match)
-                  const key = Object.keys(crackerInfo).find(k => product.name && product.name.toLowerCase().includes(k.toLowerCase()));
-                  const info = crackerInfo[key] || {};
-                  return (
-                    <div key={product.id} style={{
-                      border: '1px solid #eee',
-                      borderRadius: 12,
-                      padding: 12,
-                      background: '#fff',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      minHeight: 110
-                    }}>
-                      <span style={{ fontSize: 32, marginBottom: 4 }}>{info.emoji || "🎆"}</span>
-                      <span style={{ fontWeight: 700 }}>{product.name}</span>
-                      <span style={{ color: '#c8102e', fontSize: 15, fontWeight: 600, marginTop: 2 }}>{info.kn || ''}</span>
-                      <span style={{ fontSize: 13, color: '#555', marginTop: 2 }}>₹{product.price} / {product.unit}</span>
-                    </div>
-                  );
-                })}
-// ...existing code...
+              </div>
               </div>
             ))}
           </div>
