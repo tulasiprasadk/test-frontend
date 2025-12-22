@@ -29,6 +29,8 @@ const defaultCategories = [
 ];
 
 export default function Home() {
+    // Show first 12 products for the homepage
+    const displayedProducts = products.slice(0, 12);
   const navigate = useNavigate();
 
   /* ================= HERO ================= */
