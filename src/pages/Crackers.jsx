@@ -91,7 +91,6 @@ export default function Crackers() {
                   })}
                 </div>
               </div>
-              </div>
             ))}
           </div>
           {/* RIGHT: CART */}
