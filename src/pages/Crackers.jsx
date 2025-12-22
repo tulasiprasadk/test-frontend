@@ -58,7 +58,7 @@ export default function Crackers() {
                 >
                   {cat.category}
                 </h2>
-
+// ...existing code...
                 <div
                   className="product-grid"
                   style={{
@@ -67,42 +67,72 @@ export default function Crackers() {
                     gap: 16,
                     marginTop: 16
                   }}
+                <div
+                  className="product-grid"
+                  style={{
+                    display: "grid",
+                    gap: 16,
+                    marginTop: 16
+                  }}
                 >
                   {cat.products.map((product) => {
-                    // Prefer product.emoji and product.kn, fallback to crackerInfo mapping
+                    // Try to match by product name (case-insensitive, partial match)
                     const key = Object.keys(crackerInfo).find(k => product.name && product.name.toLowerCase().includes(k.toLowerCase()));
                     const info = crackerInfo[key] || {};
                     return (
-                      <div
-                        key={product.id}
-                        style={{
-                          border: '1px solid #eee',
-                          borderRadius: 12,
-                          padding: 12,
-                          background: '#fff',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          minHeight: 110,
-                          cursor: 'pointer',
-                          transition: 'box-shadow 0.2s',
-                          boxShadow: '0 0 0 rgba(0,0,0,0)'
-                        }}
-                        onClick={() => addItem({ id: `${cat.category}-${product.name}`, name: product.name, price: product.price, unit: product.unit })}
-                        onMouseOver={e => e.currentTarget.style.boxShadow = '0 2px 12px rgba(200,16,46,0.08)'}
-                        onMouseOut={e => e.currentTarget.style.boxShadow = '0 0 0 rgba(0,0,0,0)'}
-                      >
-                        <span style={{ fontSize: 32, display: 'block', textAlign: 'center' }}>{product.emoji || info.emoji || "🎆"}</span>
-                        <span style={{ fontWeight: 700, display: 'block', textAlign: 'center' }}>{product.name}</span>
-                        {(product.kn || info.kn) && (
-                          <span style={{ color: '#C8102E', fontSize: 14, fontWeight: 600, fontFamily: 'Noto Sans Kannada, sans-serif', display: 'block', textAlign: 'center' }}>{product.kn || info.kn}</span>
-                        )}
-                        <span style={{ fontSize: 13, color: '#555', display: 'block', textAlign: 'center' }}>₹{product.price} / {product.unit}</span>
+                      <div key={product.id} style={{
+                        border: '1px solid #eee',
+                        borderRadius: 12,
+                        padding: 12,
+                        background: '#fff',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        minHeight: 110
+                      }}>
+                        <span style={{ fontSize: 32, marginBottom: 4 }}>{info.emoji || "🎆"}</span>
+                        <span style={{ fontWeight: 700 }}>{product.name}</span>
+                        <span style={{ color: '#c8102e', fontSize: 15, fontWeight: 600, marginTop: 2 }}>{info.kn || ''}</span>
+                        <span style={{ fontSize: 13, color: '#555', marginTop: 2 }}>₹{product.price} / {product.unit}</span>
                       </div>
                     );
                   })}
                 </div>
+                </div>
+// ...existing code...
+              <div
+                className="product-grid"
+                style={{
+                  display: "grid",
+                  gap: 16,
+                  marginTop: 16
+                }}
+              >
+                {cat.products.map((product) => {
+                  // Try to match by product name (case-insensitive, partial match)
+                  const key = Object.keys(crackerInfo).find(k => product.name && product.name.toLowerCase().includes(k.toLowerCase()));
+                  const info = crackerInfo[key] || {};
+                  return (
+                    <div key={product.id} style={{
+                      border: '1px solid #eee',
+                      borderRadius: 12,
+                      padding: 12,
+                      background: '#fff',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      minHeight: 110
+                    }}>
+                      <span style={{ fontSize: 32, marginBottom: 4 }}>{info.emoji || "🎆"}</span>
+                      <span style={{ fontWeight: 700 }}>{product.name}</span>
+                      <span style={{ color: '#c8102e', fontSize: 15, fontWeight: 600, marginTop: 2 }}>{info.kn || ''}</span>
+                      <span style={{ fontSize: 13, color: '#555', marginTop: 2 }}>₹{product.price} / {product.unit}</span>
+                    </div>
+                  );
+                })}
+// ...existing code...
               </div>
             ))}
           </div>

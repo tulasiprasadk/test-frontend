@@ -1,3 +1,4 @@
+/* ...existing code... */
 /* Kannada label font style */
 .label-kannada {
   font-family: 'Noto Sans Kannada', system-ui, sans-serif !important;
@@ -43,14 +44,42 @@
   height: 100%;               /* 🔑 fill container */
   object-fit: cover;          /* 🔑 crop like live */
   object-position: center;
+/* ...existing code... */
+/* ===================================
+   PAGE BASE
+=================================== */
+
+.home {
+  background: #ffffff;
+  font-family: "Noto Sans Kannada", system-ui, sans-serif;
+  padding-bottom: 40px;
+}
+
+/* ===================================
+   HERO
+=================================== */
+
+.hero {
+  position: relative;
+  width: 100%;
+  max-height: 400px;
+  overflow: hidden;
+}
+
+.hero img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+/* ...existing code... */
   filter: brightness(0.78);
-  display: block;
 }
 
 /* Hero text overlay */
 .hero-text {
   position: absolute;
   inset: 0;
+<<<<<<< HEAD
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -58,41 +87,218 @@
   justify-content: center;
   text-align: center;
   color: #fff;
-  padding: 0 20px;
-}
-
-.hero-text h1 {
-  font-size: clamp(26px, 5vw, 38px);
-  font-weight: 800;
-  margin-bottom: 8px;
-}
-
-.hero-text p {
-  font-size: clamp(14px, 2.5vw, 16px);
-  margin-bottom: 16px;
-}
-
-/* ---------- HERO SEARCH ---------- */
-.hero-search {
+=======
   display: flex;
-  align-items: stretch;
-  background: #e31e24;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(227,30,36,0.15);
-}
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+>>>>>>> 4e37e52 (Initial commit: working RRnagar frontend)
+  /* ===================================
+     PAGE BASE
+  =================================== */
 
-.hero-search input {
-  border: none;
-  padding: 12px 14px;
-  min-width: 240px;
-  font-size: 15px;
-  outline: none;
-}
+  .home {
+    background: #ffffff;
+    font-family: "Noto Sans Kannada", system-ui, sans-serif;
+    padding-bottom: 40px;
+  }
 
-.hero-search button {
-  border: none;
-  background: #c8102e;
+  /* ===================================
+     HERO
+  =================================== */
+
+  .hero {
+    position: relative;
+    width: 100%;
+    max-height: 400px;
+    overflow: hidden;
+  }
+
+  .hero img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    filter: brightness(0.78);
+  }
+
+  .hero-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .hero-text h1 {
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 800;
+  }
+
+  .hero-text p {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+
+  .hero-search {
+    display: flex;
+    gap: 10px;
+  }
+
+  .hero-search input {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: none;
+    max-width: 380px;
+  }
+
+  .hero-search button {
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    background: #c8102e;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* ===================================
+     SECTION
+  =================================== */
+
+  .section {
+    margin: 40px 0;
+    padding: 20px 0;
+  }
+
+  /* ===================================
+     CATEGORIES
+  =================================== */
+
+  .cat-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 24px;
+    justify-items: center;
+  }
+
+  @media (max-width: 1100px) {
+    .cat-row { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 700px) {
+    .cat-row { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .cat-row { grid-template-columns: 1fr; }
+  }
+
+  .cat-card {
+    width: 140px;
+    height: 140px;
+    background: #ffe84b;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Noto Sans Kannada', system-ui, sans-serif;
+  }
+
+  .cat-icon {
+    font-size: 48px;
+    font-family: 'Noto Sans Kannada', system-ui, sans-serif;
+  }
+
+  .cat-name {
+    font-size: 20px;
+    font-weight: 800;
+    font-family: 'Noto Sans Kannada', system-ui, sans-serif;
+  }
+
+  .cat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  /* ===================================
+     ADS GRID (RIGHT → LEFT)
+  =================================== */
+
+  .ad-scroll-container {
+    width: 100%;
+    overflow: hidden;
+    padding: 12px 0;
+  }
+
+  .ad-track {
+    display: flex;
+    gap: 120px;
+    width: max-content;
+    animation: ads-scroll 25s linear infinite;
+  }
+
+  @keyframes ads-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .ad-banner {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  /* ===================================
+     DISCOVER GRID (LEFT → RIGHT)
+     SAME MODEL AS ADS
+  =================================== */
+
+  .discover-scroll {
+    width: 100%;
+    overflow: hidden;          /* 🔒 important */
+    padding: 12px 0;
+    position: relative;
+  }
+
+  .discover-track {
+    display: flex;
+    gap: 48px;
+    width: max-content;        /* 🔑 key */
+    animation: discover-scroll 30s linear infinite;
+  }
+
+  .discover-track > * {
+    flex: 0 0 auto;
+  }
+
+  @keyframes discover-scroll {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  .discover-scroll:hover .discover-track {
+    animation-play-state: paused;
+  }
+
+  /* ===================================
+     PRODUCTS GRID
+  =================================== */
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
+  }
   color: #fff;
   padding: 0 18px;
   font-weight: 700;
@@ -112,19 +318,41 @@
   margin: 40px 0;
 }
 
+=======
+  gap: 10px;
+}
+
+.hero-search input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  max-width: 380px;
+}
+
+.hero-search button {
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: none;
+  background: #c8102e;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ===================================
+   SECTION
+=================================== */
+
+>>>>>>> 4e37e52 (Initial commit: working RRnagar frontend)
 .section {
   margin: 40px 0;
   padding: 20px 0;
   background: #fff;
 }
 
-.section-title {
-  font-size: 26px;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 18px;
-  color: #333;
-}
+/* ===================================
+   CATEGORIES
+=================================== */
 
 /* =================================================
    CATEGORIES — PERFECT SQUARE GRID
@@ -136,20 +364,56 @@
   justify-items: center;
 }
 
+<<<<<<< HEAD
 /* 🔑 PERFECT SQUARE CARD */
 .cat-card {
   background: #ffe84b;
   width: 130px;
   height: 130px;              /* 🔑 square enforced */
   border-radius: 14px;
+=======
+@media (max-width: 1100px) {
+  .cat-row { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 700px) {
+  .cat-row { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .cat-row { grid-template-columns: 1fr; }
+}
+
+.cat-card {
+  width: 140px;
+  height: 140px;
+  background: #ffe84b;
+  border-radius: 18px;
+>>>>>>> 4e37e52 (Initial commit: working RRnagar frontend)
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+<<<<<<< HEAD
   cursor: pointer;
   transition: transform .2s, box-shadow .2s;
   box-shadow: 0 4px 10px rgba(0,0,0,.07);
   text-align: center;
+=======
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: 'Noto Sans Kannada', system-ui, sans-serif;
+}
+
+.cat-icon {
+  font-size: 48px;
+  font-family: 'Noto Sans Kannada', system-ui, sans-serif;
+}
+
+.cat-name {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: 'Noto Sans Kannada', system-ui, sans-serif;
+>>>>>>> 4e37e52 (Initial commit: working RRnagar frontend)
 }
 
 .cat-card:hover {
@@ -162,6 +426,7 @@
   line-height: 1;
 }
 
+<<<<<<< HEAD
 .cat-card .label {
   color: #c8102e;
   font-weight: 700;
@@ -188,6 +453,19 @@
 
 .ads-track,
 .discover-track {
+=======
+/* ===================================
+   ADS GRID (RIGHT → LEFT)
+=================================== */
+
+.ad-scroll-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 12px 0;
+}
+
+.ad-track {
+>>>>>>> 4e37e52 (Initial commit: working RRnagar frontend)
   display: flex;
   gap: 24px;
 }
@@ -202,6 +480,7 @@
   to   { transform: translateX(-50%); }
 }
 
+<<<<<<< HEAD
 .ad-item {
   width: 220px;
   height: 200px;
@@ -226,10 +505,30 @@
   font-weight: 700;
   color: #b00018;
   text-align: center;
+=======
+.ad-banner {
+  width: 180px;
+  height: 180px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* ===================================
+   DISCOVER GRID (LEFT → RIGHT)
+   SAME MODEL AS ADS
+=================================== */
+
+.discover-scroll {
+  width: 100%;
+  overflow: hidden;          /* 🔒 important */
+  padding: 12px 0;
+  position: relative;
+>>>>>>> 4e37e52 (Initial commit: working RRnagar frontend)
 }
 
 /* ---------- DISCOVER ---------- */
 .discover-track {
+<<<<<<< HEAD
   animation: discover-scroll 35s linear infinite reverse;
 }
 
@@ -248,11 +547,37 @@
 /* =================================================
    PRODUCTS
 ================================================= */
+=======
+  display: flex;
+  gap: 48px;
+  width: max-content;        /* 🔑 key */
+  animation: discover-scroll 30s linear infinite;
+}
+
+.discover-track > * {
+  flex: 0 0 auto;
+}
+
+@keyframes discover-scroll {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+.discover-scroll:hover .discover-track {
+  animation-play-state: paused;
+}
+
+/* ===================================
+   PRODUCTS GRID
+=================================== */
+
+>>>>>>> 4e37e52 (Initial commit: working RRnagar frontend)
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 24px;
 }
+<<<<<<< HEAD
 
 .product-card {
   background: #fff;
@@ -319,3 +644,5 @@
     width: 90vw;
   }
 }
+=======
+>>>>>>> 4e37e52 (Initial commit: working RRnagar frontend)

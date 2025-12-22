@@ -23,6 +23,7 @@ import Crackers from "./pages/Crackers.jsx";
 import Flowers from "./pages/Flowers.jsx";
 import ProductBrowser from "./pages/ProductBrowser.jsx";
 import ProductDetail from "./pages/ProductDetail/ProductDetail.jsx";
+import Products from "./pages/Products.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import CheckoutReview from "./pages/CheckoutReview.jsx";
 import OrderSuccess from "./pages/OrderSuccess/OrderSuccess.jsx";
@@ -91,6 +92,7 @@ function AppWrapper() {
           {/* USER */}
           <Route path="/" element={<Home />} />
           <Route path="/browse" element={<ProductBrowser />} />
+          <Route path="/products" element={<Products />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/saved-suppliers" element={<SavedSuppliersPage />} />
           <Route path="/checkout/select-address" element={<SelectAddressPage />} />

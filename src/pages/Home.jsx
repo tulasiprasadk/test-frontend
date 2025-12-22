@@ -1,113 +1,72 @@
-// Home page – hero, categories, ads, discover & products (final clean version)
+// frontend/src/pages/Home.jsx
 
-import React, { useState, useEffect, useRef } from "react";
-// ================= ANALYTICS (Google Analytics 4) =================
-// Replace 'G-XXXXXXXXXX' with your GA4 Measurement ID
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
-
-function useGoogleAnalytics() {
-  useEffect(() => {
-    if (window.gtag) return; // Prevent duplicate script
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-    document.head.appendChild(script);
-
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){window.dataLayer.push(arguments);}
-    window.gtag = gtag;
-    gtag('js', new Date());
-    gtag('config', GA_MEASUREMENT_ID);
-  }, []);
-}
-import "./Home.css";
-import ExploreItem from "../components/ExploreItem";
-import MegaAd from "../components/MegaAd";
-import axios from "axios";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import { API_BASE } from "../api/client";
+import "./Home.css";
+
+import ExploreItem from "../components/ExploreItem";
+import DiscoverPopup from "../components/DiscoverPopup";
+import MegaAd from "../components/MegaAd";
+import AdScroll from "../components/AdScroll";
 
 /* ================= HERO IMAGES ================= */
 import hero1 from "../assets/hero-1.jpg";
 import hero2 from "../assets/hero-2.jpg";
 import hero3 from "../assets/hero-3.jpg";
-import hero4 from "../assets/hero-4.jpg";
-
-/* ================= ADS ================= */
-import ad1 from "../assets/ads/ad1.jpg";
-import ad2 from "../assets/ads/ad2.jpg";
-import ad3 from "../assets/ads/ad3.jpg";
-import ad4 from "../assets/ads/ad4.jpg";
 
 /* ================= FALLBACK CATEGORIES ================= */
 const defaultCategories = [
-  { id: 1, name: "Flowers", nameKannada: "ಹೂವುಗಳು", icon: "🌸" },
-  { id: 2, name: "Crackers", nameKannada: "ಪಟಾಕಿಗಳು", icon: "🎆" },
-  { id: 3, name: "Groceries", nameKannada: "ಕಿರಾಣಿ ವಸ್ತುಗಳು", icon: "🛒" },
-  { id: 4, name: "Pet Supplies", nameKannada: "ಪೆಟ್ ಸೇವೆ", icon: "🐾" },
-  { id: 5, name: "Local Services", nameKannada: "ಸ್ಥಳೀಯ ಸೇವೆಗಳು", icon: "🛠️" },
-  { id: 6, name: "Consultancy", nameKannada: "ಸಲಹಾ ಸೇವೆಗಳು", icon: "📑" },
+  { id: 22, name: "Groceries", icon: "🛒", kannada: "ದಿನಸಿ ವಸ್ತುಗಳು" },
+  { id: 29, name: "Flowers", icon: "🌸", kannada: "ಹೂವುಗಳು" },
+  { id: 27, name: "Crackers", icon: "🎆", kannada: "ಪಟಾಕಿಗಳು" },
+  { id: 28, name: "Pet services", icon: "🐾", kannada: "ಪಶು ಸೇವೆಗಳು" },
+  { id: 24, name: "Local Services", icon: "🛠️", kannada: "ಸ್ಥಳೀಯ ಸೇವೆಗಳು" },
+  { id: 25, name: "Consultancy", icon: "📑", kannada: "ಸಲಹಾ ಸೇವೆಗಳು" },
+];
 ];
 
 export default function Home() {
-  useGoogleAnalytics();
   const navigate = useNavigate();
 
-  /* ================= HERO SLIDER ================= */
-  const heroImages = [hero1, hero2, hero3, hero4];
+  /* ================= HERO ================= */
+  const heroImages = [hero1, hero2, hero3];
   const [heroIndex, setHeroIndex] = useState(0);
-  const [heroSrc, setHeroSrc] = useState(heroImages[0]);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setHeroIndex((prev) => (prev + 1) % heroImages.length);
-    }, 6000);
-    return () => clearInterval(timer);
+    const t = setInterval(() => {
+      setHeroIndex((i) => (i + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(t);
   }, []);
 
-  useEffect(() => {
-    setHeroSrc(heroImages[heroIndex]);
-  }, [heroIndex]);
-
-  /* ================= PRODUCTS ================= */
+  /* ================= STATE ================= */
+  const [categories, setCategories] = useState(defaultCategories);
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [addingToCart, setAddingToCart] = useState(null);
 
+  // ✅ DISCOVER POPUP STATE (ONLY ONCE)
+  const [selectedDiscover, setSelectedDiscover] = useState(null);
+  const [popupAnchor, setPopupAnchor] = useState(null);
+
+  /* ================= LOAD CATEGORIES ================= */
   useEffect(() => {
-    loadProducts();
+    axios
+      .get(`${API_BASE}/categories`)
+      .then((res) => {
+        if (Array.isArray(res.data) && res.data.length) {
+          setCategories(res.data);
+        }
+      })
+      .catch(() => {
+        setCategories(defaultCategories);
+      });
   }, []);
 
-  async function loadProducts() {
-    try {
-      const res = await axios.get(`${API_BASE}/products`);
-      setProducts(res.data || []);
-    } catch (err) {
-      console.error("Error loading products:", err);
-    }
-  }
-
-  async function addToCart(product) {
-    setAddingToCart(product.id);
-    try {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const existing = cart.find((i) => i.id === product.id);
-
-      if (existing) existing.quantity += 1;
-      else cart.push({ ...product, quantity: 1 });
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert(`✓ ${product.title} added to cart`);
-    } catch {
-      alert("Failed to add to cart");
-    } finally {
-      setAddingToCart(null);
-    }
-  }
-
   function handleSearchClick() {
+// ...existing code...
     setHasSearched(true);
     if (!searchQuery.trim()) {
       setFilteredProducts(products.slice(0, 12));
@@ -129,12 +88,17 @@ export default function Home() {
         navigate(`/browse?q=${encodeURIComponent(searchQuery)}`);
       }
     }
+// ...existing code...
+    if (!searchQuery.trim()) return;
+    navigate(`/browse?q=${encodeURIComponent(searchQuery)}`);
+// ...existing code...
   }
 
   function handleKeyPress(e) {
     if (e.key === "Enter") handleSearchClick();
   }
 
+<<<<<<< HEAD
   /* ================= CATEGORIES ================= */
   const [categories, setCategories] = useState([]);
 
@@ -264,44 +228,55 @@ export default function Home() {
                 onError={(e) => (e.currentTarget.src = hero1)}
               />
             </div>
+=======
+  return (
+    <>
+      <main className="home" style={{ display: "flex", width: "100%" }}>
+        {/* LEFT SIDEBAR */}
+        <aside style={{ marginRight: 24 }}>
+          <MegaAd image="/ads/mega-left.png" position="left" />
+        </aside>
+>>>>>>> 4e37e52 (Initial commit: working RRnagar frontend)
 
+        {/* MAIN CONTENT */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {/* HERO */}
+          <section className="hero">
+            <img src={heroImages[heroIndex]} alt="RR Nagar" />
             <div className="hero-text">
-              <h1>ನಮ್ಮಿಂದ ನಿಮಗೆ — ನಿಮ್ಮಷ್ಟೇ ಹತ್ತಿರ.</h1>
-              <p>From Us To You — As Close As You Need Us.</p>
-
+              <h1>ನಮ್ಮಿಂದ ನಿಮಗೆ — ನಿಮ್ಮಷ್ಟೇ ಹತ್ತಿರ</h1>
+              <p>Shop local. Support local.</p>
               <div className="hero-search">
                 <input
-                  placeholder="Search groceries, flowers, products…"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyPress}
+                  placeholder="Search groceries, flowers, services…"
                 />
                 <button onClick={handleSearchClick}>Search</button>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <div className="content">
-          {/* CATEGORIES */}
+          {/* CATEGORIES GRID */}
           <section className="section">
-            <h2 className="section-title">Popular Categories</h2>
+            <h2>Popular Categories</h2>
             <div className="cat-row">
               {categories.map((cat) => (
                 <div
                   key={cat.id}
                   className="cat-card"
-                  onClick={() => handleCategoryClick(cat.id)}
+                  onClick={() => navigate(`/browse?category=${cat.id}`)}
                 >
-                  <span className="icon" style={{ fontSize: 48, display: "block", marginBottom: 8 }}>{cat.icon || "🛍️"}</span>
-                  <span className="label">{cat.name}</span>
-                  <span className="label-kannada" style={{ color: '#c8102e', fontSize: 15, fontWeight: 600, display: 'block', marginTop: 2 }}>{cat.nameKannada}</span>
+                  <div className="cat-icon">{cat.icon || "🛍️"}</div>
+                  <div className="cat-name">{cat.name}</div>
                 </div>
               ))}
             </div>
           </section>
 
           {/* ADS */}
+<<<<<<< HEAD
           <section className="section">
             <h2 className="section-title">What’s New in RR Nagar</h2>
             <div className="ads-viewport">
@@ -322,24 +297,83 @@ export default function Home() {
               </div>
             </div>
           </section>
+=======
+          <AdScroll />
+>>>>>>> 4e37e52 (Initial commit: working RRnagar frontend)
 
           {/* DISCOVER */}
           <section className="section">
-            <h2 className="section-title">Discover Around You</h2>
-            <div className="discover-viewport">
-              <div
-                ref={discoverRef}
-                className="discover-track"
-                style={{ "--scroll-width": `${scrollWidth}px` }}
-              >
-                {[...discover, ...discover].map((item, i) => (
-                  <div className="discover-item" key={i}>
-                    <ExploreItem {...item} />
-                  </div>
-                ))}
+            <h2>Discover Around You</h2>
+            <div className="discover-scroll">
+              <div className="discover-track">
+                {[1, 2].map((_, i) => {
+                  // Refs for each card
+                  const ref1 = useRef();
+                  const ref2 = useRef();
+                  const ref3 = useRef();
+                  return (
+                    <React.Fragment key={i}>
+                      <ExploreItem
+                        icon="🛕"
+                        title="Temples"
+                        titleKannada="ದೇವಾಲಯಗಳು"
+                        ref={ref1}
+                        onClick={e => {
+                          setSelectedDiscover({
+                            icon: "🛕",
+                            title: "Temples",
+                            titleKannada: "ದೇವಾಲಯಗಳು",
+                            longInfo:
+                              "Temples in RR Nagar are peaceful places for worship, festivals, and community gatherings.",
+                            longInfoKannada:
+                              "ದೇವಾಲಯಗಳು ಪೂಜೆ, ಹಬ್ಬ ಮತ್ತು ಸಮುದಾಯ ಕಾರ್ಯಕ್ರಮಗಳಿಗೆ ಪ್ರಸಿದ್ಧ.",
+                          });
+                          setPopupAnchor(ref1);
+                        }}
+                      />
+                      <ExploreItem
+                        icon="🌳"
+                        title="Parks"
+                        titleKannada="ಉದ್ಯಾನಗಳು"
+                        ref={ref2}
+                        onClick={e => {
+                          setSelectedDiscover({
+                            icon: "🌳",
+                            title: "Parks",
+                            titleKannada: "ಉದ್ಯಾನಗಳು",
+                            longInfo:
+                              "RR Nagar parks are green spaces for walks, play, relaxation, and community events.",
+                            longInfoKannada:
+                              "ಉದ್ಯಾನಗಳು ವಿಶ್ರಾಂತಿ, ಆಟ ಮತ್ತು ಸಮುದಾಯ ಕಾರ್ಯಕ್ರಮಗಳಿಗೆ.",
+                          });
+                          setPopupAnchor(ref2);
+                        }}
+                      />
+                      <ExploreItem
+                        icon="💻"
+                        title="IT Park"
+                        titleKannada="ಐಟಿ ಪಾರ್ಕ್"
+                        ref={ref3}
+                        onClick={e => {
+                          setSelectedDiscover({
+                            icon: "💻",
+                            title: "IT Park",
+                            titleKannada: "ಐಟಿ ಪಾರ್ಕ್",
+                            longInfo:
+                              "IT Park in RR Nagar has tech companies, startups, and innovation.",
+                            longInfoKannada:
+                              "ಐಟಿ ಪಾರ್ಕ್ ಉದ್ಯೋಗ ಮತ್ತು ಹೊಸ ಆವಿಷ್ಕಾರಗಳಿಗೆ ಪ್ರಸಿದ್ಧ.",
+                          });
+                          setPopupAnchor(ref3);
+                        }}
+                      />
+                    </React.Fragment>
+                  );
+                })}
               </div>
             </div>
           </section>
+<<<<<<< HEAD
 
           {/* PRODUCTS */}
           <section className="section">
@@ -371,11 +405,25 @@ export default function Home() {
               ))}
             </div>
           </section>
+=======
+>>>>>>> 4e37e52 (Initial commit: working RRnagar frontend)
         </div>
-      </div>
 
-      {/* Right Mega Ad */}
-      <MegaAd position="right" image="/ads/mega-right.png" link="#" />
-    </main>
+        {/* RIGHT SIDEBAR */}
+        <aside style={{ marginLeft: 24 }}>
+          <MegaAd image="/ads/mega-right.png" position="right" />
+        </aside>
+      </main>
+
+      {/* ✅ DISCOVER POPUP */}
+      <DiscoverPopup
+        item={selectedDiscover}
+        anchorRef={popupAnchor}
+        onClose={() => {
+          setSelectedDiscover(null);
+          setPopupAnchor(null);
+        }}
+      />
+    </>
   );
 }
