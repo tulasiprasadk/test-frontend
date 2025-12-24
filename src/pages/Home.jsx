@@ -164,12 +164,12 @@ export default function Home() {
     const name = category.name?.toLowerCase() || "";
     if (name.includes("flower")) return navigate("/flowers");
     if (name.includes("cracker")) return navigate("/crackers");
-    if (name.includes("grocery")) return navigate("/groceries");
+    // Removed groceries special-case so it falls through to browse
     if (name.includes("pet")) return navigate("/petservices");
     if (name.includes("local")) return navigate("/localservices");
     if (name.includes("consult")) return navigate("/consultancy");
 
-    navigate(`/browse?category=${id}`);
+    navigate(`/browse?categoryId=${id}`);
   }
 
   /* ================= ADS ================= */
@@ -211,10 +211,10 @@ export default function Home() {
   const featuredProducts = products.slice(0, 8);
 
   return (
-    <main className="home" style={{ display: "flex", justifyContent: "center" }}>
-      <MegaAd position="left" image="/ads/mega-left.png" link="#" />
+    <main className="home" style={{ display: "flex", justifyContent: "center", alignItems: "stretch", width: "100%", maxWidth: 1400, margin: "0 auto", overflowX: "auto" }}>
+      <MegaAd position="left" image="/ads/mega-left.png" link="#" style={{ flexShrink: 0 }} />
 
-      <div style={{ flex: 1, maxWidth: 1200 }}>
+      <div style={{ flex: "1 1 0%", maxWidth: 1200, minWidth: 0 }}>
         {/* HERO */}
         <section className="hero">
           <div className="hero-inner">
@@ -319,7 +319,7 @@ export default function Home() {
         </section>
       </div>
 
-      <MegaAd position="right" image="/ads/mega-right.png" link="#" />
+      <MegaAd position="right" image="/ads/mega-right.png" link="#" style={{ flexShrink: 0 }} />
     </main>
   );
 }
