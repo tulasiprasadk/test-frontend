@@ -97,11 +97,9 @@ const categoriesReady = categories.length > 0;
           {/* HERO */}
           <section className="hero">
             <img src={heroImages[heroIndex]} alt="RR Nagar" />
-
             <div className="hero-text">
               <h1>ನಮ್ಮಿಂದ ನಿಮಗೆ — ನಿಮ್ಮಷ್ಟೇ ಹತ್ತಿರ</h1>
               <p>Shop local. Support local.</p>
-
               <div className="hero-search">
                 <input
                   type="text"
@@ -125,6 +123,7 @@ const categoriesReady = categories.length > 0;
               </div>
             </div>
           </section>
+
 
           {/* CATEGORIES */}
           <section className="section">
@@ -152,7 +151,26 @@ const categoriesReady = categories.length > 0;
             </div>
           </section>
 
-          <AdScroll />
+          {/* HORIZONTAL ADS GRID */}
+          <section className="section">
+            <h2>Sponsored Ads</h2>
+            <div
+              className="ads-row"
+              style={{
+                display: "flex",
+                gap: "16px",
+                flexWrap: "nowrap",
+                overflowX: "auto",
+                padding: "8px 0"
+              }}
+            >
+              {["/ads/ad1.png", "/ads/ad2.png", "/ads/ad3.png", "/ads/ad4.png"].map((ad, idx) => (
+                <div key={ad} style={{ flex: "0 0 auto", width: 220, height: 120, background: "#fffbe6", borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <img src={ad} alt={`Ad ${idx + 1}`} style={{ width: "90%", height: "90%", objectFit: "cover", borderRadius: 8 }} />
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* DISCOVER */}
           <section className="section">
