@@ -1,88 +1,108 @@
 /* ===================================
-   PAGE BASE
+   RR NAGAR — HOME.CSS (FINAL, LOCKED)
+   Hero = live behavior
+   Categories = perfect squares
+   Ads & Discover aligned
 =================================== */
 
+/* ---------- GLOBAL ---------- */
 .home {
-  background: #ffffff;
-  font-family: "Noto Sans Kannada", system-ui, sans-serif;
+  background: #fff;
+  font-family: 'Noto Sans Kannada', system-ui, sans-serif;
   padding-bottom: 40px;
 }
 
-/* ===================================
-   HERO
-=================================== */
+/* Kannada label font style */
+.label-kannada {
+  font-family: 'Noto Sans Kannada', system-ui, sans-serif !important;
+}
 
+/* =================================================
+   HERO SECTION (MATCHES LIVE)
+================================================= */
 .hero {
   position: relative;
   width: 100%;
-  height: 400px;              /* FIX: use height, not max-height */
+  height: 400px;
   overflow: hidden;
+  background: #000;
 }
 
-/* HERO IMAGE */
-.hero img {
+.hero-inner {
   width: 100%;
-  height: 100%;               /* FIX: fill hero height */
+  height: 100%;
+  position: relative;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
+  filter: brightness(0.78);
   display: block;
 }
 
-/* HERO TEXT (OVERLAY) */
+/* Hero text overlay */
 .hero-text {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   color: #fff;
-  width: 100%;
-  padding: 0 16px;
+  padding: 0 20px;
 }
 
 .hero-text h1 {
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 800;
   margin-bottom: 8px;
 }
 
 .hero-text p {
+  font-size: clamp(14px, 2.5vw, 16px);
   margin-bottom: 16px;
 }
 
-/* HERO SEARCH BAR */
+/* ---------- HERO SEARCH ---------- */
 .hero-search {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.85);
-  padding: 12px 16px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  max-width: 480px;
-  margin: 0 auto;
+  align-items: stretch;
+  background: #e31e24;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(227, 30, 36, 0.15);
 }
 
 .hero-search input {
-  flex: 1;
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
+  border: none;
+  padding: 12px 14px;
+  min-width: 240px;
+  font-size: 15px;
   outline: none;
 }
 
 .hero-search button {
-  padding: 10px 20px;
-  background: #e31e24;
-  color: #fff;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  background: #c8102e;
+  color: #fff;
+  padding: 0 18px;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s;
+  white-space: nowrap;
 }
 
 .hero-search button:hover {
-  background: #b71c1c;
+  background: #a00b1c;
 }
 
 /* =================================================
@@ -93,56 +113,48 @@
   margin: 40px 0;
 }
 
-@media (max-width: 1100px) {
-  .cat-row { grid-template-columns: repeat(3, 1fr); }
+.section {
+  margin: 40px 0;
+  padding: 20px 0;
+  background: #fff;
 }
-@media (max-width: 700px) {
-  .cat-row { grid-template-columns: repeat(2, 1fr); }
+
+.section-title {
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 18px;
+  color: #333;
 }
-@media (max-width: 480px) {
-  .cat-row { grid-template-columns: 1fr; }
+
+/* =================================================
+   CATEGORIES — PERFECT SQUARE GRID
+================================================= */
+.cat-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+  justify-items: center;
 }
 
 .cat-card {
-  width: 140px;
-  height: 140px;
   background: #ffe84b;
-  border-radius: 18px;
+  width: 130px;
+  height: 130px;
+  border-radius: 14px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  font-family: 'Noto Sans Kannada', system-ui, sans-serif;
-}
-
-.cat-icon {
-  font-size: 48px;
-  font-family: 'Noto Sans Kannada', system-ui, sans-serif;
-}
-
-.cat-name {
-  font-size: 20px;
-  font-weight: 800;
-  font-family: 'Noto Sans Kannada', system-ui, sans-serif;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+  text-align: center;
 }
 
 .cat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,.15);
-}
-
-.cat-card .icon {
-  font-size: 40px;
-  line-height: 1;
-}
-}
-
-.cat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .cat-card .icon {
@@ -150,19 +162,38 @@
   line-height: 1;
 }
 
-/* ===================================
-   ADS GRID (RIGHT → LEFT)
-=================================== */
+.cat-card .label {
+  color: #c8102e;
+  font-weight: 700;
+  font-size: 13px;
+  margin-top: 4px;
+  line-height: 1.1;
+}
 
-.ad-scroll-container {
-  width: 100%;
+.cat-card .label-kannada {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* =================================================
+   ADS & DISCOVER — UNIFIED GRID SIZE
+================================================= */
+.ads-viewport,
+.discover-viewport {
   overflow: hidden;
-  padding: 12px 0;
+  display: flex;
+  justify-content: center;
 }
 
-.ad-track {
+.ads-track,
+.discover-track {
   display: flex;
   gap: 24px;
+}
+
+/* ---------- ADS ---------- */
+.ads-track {
   animation: ads-scroll 25s linear infinite;
 }
 
@@ -171,69 +202,52 @@
   to   { transform: translateX(-50%); }
 }
 
-.ad-banner {
-  width: 180px;
-  height: 180px;
-  border-radius: 12px;
-  object-fit: cover;
-}
-
-/* ===================================
-   DISCOVER GRID (LEFT → RIGHT)
-   SAME MODEL AS ADS
-=================================== */
-
-.discover-scroll {
-  width: 100%;
-  overflow: hidden;          /* 🔒 important */
-  padding: 12px 0;
-  position: relative;
-}
-
-.discover-track {
+.ad-item {
+  width: 220px;
+  height: 200px;
+  background: #ffd700;
+  border-radius: 14px;
+  padding: 15px;
   display: flex;
-  gap: 48px;
-  width: max-content;        /* 🔑 key */
-  animation: discover-scroll 30s linear infinite;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
-.discover-track > * {
-  flex: 0 0 auto;
+.ad-item img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
 }
 
-@keyframes discover-scroll {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
-}
-
-.discover-scroll:hover .discover-track {
-  animation-play-state: paused;
+.ad-title {
+  font-weight: 700;
+  color: #b00018;
+  text-align: center;
 }
 
 /* ---------- DISCOVER ---------- */
 .discover-track {
-  display: flex;
-  gap: 48px;
-  width: max-content;        /* 🔑 key */
-  animation: discover-scroll 30s linear infinite;
-}
-
-.discover-track > * {
-  flex: 0 0 auto;
+  animation: discover-scroll 35s linear infinite reverse;
 }
 
 @keyframes discover-scroll {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
-.discover-scroll:hover .discover-track {
-  animation-play-state: paused;
+.discover-item {
+  width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* ===================================
-   PRODUCTS GRID
-=================================== */
+/* =================================================
+   PRODUCTS
+================================================= */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -244,13 +258,13 @@
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,.1);
-  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .product-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(227,30,36,.2);
+  box-shadow: 0 8px 20px rgba(227, 30, 36, 0.2);
 }
 
 /* =================================================
@@ -270,23 +284,7 @@
 
 @media (max-width: 480px) {
   .hero {
-    height: 220px;           /* 🔑 live mobile crop */
-  }
-
-  .hero-text {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    color: #fff;
-    z-index: 10;
-    background: rgba(0,0,0,0.35);
-    padding: 32px 0 24px 0;
-    border-radius: 0 0 16px 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-sizing: border-box;
+    height: 220px;
   }
 
   .hero-search {
@@ -294,7 +292,6 @@
   }
 
   .cat-row {
-    display: grid;
     grid-template-columns: 1fr;
     gap: 18px;
     overflow-x: auto;
@@ -307,8 +304,6 @@
     height: 110px;
     margin: 0 auto;
     scroll-snap-align: start;
-    font-size: 16px;
-    padding: 10px 0;
   }
 
   .ad-item,
