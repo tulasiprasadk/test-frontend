@@ -211,10 +211,12 @@ export default function Home() {
   const featuredProducts = products.slice(0, 8);
 
   return (
-    <main className="home" style={{ display: "flex", justifyContent: "center", alignItems: "stretch", width: "100%", maxWidth: 1400, margin: "0 auto", overflowX: "auto" }}>
-      <MegaAd position="left" image="/ads/mega-left.png" link="#" style={{ flexShrink: 0 }} />
+    <main className="home" style={{ display: "flex", width: "100%", maxWidth: 1400, margin: "0 auto", alignItems: "stretch" }}>
+      <div style={{ width: 180, flexShrink: 0 }}>
+        <MegaAd position="left" image="/ads/mega-left.png" link="#" />
+      </div>
 
-      <div style={{ flex: "1 1 0%", maxWidth: 1200, minWidth: 0 }}>
+      <div style={{ flex: 1, minWidth: 0, maxWidth: 1200 }}>
         {/* HERO */}
         <section className="hero">
           <div className="hero-inner">
@@ -319,7 +321,9 @@ export default function Home() {
         </section>
       </div>
 
-      <MegaAd position="right" image="/ads/mega-right.png" link="#" style={{ flexShrink: 0 }} />
+      <div style={{ width: 180, flexShrink: 0 }}>
+        <MegaAd position="right" image="/ads/mega-right.png" link="#" />
+      </div>
     </main>
   );
 }
