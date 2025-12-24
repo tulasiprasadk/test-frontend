@@ -1,508 +1,324 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+// Home page – hero, categories, ads, discover & products (FINAL CLEAN, LOCKED)
+
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { API_BASE } from "../api/client";
+
 import "./Home.css";
 import ExploreItem from "../components/ExploreItem";
-import DiscoverPopup from "../components/DiscoverPopup";
 import MegaAd from "../components/MegaAd";
-import AdScroll from "../components/AdScroll";
-import hero1 from "../assets/hero-1.jpg";
-import hero2 from "../assets/hero-2.jpg";
-import hero3 from "../assets/hero-3.jpg";
+import { API_BASE } from "../api/client";
 
-const defaultCategories = [
-  { id: 22, name: "Groceries", icon: "🛒", kannada: "ದಿನಸಿ ವಸ್ತುಗಳು" },
-  { id: 29, name: "Flowers", icon: "🌸", kannada: "ಹೂವುಗಳು" },
-  { id: 27, name: "Crackers", icon: "🎆", kannada: "ಪಟಾಕಿಗಳು" },
-  { id: 28, name: "Pet services", icon: "🐾", kannada: "ಪಶು ಸೇವೆಗಳು" },
-  { id: 24, name: "Local Services", icon: "🛠️", kannada: "ಸ್ಥಳೀಯ ಸೇವೆಗಳು" },
-  { id: 25, name: "Consultancy", icon: "📑", kannada: "ಸಲಹಾ ಸೇವೆಗಳು" }
-];
+/* ================= ANALYTICS (GA4) ================= */
+const GA_MEASUREMENT_ID = "G-XXXXXXXXXX";
 
-export default function Home() {
-  const navigate = useNavigate();
-  // If you use QuickCart, uncomment the next line
-  // const { addItem } = useQuickCart();
-  const [searchText, setSearchText] = useState("");
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState(defaultCategories);
-  const [selectedDiscover, setSelectedDiscover] = useState(null);
-  const [popupAnchor, setPopupAnchor] = useState(null);
-  const categoriesReady = categories.length > 0;
-  const heroImages = [hero1, hero2, hero3];
-  const [heroIndex, setHeroIndex] = useState(0);
-
+function useGoogleAnalytics() {
   useEffect(() => {
-    const t = setInterval(() => {
-      setHeroIndex((i) => (i + 1) % heroImages.length);
-    }, 5000);
-    return () => clearInterval(t);
+    if (window.gtag) return;
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      window.dataLayer.push(arguments);
+    }
+    window.gtag = gtag;
+    gtag("js", new Date());
+    gtag("config", GA_MEASUREMENT_ID);
   }, []);
-
-  useEffect(() => {
-    axios
-      .get(`${API_BASE}/categories`)
-      .then((res) => {
-        if (Array.isArray(res.data) && res.data.length) {
-          setCategories(res.data);
-        }
-      })
-      .catch(() => setCategories(defaultCategories));
-    axios
-      .get(`${API_BASE}/products`)
-      .then((res) => {
-        if (Array.isArray(res.data)) setProducts(res.data);
-      })
-      .catch(() => setProducts([]));
-  }, []);
-
-  const displayedProducts = products.slice(0, 12);
-
-  return (
-    <>
-      <main style={{ display: "flex", alignItems: "flex-start" }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          {/* HERO */}
-          <section className="hero">
-            <img src={heroImages[heroIndex]} alt="RR Nagar" />
-            <div className="hero-text">
-              <h1>ನಮ್ಮಿಂದ ನಿಮಗೆ — ನಿಮ್ಮಷ್ಟೇ ಹತ್ತಿರ</h1>
-              <p>Shop local. Support local.</p>
-              <div className="hero-search">
-                <input
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                  placeholder="Search groceries, flowers, services…"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && searchText.trim()) {
-                      navigate(`/browse?q=${encodeURIComponent(searchText)}`);
-                    }
-                  }}
-                />
-                <button
-                  onClick={() => {
-                    if (!searchText.trim()) return;
-                    navigate(`/browse?q=${encodeURIComponent(searchText)}`);
-                  }}
-                >
-                  Search
-                </button>
-              </div>
-            </div>
-          </section>
-
-          {/* CATEGORIES GRID */}
-          <section className="section">
-            <h2>Popular Categories</h2>
-            <div className="cat-row">
-              {categories.map((cat) => (
-                <div
-                  key={cat.id}
-                  className="cat-card"
-                  onClick={() => navigate(`/browse?category=${cat.id}`)}
-                >
-                  <div className="cat-icon">{cat.icon || "🛍️"}</div>
-                  <div className="cat-name">{cat.name}</div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <AdScroll />
-
-          {/* DISCOVER */}
-          <section className="section">
-            <h2>Discover Around You</h2>
-            <div className="discover-scroll">
-              <div className="discover-track">
-                {[1, 2].map((_, i) => {
-                  const ref1 = useRef();
-                  const ref2 = useRef();
-                  const ref3 = useRef();
-                  return (
-                    <React.Fragment key={i}>
-                      <ExploreItem
-                        icon="🛕"
-                        title="Temples"
-                        titleKannada="ದೇವಾಲಯಗಳು"
-                        ref={ref1}
-                        onClick={() => {
-                          setSelectedDiscover({
-                            icon: "🛕",
-                            title: "Temples",
-                            titleKannada: "ದೇವಾಲಯಗಳು",
-                            longInfo:
-                              "Temples in RR Nagar are peaceful places for worship."
-                          });
-                          setPopupAnchor(ref1);
-                        }}
-                      />
-                      <ExploreItem
-                        icon="🌳"
-                        title="Parks"
-                        titleKannada="ಉದ್ಯಾನಗಳು"
-                        ref={ref2}
-                        onClick={() => {
-                          setSelectedDiscover({
-                            icon: "🌳",
-                            title: "Parks",
-                            titleKannada: "ಉದ್ಯಾನಗಳು",
-                            longInfo:
-                              "RR Nagar parks are green spaces for relaxation."
-                          });
-                          setPopupAnchor(ref2);
-                        }}
-                      />
-                      <ExploreItem
-                        icon="💻"
-                        title="IT Park"
-                        titleKannada="ಐಟಿ ಪಾರ್ಕ್"
-                        ref={ref3}
-                        onClick={() => {
-                          setSelectedDiscover({
-                            icon: "💻",
-                            title: "IT Park",
-                            titleKannada: "ಐಟಿ ಪಾರ್ಕ್",
-                            longInfo:
-                              "IT Park has tech companies and startups."
-                          });
-                          setPopupAnchor(ref3);
-                        }}
-                      />
-                    </React.Fragment>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-
-          {/* PRODUCTS */}
-          <section className="section">
-            <h2 className="section-title">Fresh Picks for You</h2>
-            <div className="products-grid">
-              {displayedProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="product-card"
-                  onClick={() => {/* addItem(product, 1) if using QuickCart */}}
-                >
-                  <img
-                    src={product.image || "/images/product-placeholder.png"}
-                    alt={product.title}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/images/product-placeholder.png";
-                    }}
-                  />
-                  <div style={{ fontSize: "2rem", margin: "8px 0", lineHeight: "1" }}>
-                    {categoriesReady ? product.category : null}
-                  </div>
-                  <h3>{product.title || "No Title"}</h3>
-                  <p>₹{product.price ?? "--"}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        </div>
-        {/* RIGHT SIDEBAR */}
-        <aside style={{ marginLeft: 24 }}>
-          <MegaAd image="/ads/mega-right.png" position="right" />
-        </aside>
-      </main>
-      <DiscoverPopup
-        item={selectedDiscover}
-        anchorRef={popupAnchor}
-        onClose={() => {
-          setSelectedDiscover(null);
-          setPopupAnchor(null);
-        }}
-      />
-    </>
-  );
 }
-// frontend/src/pages/Home.jsx
-
-import React, { useEffect, useState, useRef, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
-import { useQuickCart } from "../context/QuickCartContext";
-import { API_BASE } from "../api/client";
-import "./Home.css";
-
-import ExploreItem from "../components/ExploreItem";
-import DiscoverPopup from "../components/DiscoverPopup";
-import MegaAd from "../components/MegaAd";
-import AdScroll from "../components/AdScroll";
 
 /* ================= HERO IMAGES ================= */
 import hero1 from "../assets/hero-1.jpg";
 import hero2 from "../assets/hero-2.jpg";
 import hero3 from "../assets/hero-3.jpg";
+import hero4 from "../assets/hero-4.jpg";
+
+/* ================= ADS ================= */
+import ad1 from "../assets/ads/ad1.jpg";
+import ad2 from "../assets/ads/ad2.jpg";
+import ad3 from "../assets/ads/ad3.jpg";
+import ad4 from "../assets/ads/ad4.jpg";
 
 /* ================= FALLBACK CATEGORIES ================= */
 const defaultCategories = [
-  { id: 22, name: "Groceries", icon: "🛒", kannada: "ದಿನಸಿ ವಸ್ತುಗಳು" },
-  { id: 29, name: "Flowers", icon: "🌸", kannada: "ಹೂವುಗಳು" },
-  { id: 27, name: "Crackers", icon: "🎆", kannada: "ಪಟಾಕಿಗಳು" },
-  { id: 28, name: "Pet services", icon: "🐾", kannada: "ಪಶು ಸೇವೆಗಳು" },
-  { id: 24, name: "Local Services", icon: "🛠️", kannada: "ಸ್ಥಳೀಯ ಸೇವೆಗಳು" },
-  { id: 25, name: "Consultancy", icon: "📑", kannada: "ಸಲಹಾ ಸೇವೆಗಳು" }
+  { id: 1, name: "Flowers", nameKannada: "ಹೂವುಗಳು", icon: "🌸" },
+  { id: 2, name: "Crackers", nameKannada: "ಪಟಾಕಿಗಳು", icon: "🎆" },
+  { id: 3, name: "Groceries", nameKannada: "ಕಿರಾಣಿ ವಸ್ತುಗಳು", icon: "🛒" },
+  { id: 4, name: "Pet Supplies", nameKannada: "ಪೆಟ್ ಸೇವೆ", icon: "🐾" },
+  { id: 5, name: "Local Services", nameKannada: "ಸ್ಥಳೀಯ ಸೇವೆಗಳು", icon: "🛠️" },
+  { id: 6, name: "Consultancy", nameKannada: "ಸಲಹಾ ಸೇವೆಗಳು", icon: "📑" },
 ];
 
 export default function Home() {
+  useGoogleAnalytics();
   const navigate = useNavigate();
-  const { addItem } = useQuickCart();
 
-  /* ================= SEARCH ================= */
-  const [searchText, setSearchText] = useState("");
-
-  /* ================= CORE STATE ================= */
-const [products, setProducts] = useState([]);
-const [categories, setCategories] = useState([]);
-const [selectedDiscover, setSelectedDiscover] = useState(null);
-const [popupAnchor, setPopupAnchor] = useState(null);
-
-const categoriesReady = categories.length > 0;
-
-
-  /* ================= HERO ================= */
-  const heroImages = [hero1, hero2, hero3];
+  /* ================= HERO SLIDER ================= */
+  const heroImages = [hero1, hero2, hero3, hero4];
   const [heroIndex, setHeroIndex] = useState(0);
+  const [heroSrc, setHeroSrc] = useState(heroImages[0]);
 
-  /* ================= HERO ROTATION ================= */
   useEffect(() => {
-    const t = setInterval(() => {
-      setHeroIndex((i) => (i + 1) % heroImages.length);
-    }, 5000);
-    return () => clearInterval(t);
+    const timer = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % heroImages.length);
+    }, 6000);
+    return () => clearInterval(timer);
   }, []);
 
-  /* ================= LOAD DATA ================= */
   useEffect(() => {
-    axios
-      .get(`${API_BASE}/categories`)
-      .then((res) => {
-        if (Array.isArray(res.data)) setCategories(res.data);
-      })
-      .catch(() => setCategories(defaultCategories));
+    setHeroSrc(heroImages[heroIndex]);
+  }, [heroIndex]);
 
-    axios
-      .get(`${API_BASE}/products`)
-      .then((res) => {
-        if (Array.isArray(res.data)) setProducts(res.data);
-      })
-      .catch(() => setProducts([]));
+  /* ================= HERO SEARCH (PURE NAVIGATION) ================= */
+  const [searchQuery, setSearchQuery] = useState("");
+
+  function handleSearchClick() {
+    const q = searchQuery.trim();
+    if (!q) return;
+    navigate(`/browse?q=${encodeURIComponent(q)}`);
+  }
+
+  function handleKeyPress(e) {
+    if (e.key === "Enter") handleSearchClick();
+  }
+
+  /* ================= PRODUCTS ================= */
+  const [products, setProducts] = useState([]);
+  const [addingToCart, setAddingToCart] = useState(null);
+
+  useEffect(() => {
+    loadProducts();
   }, []);
 
-  /* ================= HELPERS ================= */
-  const productIcons = useMemo(() => {
-    const map = {};
-    categories.forEach((c) => {
-      map[c.id] = c.icon;
-    });
-    return map;
-  }, [categories]);
+  async function loadProducts() {
+    try {
+      const res = await axios.get(`${API_BASE}/products`);
+      setProducts(res.data || []);
+    } catch (err) {
+      console.error("Error loading products:", err);
+    }
+  }
 
-  const getProductIcon = (product) => {
-    if (product.icon) return product.icon;
-    return productIcons[product.categoryId || product.category] || "🛍️";
-  };
+  async function addToCart(product) {
+    setAddingToCart(product.id);
+    try {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const existing = cart.find((i) => i.id === product.id);
 
-  const displayedProducts = products.slice(0, 12);
+      if (existing) existing.quantity += 1;
+      else cart.push({ ...product, quantity: 1 });
 
-  /* ================= RENDER ================= */
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`✓ ${product.title} added to cart`);
+    } catch {
+      alert("Failed to add to cart");
+    } finally {
+      setAddingToCart(null);
+    }
+  }
+
+  /* ================= CATEGORIES (UNCHANGED) ================= */
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  async function loadCategories() {
+    try {
+      const res = await axios.get(`${API_BASE}/categories`);
+      const data = res.data || [];
+
+      if (!data.length) {
+        setCategories(defaultCategories);
+        return;
+      }
+
+      setCategories(
+        data.map((cat) => {
+          const def = defaultCategories.find(
+            (d) =>
+              d.name.replace(/\s+/g, "").toLowerCase() ===
+              (cat.name || "").replace(/\s+/g, "").toLowerCase()
+          );
+          return {
+            ...cat,
+            icon: def?.icon || cat.icon || "🛍️",
+            nameKannada: def?.nameKannada || cat.nameKannada || "",
+          };
+        })
+      );
+    } catch {
+      setCategories(defaultCategories);
+    }
+  }
+
+  function handleCategoryClick(id) {
+    const category = categories.find((c) => c.id === id);
+    if (!category) return;
+
+    const name = category.name?.toLowerCase() || "";
+    if (name.includes("flower")) return navigate("/flowers");
+    if (name.includes("cracker")) return navigate("/crackers");
+    if (name.includes("grocery")) return navigate("/groceries");
+    if (name.includes("pet")) return navigate("/petservices");
+    if (name.includes("local")) return navigate("/localservices");
+    if (name.includes("consult")) return navigate("/consultancy");
+
+    navigate(`/browse?category=${id}`);
+  }
+
+  /* ================= ADS ================= */
+  const ads = [
+    { image: ad1, title: "iChase Fitness", link: "https://vchase.in" },
+    { image: ad2, title: "Marketing", link: "https://vchase.in" },
+    { image: ad3, title: "Crackers", link: "https://rrnagar.com" },
+    { image: ad4, title: "Pet Services", link: "https://thevetbuddy.com" },
+  ];
+  const adsLoop = [...ads, ...ads];
+
+  /* ================= DISCOVER ================= */
+  const discover = [
+    { title: "Temples", titleKannada: "ದೇವಾಲಯಗಳು", desc: "Spiritual places", icon: "🛕" },
+    { title: "Parks", titleKannada: "ಉದ್ಯಾನಗಳು", desc: "Green spaces", icon: "🌳" },
+    { title: "IT Parks", titleKannada: "ಐಟಿ ಉದ್ಯಾನಗಳು", desc: "Tech hubs", icon: "💻" },
+    { title: "Education", titleKannada: "ಶಿಕ್ಷಣ", desc: "Schools & colleges", icon: "🎓" },
+    { title: "Entertainment", titleKannada: "ಮನರಂಜನೆ", desc: "Fun places", icon: "🎭" },
+  ];
+
+  const discoverRef = useRef(null);
+  const [scrollWidth, setScrollWidth] = useState(0);
+
+  useEffect(() => {
+    if (!discoverRef.current) return;
+    const calcWidth = () => {
+      let total = 0;
+      discoverRef.current.querySelectorAll(".discover-item").forEach((item) => {
+        const style = window.getComputedStyle(item);
+        total += item.offsetWidth + parseFloat(style.marginRight || "0");
+      });
+      setScrollWidth(total);
+    };
+    calcWidth();
+    window.addEventListener("resize", calcWidth);
+    return () => window.removeEventListener("resize", calcWidth);
+  }, []);
+
+  const featuredProducts = products.slice(0, 8);
+
   return (
-    <>
-      <main style={{ display: "flex", alignItems: "flex-start" }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          {/* HERO */}
-          <section className="hero">
-            <img src={heroImages[heroIndex]} alt="RR Nagar" />
+    <main className="home" style={{ display: "flex", justifyContent: "center" }}>
+      <MegaAd position="left" image="/ads/mega-left.png" link="#" />
+
+      <div style={{ flex: 1, maxWidth: 1200 }}>
+        {/* HERO */}
+        <section className="hero">
+          <div className="hero-inner">
+            <div className="hero-image">
+              <img src={heroSrc} alt="RR Nagar" loading="lazy" />
+            </div>
+
             <div className="hero-text">
-              <h1>ನಮ್ಮಿಂದ ನಿಮಗೆ — ನಿಮ್ಮಷ್ಟೇ ಹತ್ತಿರ</h1>
-              <p>Shop local. Support local.</p>
+              <h1>ನಮ್ಮಿಂದ ನಿಮಗೆ — ನಿಮ್ಮಷ್ಟೇ ಹತ್ತಿರ.</h1>
+              <p>From Us To You — As Close As You Need Us.</p>
+
               <div className="hero-search">
                 <input
-                  type="text"
-                  placeholder="Search in RR Nagar"
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && searchText.trim()) {
-                      navigate(`/browse?q=${encodeURIComponent(searchText)}`);
-                    }
-                  }}
+                  placeholder="Search groceries, flowers, products…"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
+                <button onClick={handleSearchClick}>Search</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CATEGORIES */}
+        <section className="section">
+          <h2 className="section-title">Popular Categories</h2>
+          <div className="cat-row">
+            {categories.map((cat) => (
+              <div
+                key={cat.id}
+                className="cat-card"
+                onClick={() => handleCategoryClick(cat.id)}
+              >
+                <span className="icon">{cat.icon || "🛍️"}</span>
+                <span className="label">{cat.name}</span>
+                <span className="label-kannada">{cat.nameKannada}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ADS */}
+        <section className="section">
+          <h2 className="section-title">What’s New in RR Nagar</h2>
+          <div className="ads-viewport">
+            <div className="ads-track">
+              {adsLoop.map((ad, i) => (
+                <a key={i} href={ad.link} target="_blank" rel="noreferrer" className="ad-item">
+                  <div className="ad-title">{ad.title}</div>
+                  <img src={ad.image} alt={ad.title} />
+                  <div className="ad-cta">Tap to view</div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* DISCOVER */}
+        <section className="section">
+          <h2 className="section-title">Discover Around You</h2>
+          <div className="discover-viewport">
+            <div
+              ref={discoverRef}
+              className="discover-track"
+              style={{ "--scroll-width": `${scrollWidth}px` }}
+            >
+              {[...discover, ...discover].map((item, i) => (
+                <div className="discover-item" key={i}>
+                  <ExploreItem {...item} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* PRODUCTS */}
+        <section className="section">
+          <h2 className="section-title">Fresh Picks for You</h2>
+          <div className="products-grid">
+            {featuredProducts.map((product) => (
+              <div
+                key={product.id}
+                className="product-card"
+                onClick={() => navigate(`/product/${product.id}`)}
+              >
+                <img src={product.image} alt={product.title} />
+                <h3>{product.title}</h3>
+                <p>₹{product.price}</p>
                 <button
-                  onClick={() => {
-                    if (!searchText.trim()) return;
-                    navigate(`/browse?q=${encodeURIComponent(searchText)}`);
+                  disabled={addingToCart === product.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(product);
                   }}
                 >
-                  Search
+                  {addingToCart === product.id ? "Adding…" : "Add to cart"}
                 </button>
               </div>
-            </div>
-          </section>
+            ))}
+          </div>
+        </section>
+      </div>
 
-
-          {/* CATEGORIES */}
-          <section className="section">
-            <h2>Popular Categories</h2>
-            <div
-              className="cat-row"
-              style={{
-                display: "flex",
-                gap: "16px",
-                flexWrap: "nowrap",
-                overflowX: "auto"
-              }}
-            >
-              {categories.map((cat) => (
-                <div
-                  key={cat.id}
-                  className="cat-card"
-                  onClick={() => navigate(`/browse?category=${cat.id}`)}
-                  style={{ flex: "0 0 auto" }}
-                >
-                  <div className="cat-icon">{cat.icon || "🛍️"}</div>
-                  <div className="cat-name">{cat.name}</div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* HORIZONTAL ADS GRID */}
-          <section className="section">
-            <h2>Sponsored Ads</h2>
-            <div
-              className="ads-row"
-              style={{
-                display: "flex",
-                gap: "16px",
-                flexWrap: "nowrap",
-                overflowX: "auto",
-                padding: "8px 0"
-              }}
-            >
-              {["/ads/grid-1.jpg", "/ads/grid-2.jpg", "/ads/grid-3.jpg", "/ads/grid-4.jpg", "/ads/grid-5.jpg", "/ads/scroll-1.png"].map((ad, idx) => (
-                <div key={ad} style={{ flex: "0 0 auto", width: 220, height: 120, background: "#fffbe6", borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <img src={ad} alt={`Ad ${idx + 1}`} style={{ width: "90%", height: "90%", objectFit: "cover", borderRadius: 8 }} />
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* DISCOVER */}
-          <section className="section">
-            <h2>Discover Around You</h2>
-            <div className="discover-scroll">
-              <div className="discover-track">
-                {[1, 2].map((_, i) => {
-                  const ref1 = useRef();
-                  const ref2 = useRef();
-                  const ref3 = useRef();
-
-                  return (
-                    <React.Fragment key={i}>
-                      <ExploreItem
-                        icon="🛕"
-                        title="Temples"
-                        titleKannada="ದೇವಾಲಯಗಳು"
-                        ref={ref1}
-                        onClick={() => {
-                          setSelectedDiscover({
-                            icon: "🛕",
-                            title: "Temples",
-                            titleKannada: "ದೇವಾಲಯಗಳು",
-                            longInfo:
-                              "Temples in RR Nagar are peaceful places for worship."
-                          });
-                          setPopupAnchor(ref1);
-                        }}
-                      />
-                      <ExploreItem
-                        icon="🌳"
-                        title="Parks"
-                        titleKannada="ಉದ್ಯಾನಗಳು"
-                        ref={ref2}
-                        onClick={() => {
-                          setSelectedDiscover({
-                            icon: "🌳",
-                            title: "Parks",
-                            titleKannada: "ಉದ್ಯಾನಗಳು",
-                            longInfo:
-                              "RR Nagar parks are green spaces for relaxation."
-                          });
-                          setPopupAnchor(ref2);
-                        }}
-                      />
-                      <ExploreItem
-                        icon="💻"
-                        title="IT Park"
-                        titleKannada="ಐಟಿ ಪಾರ್ಕ್"
-                        ref={ref3}
-                        onClick={() => {
-                          setSelectedDiscover({
-                            icon: "💻",
-                            title: "IT Park",
-                            titleKannada: "ಐಟಿ ಪಾರ್ಕ್",
-                            longInfo:
-                              "IT Park has tech companies and startups."
-                          });
-                          setPopupAnchor(ref3);
-                        }}
-                      />
-                    </React.Fragment>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-
-          {/* PRODUCTS */}
-          <section className="section">
-            <h2 className="section-title">Fresh Picks for You</h2>
-            <div className="products-grid">
-              {displayedProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="product-card"
-                  onClick={() => addItem(product, 1)}
-                >
-                  <img
-                    src={product.image || "/images/product-placeholder.png"}
-                    alt={product.title}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/images/product-placeholder.png";
-                    }}
-                  />
-                  <div style={{ fontSize: "2rem", margin: "8px 0", lineHeight: "1" }}>
-  {categoriesReady ? getProductIcon(product) : null}
-</div>
-
-                  <h3>{product.title || "No Title"}</h3>
-                  <p>₹{product.price ?? "--"}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        </div>
-
-        {/* MegaAd sidebars removed */}
-      </main>
-
-      <DiscoverPopup
-        item={selectedDiscover}
-        anchorRef={popupAnchor}
-        onClose={() => {
-          setSelectedDiscover(null);
-          setPopupAnchor(null);
-        }}
-      />
-    </>
+      <MegaAd position="right" image="/ads/mega-right.png" link="#" />
+    </main>
   );
 }
