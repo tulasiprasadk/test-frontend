@@ -74,21 +74,22 @@ const categoriesReady = categories.length > 0;
       <main style={{ display: "flex", alignItems: "flex-start" }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           {/* HERO */}
-          <section className="hero">
-            <img src={heroImages[heroIndex]} alt="RR Nagar" />
-            <div className="hero-text">
-              <h1>ನಮ್ಮಿಂದ ನಿಮಗೆ — ನಿಮ್ಮಷ್ಟೇ ಹತ್ತಿರ</h1>
-              <p>Shop local. Support local.</p>
-              <div className="hero-search">
-                <input
-                  type="text"
-                  placeholder="Search in RR Nagar"
-                  onChange={(e) => setSearchText(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && searchText.trim()) {
-                      navigate(`/browse?q=${encodeURIComponent(searchText)}`);
-                    }
-                  }}
+          <section className="section">
+            <h2>Popular Categories</h2>
+            <div className="cat-row">
+              {/* Render category cards as children, not inside style prop */}
+              {categories.map((cat) => (
+                <div
+                  key={cat.id}
+                  className="cat-card"
+                  onClick={() => navigate(`/browse?category=${cat.id}`)}
+                >
+                  <div className="cat-icon">{cat.icon || "🛍️"}</div>
+                  <div className="cat-name">{cat.name}</div>
+                </div>
+              ))}
+            </div>
+          </section>
                 />
                 <button
                   onClick={() => {
