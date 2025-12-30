@@ -11,8 +11,8 @@ export async function getProducts(query = "", categoryId = "") {
 
     const url =
       params.toString().length > 0
-        ? `${API_BASE}/api/products?${params.toString()}`
-        : `${API_BASE}/api/products`;
+        ? `${API_BASE}/products?${params.toString()}`
+        : `${API_BASE}/products`;
 
     const res = await fetch(url, {
       credentials: "include",
@@ -29,7 +29,7 @@ export async function getProducts(query = "", categoryId = "") {
 // Get a single product by ID
 export async function getProduct(id) {
   try {
-    const res = await fetch(`${API_BASE}/api/products/${id}`, {
+    const res = await fetch(`${API_BASE}/products/${id}`, {
       credentials: "include",
     });
 
