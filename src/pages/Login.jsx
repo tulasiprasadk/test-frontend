@@ -1,6 +1,7 @@
 // frontend/src/pages/Login.jsx
 
 import { useState } from "react";
+import { API_BASE } from "../config/api";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
