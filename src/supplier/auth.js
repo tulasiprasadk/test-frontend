@@ -1,6 +1,6 @@
 // frontend/src/supplier/auth.js
 import axios from "axios";
-import { API_BASE } from "../api/client";
+import { API_BASE } from "../config/api";
 
 
 /**

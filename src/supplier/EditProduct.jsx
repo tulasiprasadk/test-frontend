@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { API_BASE } from '../api/client';
+import { API_BASE } from '../config/api';
 
 export default function SupplierEditProduct() {
   const { id } = useParams();
