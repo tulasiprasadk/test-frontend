@@ -1,23 +1,31 @@
 import React from "react";
-import { useQuickCart } from "../context/QuickCartContext";
+import { useCrackerCart } from "../context/CrackerCartContext";
+import CategoryIcon from "./CategoryIcon";
 
 
-// Unified emoji mapping for all categories
+// Unified emoji mapping for all categories (refined, more descriptive)
 const unifiedEmojiMap = {
   FRUITS: "🍎",
-  VEGETABLES: "🥦",
+  VEGETABLES: "🥕",
   LEAFY: "🥬",
-  BAKERY: "🍞",
+  BAKERY: "🥐",
   MILK: "🥛",
-  DAIRY: "🥛",
+  DAIRY: "🧀",
   STAPLES: "🍚",
-  CRACKERS: "🎆",
-  FLOWERS: "🌸",
-  OTHERS: "🛒",
+  CRACKERS: "🧨",
+  SNACKS: "🍪",
+  FLOWERS: "💐",
+  BEVERAGES: "🧃",
+  MEAT: "🍖",
+  FISH: "🐟",
+  GROCERIES: "🧺",
+  GROCERY: "🧺",
+  OTHER: "🛍️",
+  OTHERS: "🛍️",
 };
 
-export default function ProductCard({ product, onClick }) {
-  const { addItem } = useQuickCart();
+export default function ProductCard({ product, onClick, variant, iconSize }) {
+  const { addItem } = useCrackerCart();
   if (!product) return null;
   const {
     id,
@@ -37,9 +45,12 @@ export default function ProductCard({ product, onClick }) {
   } = product;
   const displayName = name || title || "Product";
   const displayImage = image || imageUrl || image_url || "";
+  // ensure title/desc wrappers have no unexpected border/background
+  const titleStyle = { margin: 0, fontSize: 12, fontWeight: 600, color: "#b00018", textAlign: 'center', background: 'transparent', border: 'none' };
+  const knStyle = { color: "#b00018", fontSize: 11, fontFamily: 'Noto Sans Kannada, Tunga, Arial, sans-serif', fontWeight: 600, textAlign: 'center', background: 'transparent', border: 'none' };
   const displayPrice = typeof price === "number" ? price : null;
   const displayKn = knDisplay || kn || titleKannada;
-  // Unified emoji logic for all categories
+  // Keep backward-compatibility: emoji prop still considered, otherwise use category/variety
   function getUnifiedEmoji() {
     if (emoji) return emoji;
     if (variety && unifiedEmojiMap[variety.toUpperCase()]) return unifiedEmojiMap[variety.toUpperCase()];
@@ -55,6 +66,32 @@ export default function ProductCard({ product, onClick }) {
       addItem(product, 1);
     }
   };
+  const baseStyle = {
+    border: "1px solid #e0e0e0",
+    borderRadius: 10,
+    background: "#fff",
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+    boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+    aspectRatio: '1 / 1',
+    padding: 0,
+    overflow: 'hidden',
+    minWidth: 0,
+  };
+
+  const freshOverrides = {
+    border: '1px solid rgba(0,255,198,0.12)',
+    background: 'linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.94))',
+    boxShadow: '0 6px 18px rgba(0,0,0,0.06)',
+    borderRadius: 12,
+    padding: 8
+  };
+
+  const mergedStyle = variant === 'fresh' ? { ...baseStyle, ...freshOverrides } : baseStyle;
+
   return (
     <div
       className="product-card"
@@ -62,21 +99,7 @@ export default function ProductCard({ product, onClick }) {
       tabIndex={0}
       onClick={handleClick}
       onKeyDown={(e) => e.key === "Enter" && handleClick()}
-      style={{
-        border: "1px solid #e0e0e0",
-        borderRadius: 10,
-        background: "#fff",
-        display: "flex",
-        flexDirection: "column",
-        gap: 8,
-        boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
-        cursor: "pointer",
-        transition: "all 0.2s ease",
-        aspectRatio: '1 / 1',
-        padding: 0,
-        overflow: 'hidden',
-        minWidth: 0,
-      }}
+      style={mergedStyle}
     >
       {/* IMAGE + EMOJI */}
       <div
@@ -110,35 +133,36 @@ export default function ProductCard({ product, onClick }) {
             {/* Always show emoji as badge if present */}
             <span style={{
               position: "absolute",
-              top: 8,
-              left: 8,
-              fontSize: 20,
-              filter: "drop-shadow(0 1px 2px #fff)",
-              color: "#c8102e",
-              lineHeight: 1
-            }}>{displayEmoji}</span>
+              top: 6,
+              left: 6,
+              width: (iconSize || 18) + 2,
+              height: (iconSize || 18) + 2,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <CategoryIcon name={displayName} category={category} variety={variety} size={iconSize || 16} />
+            </span>
           </>
         ) : (
-          // Show emoji large if no image
-          <span style={{ fontSize: 36, color: "#c8102e", lineHeight: 1 }}>{displayEmoji}</span>
+          // Show icon large if no image
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <CategoryIcon name={displayName} category={category} variety={variety} size={iconSize ? Math.max(20, iconSize*1.6) : 28} />
+          </div>
         )}
       </div>
 
       {/* NAME */}
-      <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, color: "#c8102e", textAlign: 'center' }}>
-        {displayName}
-      </h3>
+      <h3 style={titleStyle}>{displayName}</h3>
 
       {/* KANNADA NAME */}
       {displayKn && (
-        <div style={{ color: "#c8102e", fontSize: 16, fontFamily: 'Noto Sans Kannada, Tunga, Arial, sans-serif', fontWeight: 600, textAlign: 'center' }}>
-          {displayKn}
-        </div>
+        <div style={knStyle}>{displayKn}</div>
       )}
 
       {/* DESCRIPTION */}
       {description && (
-        <p style={{ margin: 0, fontSize: 13, color: "#c8102e", textAlign: 'center' }}>
+        <p style={{ margin: 0, fontSize: 10, color: "#c8102e", textAlign: 'center' }}>
           {description}
         </p>
       )}
@@ -150,7 +174,7 @@ export default function ProductCard({ product, onClick }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          fontSize: 16,
+          fontSize: 12,
           fontWeight: 700,
           color: "#c8102e",
           textAlign: 'center',

@@ -10,7 +10,11 @@ import { fetchOrder } from "../api/orders";
 export default function Checkout() {
   const [cart, setCart] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem("cart") || "[]");
+      const bag = JSON.parse(localStorage.getItem("bag") || "null");
+      if (Array.isArray(bag) && bag.length) return bag.map(it => ({ ...it, qty: it.qty || it.quantity || it.qty || 1 }));
+      // fallback to legacy 'cart'
+      const legacy = JSON.parse(localStorage.getItem("cart") || "[]");
+      return Array.isArray(legacy) ? legacy.map(it => ({ ...it, qty: it.qty || it.quantity || 1 })) : [];
     } catch (e) {
       return [];
     }
@@ -53,7 +57,7 @@ export default function Checkout() {
       <div style={{ display: "flex", gap: 24 }}>
         <section style={{ flex: 2, background: '#FFF9C4', borderRadius: 10, padding: 18, boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
           <h3 style={{ marginBottom: 12 }}>Items</h3>
-          {cart.length === 0 ? <div>No items in cart</div> : cart.map((it) => (
+          {cart.length === 0 ? <div>No items in bag</div> : cart.map((it) => (
             <div key={it.id} style={{ borderBottom: "1px solid #eee", padding: 8 }}>
               {it.title} ₹{it.price} × {it.qty}
             </div>

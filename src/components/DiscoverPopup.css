@@ -2,7 +2,7 @@
 .discover-popup-absolute {
   position: fixed;
   z-index: 10001;
-  pointer-events: none;
+  pointer-events: auto; /* allow hover events so popup can stay open when hovered */
 }
 
 .discover-popup {

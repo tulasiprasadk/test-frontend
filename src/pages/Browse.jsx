@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_BASE } from "../config/api";
 import ProductCard from "../components/ProductCard";
+import CategoryIcon from "../components/CategoryIcon";
 import CartPanel from "../components/CartPanel";
 
 export default function Groceries() {
@@ -59,8 +60,8 @@ export default function Groceries() {
     >
       {/* PAGE HEADER — SAME FEEL AS FLOWERS */}
       <section style={{ padding: "24px", textAlign: "center" }}>
-        <h1 style={{ fontSize: 34, fontWeight: 800, marginBottom: 6 }}>
-          🛒 RR Nagar Groceries
+        <h1 style={{ fontSize: 34, fontWeight: 800, marginBottom: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <CategoryIcon category="groceries" size={36} /> RR Nagar Groceries
         </h1>
         <p style={{ color: "#666", fontSize: 16 }}>
           Daily essentials · Fresh · Local

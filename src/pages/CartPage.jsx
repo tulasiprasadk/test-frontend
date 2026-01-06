@@ -41,7 +41,30 @@ export default function BagPage() {
         )}
 
         {cart.length > 0 && (
-          <CartPanel />
+          <>
+            <ul className="bag-list">
+              {cart.map(item => (
+                <li key={item.id} className="bag-item">
+                  <div className="item-info">
+                    <h3>{item.title || item.name}</h3>
+                    <p>Qty: {item.qty} × ₹{item.price}</p>
+                    <p className="subtotal">Subtotal: ₹{((item.price || 0) * (item.qty || 1)).toFixed(2)}</p>
+                  </div>
+                  <div className="item-actions">
+                    <button onClick={() => updateQty(item.id, Math.max(1, item.qty - 1))}>−</button>
+                    <span>{item.qty}</span>
+                    <button onClick={() => updateQty(item.id, item.qty + 1)}>+</button>
+                    <button className="remove-btn" onClick={() => remove(item.id)}>Remove</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="bag-summary">
+              <h3>Total: ₹{total.toFixed(2)}</h3>
+              <button className="checkout-btn" onClick={checkout}>Proceed to Checkout</button>
+              <button className="clear-btn" onClick={clearBag}>Clear Bag</button>
+            </div>
+          </>
         )}
       </div>
     </div>

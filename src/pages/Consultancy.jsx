@@ -3,10 +3,10 @@ import React, { useMemo } from "react";
 import consultancies from "../data/consultancy.json";
 import ProductCard from "../components/ProductCard";
 import CartPanel from "../components/CartPanel";
-import { useQuickCart } from "../context/QuickCartContext";
+import { useCrackerCart } from "../context/CrackerCartContext";
 
 export default function Consultancy() {
-  const { addItem } = useQuickCart();
+  const { addItem } = useCrackerCart();
 
   // Flatten all consultancies into a single array, add category
   const allConsultancies = useMemo(() =>

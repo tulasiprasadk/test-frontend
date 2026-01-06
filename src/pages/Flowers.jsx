@@ -1,8 +1,9 @@
 // src/pages/Flowers.jsx
 
 import { useEffect, useState } from "react";
-import { API_BASE } from "../config/api";
+import { getProducts, getCategories } from "../api";
 import ProductCard from "../components/ProductCard";
+import CategoryIcon from "../components/CategoryIcon";
 import CartPanel from "../components/CartPanel";
 
 // Map common flower names to emojis
@@ -32,24 +33,46 @@ export default function Flowers() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API_BASE}/products?categoryId=4`)
-      .then(res => res.json())
-      .then(data => setProducts(data))
-      .finally(() => setLoading(false));
+    let mounted = true;
+    (async () => {
+      setLoading(true);
+      try {
+        // Resolve Flowers category id dynamically via helper
+        const cats = await getCategories();
+        const flowerCat = cats.find(c => c.name && c.name.toLowerCase() === 'flowers');
+        const catId = flowerCat ? flowerCat.id : null;
+
+        const data = await getProducts("", catId || "");
+        if (mounted) setProducts(Array.isArray(data) ? data : []);
+      } catch (e) {
+        console.error(e);
+        if (mounted) setProducts([]);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    })();
+
+    return () => (mounted = false);
   }, []);
 
-  // Group products by VARIETY (after ' - '), default to 'Others'
+  // Group products by VARIETY (prefer `p.variety` if present), default to 'Others'
   const grouped = products.reduce((acc, p) => {
-    let [name, variety] = p.title.split(" - ");
-    variety = variety ? variety.trim() : "Others";
-    // Pick emoji based on flower name (case-insensitive)
-    let flowerName = (name || p.title || "").trim().toUpperCase();
-    let emoji = flowerEmojiMap[flowerName] || flowerEmojiMap[variety.toUpperCase()] || "💐";
+    let name = (p.title || '').trim();
+    let variety = p.variety ? p.variety : null;
+
+    if (!variety) {
+      const parts = (p.title || '').split(' - ');
+      name = parts[0] ? parts[0].trim() : p.title;
+      variety = parts[1] ? parts[1].trim() : 'Others';
+    }
+
+    // Pick emoji based on flower name (case-insensitive) — icon rendering moved to centralized component
+    let flowerName = (name || p.title || '').trim().toUpperCase();
+
     if (!acc[variety]) acc[variety] = [];
     acc[variety].push({
       ...p,
-      title: name ? name.trim() : p.title, // cleaned title for ProductCard
-      emoji
+      title: name, // cleaned title for ProductCard
     });
     return acc;
   }, {});
@@ -57,7 +80,9 @@ export default function Flowers() {
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#FFFDE7" }}>
       <div style={{ flex: 1, padding: "24px 32px" }}>
-        <h1 style={{ marginBottom: 16 }}>🌸 Flowers</h1>
+        <h1 style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <CategoryIcon category="flowers" size={20} /> Flowers
+        </h1>
 
         {loading && <p>Loading...</p>}
         {!loading && products.length === 0 && <p>No flowers available</p>}
@@ -79,10 +104,11 @@ export default function Flowers() {
                   {items
                     .slice()
                     .sort((a, b) => (a.title || a.name || "").localeCompare(b.title || b.name || ""))
-                    .map(product => (
+                        .map(product => (
                       <div style={{ minWidth: 0, display: 'flex' }} key={product.id}>
                         <ProductCard
                           product={product}
+                          iconSize={16}
                           style={{
                             width: '100%',
                             minWidth: 0,

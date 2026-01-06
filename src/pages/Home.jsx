@@ -9,8 +9,9 @@ import ExploreItem from "../components/ExploreItem";
 import DiscoverPopup from "../components/DiscoverPopup";
 import MegaAd from "../components/MegaAd";
 import api from "../api/client";
-import { API_BASE } from "../config/api";
 import ProductCard from "../components/ProductCard";
+import CategoryIcon from "../components/CategoryIcon";
+import { useCrackerCart } from "../context/CrackerCartContext";
 
 /* ================= ANALYTICS (GA4) ================= */
 const GA_MEASUREMENT_ID = "G-XXXXXXXXXX";
@@ -45,14 +46,24 @@ import ad2 from "../assets/ads/ad2.jpg";
 import ad3 from "../assets/ads/ad3.jpg";
 import ad4 from "../assets/ads/ad4.jpg";
 
-/* ================= FALLBACK CATEGORIES ================= */
+/* ================= FALLBACK CATEGORIES (desired order) ================= */
+// Known emoji mapping (use these instead of DB icons when possible)
+const emojiMap = {
+  crackers: "🧨",
+  flowers: "💐",
+  groceries: "🧺",
+  localservices: "🛠️",
+  petservices: "🐶",
+  consultancy: "📋",
+};
+
 const defaultCategories = [
-  { id: 1, name: "Flowers", nameKannada: "ಹೂವುಗಳು", icon: "🌸" },
-  { id: 2, name: "Crackers", nameKannada: "ಪಟಾಕಿಗಳು", icon: "🎆" },
-  { id: 3, name: "Groceries", nameKannada: "ಕಿರಾಣಿ ವಸ್ತುಗಳು", icon: "🛒" },
-  { id: 4, name: "Pet Supplies", nameKannada: "ಪೆಟ್ ಸೇವೆ", icon: "🐾" },
-  { id: 5, name: "Local Services", nameKannada: "ಸ್ಥಳೀಯ ಸೇವೆಗಳು", icon: "🛠️" },
-  { id: 6, name: "Consultancy", nameKannada: "ಸಲಹಾ ಸೇವೆಗಳು", icon: "📑" },
+  { id: 2, name: "Crackers", nameKannada: "ಪಟಾಕಿಗಳು", icon: emojiMap.crackers },
+  { id: 1, name: "Flowers", nameKannada: "ಹೂವುಗಳು", icon: emojiMap.flowers },
+  { id: 6, name: "Groceries", nameKannada: "ಕಿರಾಣಿ ವಸ್ತುಗಳು", icon: emojiMap.groceries },
+  { id: 5, name: "Local Services", nameKannada: "ಸ್ಥಳೀಯ ಸೇವೆಗಳು", icon: emojiMap.localservices },
+  { id: 4, name: "Pet Services", nameKannada: "ಪೆಟ್ ಸೇವೆಗಳು", icon: emojiMap.petservices },
+  { id: 7, name: "Consultancy", nameKannada: "ಸಲಹಾ ಸೇವೆಗಳು", icon: emojiMap.consultancy },
 ];
 
 export default function Home() {
@@ -98,31 +109,17 @@ export default function Home() {
 
   async function loadProducts() {
     try {
-      const res = await api.get(`${API_BASE}/products`);
-      setProducts(Array.isArray(res.data) ? res.data : []);
+      const res = await api.get(`/products`);
+      const pdata = res && res.data ? res.data : [];
+      const productsArray = pdata && pdata.value ? pdata.value : Array.isArray(pdata) ? pdata : [];
+      setProducts(productsArray);
     } catch (err) {
       setProducts([]);
       console.error("Error loading products:", err);
     }
   }
 
-  async function addToBag(product) {
-    setAddingToCart(product.id);
-    try {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const existing = cart.find((i) => i.id === product.id);
-
-      if (existing) existing.quantity += 1;
-      else cart.push({ ...product, quantity: 1 });
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert(`✓ ${product.title} added to cart`);
-    } catch {
-      alert("Failed to add to bag");
-    } finally {
-      setAddingToCart(null);
-    }
-  }
+  
 
   /* ================= CATEGORIES (UNCHANGED) ================= */
   const [categories, setCategories] = useState([]);
@@ -133,28 +130,59 @@ export default function Home() {
 
   async function loadCategories() {
     try {
-      const res = await api.get(`${API_BASE}/categories`);
-      const data = Array.isArray(res.data) ? res.data : [];
+      const res = await api.get(`/categories`);
+      const pdata = res && res.data ? res.data : [];
+      const data = pdata && pdata.value ? pdata.value : Array.isArray(pdata) ? pdata : [];
 
       if (!data.length) {
         setCategories(defaultCategories);
         return;
       }
 
-      setCategories(
-        data.map((cat) => {
-          const def = defaultCategories.find(
-            (d) =>
-              d.name.replace(/\s+/g, "").toLowerCase() ===
-              (cat.name || "").replace(/\s+/g, "").toLowerCase()
-          );
-          return {
-            ...cat,
-            icon: def?.icon || cat.icon || "🛍️",
-            nameKannada: def?.nameKannada || cat.nameKannada || "",
-          };
-        })
-      );
+      // Map backend categories to include icons/nameKannada from defaults
+      const mapped = data.map((cat) => {
+        const norm = (cat.name || "").replace(/\s+/g, "").toLowerCase();
+        const def = defaultCategories.find(
+          (d) => (d.name || "").replace(/\s+/g, "").toLowerCase() === norm
+        );
+        return {
+          ...cat,
+          icon: def?.icon || emojiMap[norm] || cat.icon || "🛍️",
+          nameKannada: def?.nameKannada || cat.nameKannada || "",
+        };
+      });
+
+      // Remove unwanted categories from popular list (robust substring checks)
+      const filtered = mapped.filter((c) => {
+        const n = (c.name || "").toLowerCase();
+        if (!n) return true;
+        // exclude any categories that are fruits, vegetables, or milk products
+        if (n.includes("fruit") || n.includes("veget") || n.includes("milk")) return false;
+        return true;
+      });
+
+      // Enforce desired category order at the top, keep any other categories after
+      const desiredOrder = [
+        "Crackers",
+        "Flowers",
+        "Groceries",
+        "Local Services",
+        "Pet Services",
+        "Consultancy",
+      ];
+      const desiredNorm = desiredOrder.map((s) => s.replace(/\s+/g, "").toLowerCase());
+      filtered.sort((a, b) => {
+        const na = (a.name || "").replace(/\s+/g, "").toLowerCase();
+        const nb = (b.name || "").replace(/\s+/g, "").toLowerCase();
+        const ia = desiredNorm.indexOf(na);
+        const ib = desiredNorm.indexOf(nb);
+        if (ia === -1 && ib === -1) return (a.name || "").localeCompare(b.name || "");
+        if (ia === -1) return 1;
+        if (ib === -1) return -1;
+        return ia - ib;
+      });
+
+      setCategories(filtered);
     } catch {
       setCategories(defaultCategories);
     }
@@ -198,6 +226,16 @@ export default function Home() {
 
   const discoverRef = useRef(null);
   const [scrollWidth, setScrollWidth] = useState(0);
+  const popupCloseTimer = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (popupCloseTimer.current) {
+        clearTimeout(popupCloseTimer.current);
+        popupCloseTimer.current = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!discoverRef.current) return;
@@ -214,16 +252,31 @@ export default function Home() {
     return () => window.removeEventListener("resize", calcWidth);
   }, []);
 
-  const featuredProducts = products.slice(0, 8);
+  const featuredProducts = products.slice(0, 16);
+
+  const { addItem } = useCrackerCart();
+
+  const handleAddFromGrid = (product) => {
+    const price = product.price ?? product.basePrice ?? 0;
+    addItem({ id: product.id, title: product.title || product.name, name: product.name, price, qty: 1 });
+    window.dispatchEvent(new Event('cart-updated'));
+    alert(`✓ ${product.title || product.name} added to bag`);
+  };
 
   return (
-    <main className="home" style={{ display: "flex", width: "100%", maxWidth: 1400, margin: "0 auto", alignItems: "stretch" }}>
+    <main className="home" style={{ display: "flex", width: "100vw", margin: 0, padding: 0, alignItems: "stretch" }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 40, alignItems: 'stretch' }}>
+        <MegaAd image={ad3} link={ads[2].link} position="left" />
+        <MegaAd image={ad1} link={ads[0].link} position="left" />
+        {/* Extra MegaAd slot under top-left — replaced with Motard partner logo */}
+        <MegaAd image={'/motard.svg'} link={'https://motardgears.com'} position="left" />
+      </div>
       <div style={{ flex: 1, minWidth: 0, maxWidth: 1200, margin: '0 auto' }}>
         {/* HERO */}
         <section className="hero">
           <div className="hero-inner">
             <div className="hero-image">
-              <img src={heroSrc} alt="RR Nagar" loading="lazy" />
+              <img src={heroSrc} alt="RR Nagar" loading="lazy" onError={(e)=>{ e.currentTarget.src = '/no-image.png'; e.currentTarget.style.objectFit='cover'; }} />
             </div>
 
             <div className="hero-text">
@@ -253,7 +306,7 @@ export default function Home() {
                 className="cat-card"
                 onClick={() => handleCategoryClick(cat.id)}
               >
-                <span className="icon">{cat.icon || "🛍️"}</span>
+                <span className="icon"><CategoryIcon category={cat.name} size={40} /></span>
                 <span className="label">{cat.name}</span>
                 <span className="label-kannada">{cat.nameKannada}</span>
               </div>
@@ -287,50 +340,89 @@ export default function Home() {
               style={{ "--scroll-width": `${scrollWidth}px` }}
             >
               {[...discover, ...discover].map((item, i) => (
-                <div className="discover-item" key={i}>
+                <div
+                  className="discover-item"
+                  key={i}
+                  onMouseEnter={() => {
+                    if (popupCloseTimer.current) {
+                      clearTimeout(popupCloseTimer.current);
+                      popupCloseTimer.current = null;
+                    }
+                    setPopup({ open: true, item, anchor: { current: discoverItemRefs.current[i] }, source: 'hover' });
+                  }}
+                  onMouseLeave={() => {
+                    // schedule close to allow mouse to travel to popup, only for hover-sourced popups
+                    if (popup?.source === 'hover') {
+                      if (popupCloseTimer.current) clearTimeout(popupCloseTimer.current);
+                      popupCloseTimer.current = setTimeout(() => setPopup({ open: false, item: null, anchor: null, source: null }), 220);
+                    }
+                  }}
+                >
                   <ExploreItem
                     {...item}
                     ref={el => discoverItemRefs.current[i] = el}
-                    onClick={() => setPopup({ open: true, item, anchor: { current: discoverItemRefs.current[i] } })}
+                    onClick={() => setPopup({ open: true, item, anchor: { current: discoverItemRefs.current[i] }, source: 'click' })}
                   />
                 </div>
               ))}
-              {popup.open && (
-                <>
-                  <div
-                    style={{ position: 'fixed', inset: 0, zIndex: 10000, background: 'rgba(0,0,0,0.08)' }}
-                    onClick={() => setPopup({ open: false, item: null, anchor: null })}
-                  />
-                  <DiscoverPopup
-                    item={popup.item}
-                    anchorRef={popup.anchor}
-                    onClose={() => setPopup({ open: false, item: null, anchor: null })}
-                  />
-                </>
-              )}
             </div>
           </div>
         </section>
 
+        {/* Render popup outside the discover-track to avoid clipping from transforms */}
+        {popup.open && (
+          <>
+            {popup.source === 'click' && (
+              <div
+                style={{ position: 'fixed', inset: 0, zIndex: 10000, background: 'rgba(0,0,0,0.08)' }}
+                onClick={() => setPopup({ open: false, item: null, anchor: null, source: null })}
+              />
+            )}
+            <DiscoverPopup
+              item={popup.item}
+              anchorRef={popup.anchor}
+              onClose={() => setPopup({ open: false, item: null, anchor: null, source: null })}
+              onMouseEnter={() => {
+                if (popupCloseTimer.current) {
+                  clearTimeout(popupCloseTimer.current);
+                  popupCloseTimer.current = null;
+                }
+              }}
+              onMouseLeave={() => {
+                if (popup?.source === 'hover') {
+                  if (popupCloseTimer.current) clearTimeout(popupCloseTimer.current);
+                  popupCloseTimer.current = setTimeout(() => setPopup({ open: false, item: null, anchor: null, source: null }), 220);
+                }
+              }}
+            />
+          </>
+        )}
+
         {/* PRODUCTS */}
-        <section className="section">
+        <section className="section fresh-picks">
           <h2 className="section-title">Fresh Picks for You</h2>
-          <div className="products-grid">
+            <div className="products-grid">
             {featuredProducts.map((product) => (
               <div
                 key={product.id}
-                className="product-card"
-                onClick={() => addToBag(product)}
+                className="product-tile"
+                onClick={() => handleAddFromGrid(product)}
                 style={{ cursor: 'pointer' }}
               >
-                <ProductCard product={products.find(p => p.id === product.id) || product} />
+                <ProductCard variant="fresh" product={products.find(p => p.id === product.id) || product} />
               </div>
             ))}
           </div>
         </section>
+
       </div>
-
-
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 40, alignItems: 'stretch' }}>
+        <MegaAd image={ad4} link={ads[3].link} position="right" />
+        <MegaAd image={ad2} link={ads[1].link} position="right" />
+        {/* Extra MegaAd slot under top-right */}
+        <MegaAd image={ad2} link={ads[1].link} position="right" />
+      </div>
     </main>
+    
   );
 }

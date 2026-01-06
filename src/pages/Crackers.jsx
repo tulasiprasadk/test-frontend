@@ -17,15 +17,17 @@ const crackerInfo = {
 };
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
+import CategoryIcon from "../components/CategoryIcon";
 import { API_BASE } from "../config/api";
 import CartPanel from "../components/CartPanel";
-import { useQuickCart } from "../context/QuickCartContext";
+import { getProducts } from "../api";
+import { useCrackerCart } from "../context/CrackerCartContext";
 
 export default function Crackers() {
   const [products, setProducts] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState("");
-  const { addItem } = useQuickCart();
+  const { addItem } = useCrackerCart();
 
   // Add both English and Kannada name to cart item
   function addItemToBag(product) {
@@ -39,32 +41,44 @@ export default function Crackers() {
   React.useEffect(() => {
     setLoading(true);
     setError("");
-    fetch(`${API_BASE}/products?category=crackers`)
-      .then(async (res) => {
-        if (!res.ok) throw new Error("Failed to load products");
-        const data = await res.json();
-        // Filter products to only those with category 'crackers'
+    let mounted = true;
+    (async () => {
+      setLoading(true);
+      setError("");
+      try {
+        // Resolve category id for "Crackers" dynamically (case-insensitive)
+        const catsRes = await fetch(`${API_BASE}/categories`, { credentials: 'include' });
+        if (!catsRes.ok) throw new Error('Failed to load categories');
+        const catsData = await catsRes.json();
+        const cats = catsData && catsData.value ? catsData.value : catsData || [];
+        const crackerCat = cats.find(c => c.name && c.name.toLowerCase() === 'crackers');
+        const catId = crackerCat ? crackerCat.id : null;
+
+        const data = await getProducts("", catId || "");
+        if (!mounted) return;
+        // backend may still return extra categories; ensure only crackers shown
         const filtered = Array.isArray(data)
           ? data.filter(
-              (p) =>
-                (p.category && p.category.toLowerCase() === "crackers") ||
-                (p.Category && p.Category.name && p.Category.name.toLowerCase() === "crackers")
+              (p) => (p.Category && p.Category.name && p.Category.name.toLowerCase() === "crackers")
             )
           : [];
         setProducts(filtered);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error(err);
-        setError("Failed to load products");
-      })
-      .finally(() => setLoading(false));
+        if (mounted) setError("Failed to load products");
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    })();
+
+    return () => (mounted = false);
   }, []);
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#FFFDE7" }}>
       <div style={{ flex: 1, padding: "24px 32px" }}>
-        <h1 style={{ marginBottom: 8, color: "#C8102E" }}>
-          🎆 RRNAGAR Crackers
+        <h1 style={{ marginBottom: 8, color: "#C8102E", display: 'flex', alignItems: 'center', gap: 8 }}>
+          <CategoryIcon category="crackers" size={20} /> RRNAGAR Crackers
         </h1>
         <p style={{ color: "#555", marginBottom: 24 }}>
           Select your preferred crackers. 🚚 Delivery in 7–15 days.
@@ -99,10 +113,11 @@ export default function Crackers() {
                               name: product.title,
                               kn: product.titleKannada,
                               price: product.price,
-                              emoji: crackerInfo[product.title]?.emoji,
                               knDisplay: crackerInfo[product.title]?.kn || product.titleKannada,
                               image: product.image,
+                              variety: product.variety || product.title,
                             }}
+                             iconSize={18}
                             onClick={() => addItemToBag(product)}
                           />
                         ))}

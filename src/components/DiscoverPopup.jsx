@@ -1,18 +1,30 @@
 import "./DiscoverPopup.css";
 
 // The anchorRef is a ref to the ExploreItem DOM node
-export default function DiscoverPopup({ item, onClose, anchorRef }) {
+export default function DiscoverPopup({ item, onClose, anchorRef, onMouseEnter, onMouseLeave }) {
   if (!item || !anchorRef?.current) return null;
 
   // Get the position of the anchor (ExploreItem)
   const rect = anchorRef.current.getBoundingClientRect();
   const popupWidth = 320;
   const popupHeight = 180;
-  const left = rect.left + rect.width / 2 - popupWidth / 2;
-  const top = rect.top - popupHeight - 12; // 12px gap above the card
+  // center above the anchor by default
+  let left = rect.left + rect.width / 2 - popupWidth / 2;
+  let top = rect.top - popupHeight - 12; // 12px gap above the card
+
+  // clamp horizontally within viewport with small margin
+  const margin = 8;
+  const vw = window.innerWidth || document.documentElement.clientWidth;
+  if (left < margin) left = margin;
+  if (left + popupWidth + margin > vw) left = Math.max(margin, vw - popupWidth - margin);
+
+  // if there's not enough space above, place below the anchor
+  if (top < margin) {
+    top = rect.bottom + 12; // place below
+  }
 
   return (
-    <div className="discover-popup-absolute" style={{ left, top, width: popupWidth, position: 'fixed', zIndex: 10001 }}>
+    <div className="discover-popup-absolute" style={{ left, top, width: popupWidth, position: 'fixed', zIndex: 10001 }} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <div className="discover-popup" onClick={e => e.stopPropagation()}>
         <h2>
           {item.icon} {item.title}

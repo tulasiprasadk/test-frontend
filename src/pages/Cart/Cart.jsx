@@ -105,13 +105,13 @@ export default function Cart() {
   }, 0);
 
   if (loading) {
-    return <div className="cart-loading">Loading cart...</div>;
+    return <div className="cart-loading">Loading bag...</div>;
   }
 
   if (cart.length === 0) {
     return (
       <div className="cart-empty">
-        <h2>Your Cart is Empty</h2>
+        <h2>Your Bag is Empty</h2>
         <button onClick={() => navigate("/")}>Continue Shopping</button>
       </div>
     );
@@ -119,7 +119,7 @@ export default function Cart() {
 
   return (
     <div className="cart-container">
-      <h1>Your Cart</h1>
+      <h1>Your Bag</h1>
 
       <div className="cart-items">
         {cart.map((item) => (
@@ -159,7 +159,7 @@ export default function Cart() {
 
         <div className="cart-actions">
           <button onClick={clearCart} className="clear-cart">
-            Clear Cart
+            Clear Bag
           </button>
 
           <button onClick={() => navigate("/checkout")} className="checkout-btn">

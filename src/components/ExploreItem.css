@@ -3,13 +3,15 @@
 =================================== */
 
 .explore-card {
-  width: 200px;
-  height: 200px;
-  min-width: 200px;
-  min-height: 200px;
-  background: #ffe84b;
-  border-radius: 18px;
-  padding: 22px;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  max-width: 220px;
+  max-height: 200px;
+  background: linear-gradient(135deg, #fffbe6 10%, #ffe84b 100%);
+  border-radius: 14px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,8 +20,11 @@
   position: relative;   /* popup anchor */
   overflow: visible;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.14);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
   font-family: 'Noto Sans Kannada', system-ui, sans-serif;
+  box-sizing: border-box;
+  margin: 0 6px; /* add horizontal gap so cards don't visually overlap */
+  flex: 0 0 auto; /* prevent shrinking in flex containers */
 }
 
 /* ===================================
@@ -27,15 +32,15 @@
 =================================== */
 
 .explore-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
+  font-size: 40px;
+  margin-bottom: 8px;
   font-family: 'Noto Sans Kannada', system-ui, sans-serif;
 }
 
 .explore-title {
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 800;
-  color: #c8102e;
+  color: #b00018;
   font-family: 'Noto Sans Kannada', system-ui, sans-serif;
 }
 
@@ -46,13 +51,13 @@
 .explore-popup-portal {
     height: 200px !important;
     min-height: 200px !important;
-    max-height: 200px !important;
+    max-height: 240px !important;
   position: absolute;
   left: 50%;
   top: 0;
   transform: translate(-50%, -110%);
 
-  width: 200px !important;
+  width: 260px !important;
   position: absolute;
   left: 0;
   top: 0;
@@ -64,14 +69,14 @@
   max-height: none;
   background: linear-gradient(135deg, #fffbe6 60%, #ffe84b 100%);
   padding: 0;
-  border-radius: 22px;
-  border: 2.5px solid;
+  border-radius: 18px;
+  border: 2px solid;
   border-image: linear-gradient(120deg, #ffe84b 60%, #c8102e 100%) 1;
   box-shadow:
-    0 8px 32px 0 rgba(200,16,46,0.18),
-    0 2px 8px rgba(255,215,0,0.12),
-    0 1.5px 8px 0 rgba(255,255,255,0.10) inset;
-  backdrop-filter: blur(8px) saturate(1.2);
+    0 8px 32px 0 rgba(200,16,46,0.14),
+    0 2px 8px rgba(255,215,0,0.10),
+    0 1px 6px 0 rgba(255,255,255,0.06) inset;
+  backdrop-filter: blur(6px) saturate(1.05);
   font-family: 'Noto Sans Kannada', system-ui, sans-serif;
   z-index: 999999;
   pointer-events: none;

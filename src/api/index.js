@@ -19,7 +19,9 @@ export async function getProducts(query = "", categoryId = "") {
     });
 
     if (!res.ok) throw new Error("Failed to load products");
-    return await res.json();
+    const data = await res.json();
+    // Backend may return a wrapper { value: [...], Count }
+    return data && data.value ? data.value : data;
   } catch (err) {
     console.error("API getProducts error:", err);
     return [];
@@ -34,9 +36,24 @@ export async function getProduct(id) {
     });
 
     if (!res.ok) throw new Error("Failed to load product");
-    return await res.json();
+    const data = await res.json();
+    return data && data.value ? data.value : data;
   } catch (err) {
     console.error("API getProduct error:", err);
     return null;
+  }
+}
+
+// Get list of categories
+export async function getCategories() {
+  try {
+    const res = await fetch(`${API_BASE}/categories`, { credentials: 'include' });
+    if (!res.ok) throw new Error('Failed to load categories');
+    const data = await res.json();
+    // Backend may return a wrapper { value: [...], Count }
+    return data && data.value ? data.value : data || [];
+  } catch (err) {
+    console.error('API getCategories error:', err);
+    return [];
   }
 }

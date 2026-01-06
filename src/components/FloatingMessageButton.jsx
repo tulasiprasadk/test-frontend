@@ -44,7 +44,7 @@ export default function FloatingMessageButton({ recipientName = "Support", sende
         style={{
           position: "fixed",
           right: 18,
-          bottom: 18,
+          bottom: 90,
           zIndex: 9999,
           background: "#25D366",
           color: "#fff",
@@ -59,7 +59,12 @@ export default function FloatingMessageButton({ recipientName = "Support", sende
           fontWeight: 600,
         }}
       >
-        <span style={{ fontSize: 18 }}>✉️</span>
+        <span style={{ display: 'inline-flex', width: 18, height: 18 }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 7C3 5.89543 3.89543 5 5 5H19C20.1046 5 21 5.89543 21 7V17C21 18.1046 20.1046 19 19 19H5C3.89543 19 3 18.1046 3 17V7Z" fill="#FFFFFF"/>
+            <path d="M5 7L12 12L19 7" stroke="#25D366" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </span>
         <span style={{ fontSize: 13 }}>Message us</span>
       </button>
 
@@ -73,12 +78,12 @@ export default function FloatingMessageButton({ recipientName = "Support", sende
       />
 
       {busy && (
-        <div style={{ position: "fixed", right: 18, bottom: 72, zIndex: 9999, fontSize: 12, color: "#333" }}>
+        <div style={{ position: "fixed", right: 18, bottom: 140, zIndex: 9999, fontSize: 12, color: "#333" }}>
           Sending...
         </div>
       )}
       {error && (
-        <div style={{ position: "fixed", right: 18, bottom: 72, zIndex: 9999, fontSize: 12, color: "crimson" }}>
+        <div style={{ position: "fixed", right: 18, bottom: 140, zIndex: 9999, fontSize: 12, color: "crimson" }}>
           {error}
         </div>
       )}

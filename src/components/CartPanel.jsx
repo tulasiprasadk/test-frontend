@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCrackerCart } from "../context/CrackerCartContext";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -15,6 +16,7 @@ export default function CartPanel({
   const { user } = useAuth();
   const [bag, setBag] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { cart } = useCrackerCart();
 
   const loadBag = async () => {
     if (user) {
@@ -25,20 +27,25 @@ export default function CartPanel({
         setBag([]);
       }
     } else {
-      const savedBag = JSON.parse(localStorage.getItem("bag") || "[]");
-      setBag(savedBag);
+      // use in-memory CrackerCart context for guest users
+      setBag(Array.isArray(cart) ? cart : []);
     }
     setLoading(false);
   };
 
   useEffect(() => {
     loadBag();
-    // Listen for localStorage changes (for guests)
+    // Listen for localStorage changes (for guests) — keep for legacy flows
     const onStorage = () => !user && loadBag();
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
     // eslint-disable-next-line
   }, [user]);
+
+  // When the in-memory cart (context) changes, update displayed bag for guests
+  useEffect(() => {
+    if (!user) setBag(Array.isArray(cart) ? cart : []);
+  }, [cart, user]);
 
   // Listen for custom events to reload cart after add/remove
   useEffect(() => {
@@ -51,7 +58,7 @@ export default function CartPanel({
 
   return (
     <div className="cart-panel" style={{ minWidth: 320, background: '#fff', borderLeft: '1px solid #eee', padding: 16, position: 'sticky', top: 0, right: 0, minHeight: '100vh', zIndex: 10 }}>
-      <h3 style={{ marginTop: 0 }}>🛍️ Bag</h3>
+      <h3 style={{ marginTop: 0, display: 'flex', alignItems: 'center', gap: 8 }}><span style={{display:'inline-flex'}}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 7L6.5 6C7 4 8 3 12 3C16 3 17 4 17.5 6L18 7H6Z" fill="#FFE082"/><path d="M5 7H19L18 20H6L5 7Z" fill="#FFB74D"/></svg></span> Bag</h3>
       {bag.length === 0 ? (
         <div style={{ color: '#888' }}>Your bag is empty</div>
       ) : (

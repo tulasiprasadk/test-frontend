@@ -17,6 +17,18 @@ Sparklers 7cm,SPARKLERS,,90,box,,8,Crackers
 
   const loadSample = () => setCsvText(sampleCSV);
 
+  const downloadSample = () => {
+    const blob = new Blob([sampleCSV], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'sample_bulk_upload.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -100,6 +112,9 @@ Sparklers 7cm,SPARKLERS,,90,box,,8,Crackers
       <h1>Bulk Product Upload</h1>
 
       <div className="bulk-upload-actions">
+        <button className="admin-button outline" onClick={downloadSample}>
+          ⬇️ Download Sample CSV
+        </button>
         <button className="admin-button outline" onClick={loadSample}>
           📝 Load Sample CSV
         </button>

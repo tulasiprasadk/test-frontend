@@ -152,6 +152,7 @@ export default function AdminLayout() {
           <Link to="/admin/categories" className="admin-nav-link">📂 Categories</Link>
           <Link to="/admin/varieties" className="admin-nav-link">🌾 Varieties</Link>
           <Link to="/admin/ads" className="admin-nav-link">📢 Advertisements</Link>
+          <Link to="/admin/change-password" className="admin-nav-link">🔐 Change Password</Link>
           
           <button 
             onClick={handleLogout} 

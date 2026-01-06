@@ -46,7 +46,7 @@ export default function QuickCartSidebar({ isOpen, onClose, cartItems = [], onCh
           justifyContent: "space-between",
         }}
       >
-        <span>Quick Cart</span>
+        <span>Quick Bag</span>
         <button
           onClick={onClose}
           style={{
@@ -64,7 +64,7 @@ export default function QuickCartSidebar({ isOpen, onClose, cartItems = [], onCh
       <div style={{ flex: 1, overflowY: "auto", padding: "16px" }}>
         {cartItems.length === 0 ? (
           <div style={{ textAlign: "center", marginTop: "40px", color: "#777" }}>
-            Cart is empty
+            Bag is empty
           </div>
         ) : (
           cartItems.map((item) => (

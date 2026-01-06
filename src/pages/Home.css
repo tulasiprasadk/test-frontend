@@ -7,9 +7,10 @@
 
 /* ---------- GLOBAL ---------- */
 .home {
-  background: #fff;
+  background: linear-gradient(180deg, #fffaf0 0%, #ffffff 60%);
   font-family: 'Noto Sans Kannada', system-ui, sans-serif;
-  padding-bottom: 40px;
+  padding: 0; /* full-bleed layout so MegaAd touches viewport edges */
+  box-sizing: border-box;
 }
 
 /* Kannada label font style */
@@ -110,12 +111,12 @@
 ================================================= */
 .content {
   width: 100%;
-  margin: 40px 0;
+  margin: 0; /* remove gap between hero and following content */
 }
 
 .section {
-  margin: 40px 0;
-  padding: 20px 0;
+  margin: 0;
+  padding: 12px 0; /* keep internal spacing but remove outer gaps */
   background: #fff;
 }
 
@@ -189,7 +190,9 @@
 .ads-track,
 .discover-track {
   display: flex;
-  gap: 12px;
+  gap: 16px; /* slightly smaller gap to fit more items */
+  align-items: center;
+  flex-wrap: nowrap; /* keep the horizontal rail single-line */
 }
 
 /* ---------- ADS ---------- */
@@ -229,21 +232,35 @@
 }
 
 /* ---------- DISCOVER ---------- */
+.discover-viewport {
+  width: 100%;
+  padding: 14px 10px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(255,238,204,0.9), rgba(255,246,230,0.9));
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
 .discover-track {
-  animation: discover-scroll 35s linear infinite reverse;
+  animation: discover-scroll 28s linear infinite;
 }
 
 @keyframes discover-scroll {
+  /* left-to-right motion */
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(50%); }
 }
 
 .discover-item {
-  width: 200px;
+  width: 220px; /* match ad-item width */
+  height: 200px; /* match ad-item height */
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
+  flex: 0 0 auto; /* prevent shrinking/wrapping that can cause overlap */
+  padding: 6px; /* breathing room inside the track */
+  box-sizing: border-box;
+  z-index: 0; /* keep items on same stacking baseline */
 }
 
 /* =================================================
@@ -251,8 +268,78 @@
 ================================================= */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  gap: 8px;
+  justify-items: center; /* distribute products equally across rows */
+  align-items: start;
+}
+
+/* Fresh Picks section theme */
+.fresh-picks {
+  /* bold neon palette */
+  background: linear-gradient(90deg, #00FFC6 0%, #00B3FF 33%, #FF00C8 66%, #FFD500 100%);
+  padding: 6px; /* reduced padding to shrink box size */
+  border-radius: 12px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.12);
+  border: 1px solid rgba(255,255,255,0.08);
+  position: relative; /* allow pseudo-element background */
+}
+
+/* Force Fresh Picks to form multiple rows with smaller boxes (compact, evenly distributed) */
+.fresh-picks .products-grid {
+  /* Desktop: smaller box size (~50% smaller min width) and more columns to evenly distribute items */
+  grid-template-columns: repeat(8, minmax(40px, 1fr));
+  gap: 8px;
+  justify-items: center;
+}
+
+/* Place a large ellipse behind the Fresh Picks content (section-level eclipse) */
+.fresh-picks::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translateX(-50%);
+  width: 110%;
+  height: 180px; /* reduced to ~50% of previous */
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0.0) 100%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Ensure the grid and cards render above the pseudo-element */
+.fresh-picks .products-grid { position: relative; z-index: 1; }
+
+/* Keep product cards visually solid and readable on neon background */
+.fresh-picks .product-card { background: #fff !important; box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important; border-radius: 12px !important; padding-bottom: 6px; }
+.fresh-picks .product-card > div:first-child { background: #f6f6f6 !important; }
+.fresh-picks .product-card h3, .fresh-picks .product-card p, .fresh-picks .product-card div { color: #b00018 !important; }
+
+/* Ensure titles and text wrap inside cards and have compact padding */
+.fresh-picks .product-card h3 { white-space: normal !important; overflow-wrap: break-word; padding: 3px 4px 0 4px; margin: 0; font-size: 11px; }
+.fresh-picks .product-card p { padding: 0 4px 4px 4px; margin: 0; font-size: 10px; }
+.fresh-picks .product-card { padding-bottom: 6px; }
+
+/* Slightly tighter grid for smaller fresh-picks boxes */
+.fresh-picks .products-grid { gap: 6px; }
+
+@media (max-width: 1200px) {
+  .fresh-picks .products-grid {
+    grid-template-columns: repeat(4, minmax(70px, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .fresh-picks .products-grid {
+    grid-template-columns: repeat(3, minmax(80px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .fresh-picks .products-grid {
+    grid-template-columns: repeat(2, minmax(90px, 1fr));
+  }
 }
 
 .product-card {
@@ -262,6 +349,14 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
 }
+
+/* Ensure product card titles wrap across the site */
+.product-card h3 { white-space: normal; overflow-wrap: break-word; }
+
+/* wrapper used in Home for clickable tiles to avoid nested product-card rules */
+.product-tile { display: block; width: 100%; }
+
+.product-tile .product-card { display: block; width: 100%; }
 
 .product-card:hover {
   transform: translateY(-4px);

@@ -54,7 +54,8 @@ export default function WhatsAppFloating({
       style={{
         position: "fixed",
         right: 18,
-        bottom: 18,
+        // raised so it doesn't overlap footer links
+        bottom: 90,
         zIndex: 9999,
         width: 56,
         height: 56,

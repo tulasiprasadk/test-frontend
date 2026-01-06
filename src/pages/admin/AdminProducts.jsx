@@ -21,6 +21,20 @@ export default function AdminProducts(){
   return (
     <div className="p-4">
       <h1 className="text-2xl mb-4">Product Management</h1>
+      <div style={{ marginBottom: 12 }}>
+        <a className="btn" href="/groceries_bulk_upload.csv" download>⬇️ Download Groceries Sample CSV</a>
+        <input id="groceries-file" type="file" accept=".csv" style={{ marginLeft: 12 }} />
+        <button className="btn" style={{ marginLeft: 8 }} onClick={async () => {
+          const f = document.getElementById('groceries-file').files[0];
+          if (!f) return alert('Select a CSV file first');
+          const form = new FormData(); form.append('file', f);
+          try {
+            const res = await axios.post('/api/admin/products/import-groceries', form, { headers: { 'Content-Type': 'multipart/form-data' } });
+            alert('Import result: ' + (res.data.inserted || '0') + ' inserted');
+            window.location.reload();
+          } catch (err) { console.error(err); alert('Import failed'); }
+        }}>Upload & Import</button>
+      </div>
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-1">
           <button className="w-full mb-2 btn" onClick={()=> setSelected({})}>Create Product</button>

@@ -1,9 +1,12 @@
 .pd-container {
-  padding: 20px;
+  /* Make product details use full width with header-like horizontal padding */
+  width: 100%;
+  padding: 20px 24px;
   display: flex;
-  gap: 30px;
-  max-width: 1200px;
-  margin: auto;
+  gap: 20px;
+  box-sizing: border-box;
+  max-width: none;
+  margin: 0;
 }
 
 /* LEFT: Product Image */
@@ -82,8 +85,23 @@
 }
 
 .pd-error {
-  padding: 20px;
+  padding: 20px 24px;
   color: red;
+  background: #fff6f6;
+  border: 1px solid rgba(220,20,60,0.08);
+  max-width: 1000px;
+  margin: 24px auto;
+  border-radius: 8px;
+}
+
+.pd-error button {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #e31e24;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 /* Skeleton Loader */

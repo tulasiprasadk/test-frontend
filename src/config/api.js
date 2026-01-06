@@ -1,8 +1,6 @@
-const BASE = import.meta.env.VITE_API_BASE?.trim();
-
-if (!BASE) {
-  throw new Error("❌ VITE_API_BASE is not defined");
-}
+// Prefer build-time Vite env, fall back to a runtime default so dev server and
+// containerized setups work even if /@vite/env wasn't injected.
+const BASE = import.meta.env.VITE_API_BASE?.trim() || (typeof window !== 'undefined' && window.__RRN_API_BASE) || 'http://localhost:3000';
 
 // ✅ Backend mounts routes under /api
-export const API_BASE = `${BASE}/api`;
+export const API_BASE = `${BASE.replace(/\/$/, '')}/api`;

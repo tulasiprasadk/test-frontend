@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { API_BASE } from "../../config/api";
+import { useCrackerCart } from "../../context/CrackerCartContext";
+import { useAuth } from "../../context/AuthContext";
 // ...existing code...
 import "./ProductDetail.css";
 
@@ -53,6 +55,9 @@ export default function ProductDetail() {
      Add to Bag (FRONTEND ONLY)
      Matches rrnagar.com
   =============================== */
+  const { addItem } = useCrackerCart();
+  const { user } = useAuth();
+
   const handleAddToBag = async () => {
     if (!product) {
       alert("Product not loaded yet");
@@ -62,36 +67,41 @@ export default function ProductDetail() {
       alert("Please select a variety");
       return;
     }
-    // Always send productId, quantity, and category
+    // Always send productId, quantity, category and compute price for guest storage
+    const effectivePrice = selectedVariety?.price ?? product.price ?? product.basePrice ?? 0;
     const payload = {
       productId: product.id,
       quantity,
       category: product.category || product.Category || '',
       varietyId: selectedVariety?.id,
       subVarietyId: selectedSubVariety?.id,
+      price: effectivePrice,
     };
-    try {
-      const res = await fetch(`${API_BASE}/cart/add`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(payload),
-      });
-      const contentType = res.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        alert("Unexpected server response. Please try again.");
-        return;
+    // If user logged in, call server API; otherwise use local cart context
+    if (user) {
+      try {
+        const res = await fetch(`${API_BASE}/cart/add`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          alert(data?.error || "Error adding to bag");
+          return;
+        }
+        window.dispatchEvent(new Event("cart-updated"));
+        alert("Added to bag!");
+      } catch (err) {
+        console.error(err);
+        alert("Server error");
       }
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        alert(data?.error || "Error adding to bag");
-        return;
-      }
+    } else {
+      // Guest flow: add to in-memory cart context
+      addItem({ id: product.id, title: product.title || product.name, price: effectivePrice, qty: quantity });
       window.dispatchEvent(new Event("cart-updated"));
       alert("Added to bag!");
-    } catch (err) {
-      console.error(err);
-      alert("Server error");
     }
   };
 
@@ -106,7 +116,14 @@ export default function ProductDetail() {
     );
   }
   if (error) {
-    return <div className="pd-error">{error}</div>;
+    return (
+      <div className="pd-error">
+        <div>{error}</div>
+        <div>
+          <button onClick={() => window.location.reload()}>Retry</button>
+        </div>
+      </div>
+    );
   }
   if (!product) {
     return <div className="pd-error">Product not found</div>;

@@ -83,6 +83,7 @@ import AdminSettings from "./pages/admin/AdminSettings.jsx";
 import VendorKycApproval from "./pages/admin/VendorKycApproval.jsx";
 import AdminKycApproval from "./pages/admin/AdminKycApproval.jsx";
 import CmsManager from "./pages/admin/CmsManager.jsx";
+import AdminChangePassword from "./pages/admin/AdminChangePassword.jsx";
 
 /* WRAPPER */
 function AppWrapper() {
@@ -184,6 +185,7 @@ function AppWrapper() {
               <Route path="categories/:id/edit" element={<AdminCategoryForm />} />
               <Route path="varieties" element={<AdminVarietiesList />} />
               <Route path="settings" element={<AdminSettings />} />
+              <Route path="change-password" element={<AdminChangePassword />} />
               <Route path="vendors/kyc" element={<VendorKycApproval />} />
               <Route path="kyc-approval" element={<AdminKycApproval />} />
             </Route>

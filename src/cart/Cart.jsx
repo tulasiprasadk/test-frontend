@@ -47,9 +47,9 @@ function Cart() {
 
   return (
     <div className="cart-page">
-      <h2>Your Cart</h2>
+      <h2>Your Bag</h2>
 
-      {items.length === 0 && <p>No items in cart.</p>}
+      {items.length === 0 && <p>No items in bag.</p>}
 
       {items.map((item) => (
         <div className="cart-item" key={item.id}>
@@ -83,7 +83,7 @@ function Cart() {
           </button>
 
           <button className="clear-btn" onClick={clearCart}>
-            Clear Cart
+            Clear Bag
           </button>
         </>
       )}

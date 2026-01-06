@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE } from "../../config/api";
 import "./AdminLogin.css";
 
 const AdminLogin = () => {
@@ -21,24 +22,31 @@ const AdminLogin = () => {
     setError("");
 
     try {
-      const res = await fetch("/api/admin/login", {
+      const res = await fetch(`${API_BASE}/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: 'include',
         body: JSON.stringify(form),
       });
 
-      const data = await res.json();
+      let data = null;
+      try {
+        data = await res.json();
+      } catch (parseErr) {
+        // non-JSON response
+        data = null;
+      }
 
       if (!res.ok) {
-        setError(data.message || "Invalid credentials");
+        const msg = (data && (data.error || data.message)) || `Server error ${res.status}`;
+        setError(msg);
         return;
       }
 
       // Session is set on backend, just navigate
       navigate("/admin");
     } catch (err) {
-      setError("Server error. Try again.");
+      setError(err?.message || "Server error. Try again.");
     }
   };
 
