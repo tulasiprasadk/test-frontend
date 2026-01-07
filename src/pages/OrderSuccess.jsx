@@ -1,5 +1,6 @@
 import { useSearchParams, Link, useParams } from "react-router-dom";
 import { useState } from "react";
+import { API_BASE } from "../config/api";
 
 export default function OrderSuccess() {
   const [params] = useSearchParams();
@@ -16,7 +17,7 @@ export default function OrderSuccess() {
     setLoading(true);
     setMessage("");
     try {
-      const resp = await fetch(`${import.meta.env.VITE_API_BASE || ""}/api/orders/convert-guest`, {
+      const resp = await fetch(`${API_BASE}/orders/convert-guest`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
