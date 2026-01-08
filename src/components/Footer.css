@@ -92,7 +92,7 @@
    Mobile layout
    -------------------------------- */
 @media (width <= 780px) {
-  .rn-footer {
+@media (max-width: 780px) {
     padding: 12px 0;
   }
 
