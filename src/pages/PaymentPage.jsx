@@ -121,7 +121,7 @@ export default function PaymentPage() {
         <div style={{ background: '#FFF9C4', padding: 18, borderRadius: 10, marginBottom: 24, boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
           <h3 style={{ margin: 0, fontSize: 18 }}>Pay via UPI</h3>
           <div style={{ margin: '12px 0' }}>
-            <img src="/upi-qr-placeholder.png" alt="UPI QR" style={{ width: 160, height: 160, borderRadius: 8, border: '1.5px solid #007bff' }} />
+            <img src="/images/rrlogo.png" alt="UPI QR" style={{ width: 160, height: 160, borderRadius: 8, border: '1.5px solid #007bff' }} />
           </div>
           <div style={{ fontSize: 16, marginBottom: 6 }}>UPI ID: <b>yourupi@bank</b> <button style={{ marginLeft: 8, fontSize: 13 }} onClick={() => {navigator.clipboard.writeText('yourupi@bank');}}>Copy</button></div>
           <div style={{ fontSize: 14, color: '#555' }}>Scan the QR or pay to the UPI ID above. Then upload your payment screenshot and enter the UPI transaction ID below.</div>

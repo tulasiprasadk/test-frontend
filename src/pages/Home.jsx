@@ -269,7 +269,7 @@ export default function Home() {
         <MegaAd image={ad3} link={ads[2].link} position="left" />
         <MegaAd image={ad1} link={ads[0].link} position="left" />
         {/* Extra MegaAd slot under top-left — replaced with Motard partner logo */}
-        <MegaAd image={'/motard.svg'} link={'https://motardgears.com'} position="left" />
+        <MegaAd image={'/images/ads/vchase.png'} link={'https://motardgears.com'} position="left" />
       </div>
       <div style={{ flex: 1, minWidth: 0, maxWidth: 1200, margin: '0 auto' }}>
         {/* HERO */}

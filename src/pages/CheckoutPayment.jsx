@@ -79,7 +79,7 @@ export default function CheckoutPayment() {
         <div className="upi-box" style={{ background: '#FFFDE7', padding: '8px 12px', borderRadius: 8, marginBottom: 10 }}>
           <strong>UPI ID:</strong> rrnagar@upi
         </div>
-        <img src="/qr.png" alt="QR Code" className="qr-img" style={{ width: 160, height: 160, borderRadius: 8, border: '1.5px solid #007bff', marginBottom: 10 }} />
+        <img src="/images/rrlogo.png" alt="QR Code" className="qr-img" style={{ width: 160, height: 160, borderRadius: 8, border: '1.5px solid #007bff', marginBottom: 10 }} />
         <p className="note">
           After payment, upload the screenshot and enter the UNR number.
         </p>

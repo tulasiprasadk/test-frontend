@@ -39,7 +39,7 @@ export default function Login() {
       <div style={{ display: 'flex', gap: 28, alignItems: 'stretch' }}>
         <div style={{ width: 440, background: 'white', padding: 28, borderRadius: 12, boxShadow: '0 6px 30px rgba(0,0,0,0.08)' }}>
           <div style={{ textAlign: 'center', marginBottom: 12 }}>
-            <img src="/logo.png" alt="logo" style={{ width: 72, height: 72, borderRadius: 10 }} />
+            <img src="/images/rrlogo.png" alt="logo" style={{ width: 72, height: 72, borderRadius: 10 }} />
             <h2 style={{ margin: '10px 0 6px' }}>Welcome Back</h2>
             <div style={{ color: '#666' }}>Sign in to continue to RR Nagar</div>
           </div>
@@ -114,7 +114,7 @@ export default function Login() {
 
           <div style={{ padding: 14, borderRadius: 12, background: '#fff', border: '1px solid #eee', textAlign: 'center' }}>
             <a href="https://motardgears.com" target="_blank" rel="noreferrer" style={{ display: 'inline-block', textDecoration: 'none', color: 'inherit' }}>
-              <img src="/motard.svg" alt="Motard" style={{ width: 120, height: 120, display: 'block', margin: '0 auto 10px' }} />
+              <img src="/images/ads/vchase.png" alt="Motard" style={{ width: 120, height: 120, display: 'block', margin: '0 auto 10px' }} />
               <div style={{ fontWeight: 700, color: '#e65a00' }}>Motard Gears</div>
               <div style={{ fontSize: 13, color: '#666' }}>Premium motor accessories</div>
             </a>
