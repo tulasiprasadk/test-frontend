@@ -114,7 +114,7 @@ export default function Login() {
 
           <div style={{ padding: 14, borderRadius: 12, background: '#fff', border: '1px solid #eee', textAlign: 'center' }}>
             <a href="https://motardgears.com" target="_blank" rel="noreferrer" style={{ display: 'inline-block', textDecoration: 'none', color: 'inherit' }}>
-              <img src="/images/ads/vchase.png" alt="Motard" style={{ width: 120, height: 120, display: 'block', margin: '0 auto 10px' }} />
+              <img src="/motard.svg" alt="Motard" style={{ width: 120, height: 120, display: 'block', margin: '0 auto 10px' }} />
               <div style={{ fontWeight: 700, color: '#e65a00' }}>Motard Gears</div>
               <div style={{ fontSize: 13, color: '#666' }}>Premium motor accessories</div>
             </a>

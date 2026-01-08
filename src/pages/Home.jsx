@@ -281,8 +281,8 @@ export default function Home() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 40, alignItems: 'stretch' }}>
         <MegaAd image={ad3} link={ads[2].link} position="left" />
         <MegaAd image={ad1} link={ads[0].link} position="left" />
-        {/* Extra MegaAd slot under top-left — Hero Motors partner logo */}
-        <MegaAd image={'/images/ads/heromotors.png'} link={'https://www.heromotors.com'} position="left" />
+        {/* Extra MegaAd slot under top-left — Motard partner logo */}
+        <MegaAd image={'/motard.svg'} link={'https://motardgears.com'} position="left" />
       </div>
       <div style={{ flex: 1, minWidth: 0, maxWidth: 1200, margin: '0 auto' }}>
         {/* HERO */}
