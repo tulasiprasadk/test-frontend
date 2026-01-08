@@ -5,7 +5,7 @@ export default function ProfileCard() {
   return (
     <div className="profile-card">
       <img
-        src="/user-avatar.png"
+        src="/images/react.svg"
         alt="User"
         className="profile-avatar"
       />

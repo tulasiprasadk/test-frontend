@@ -41,7 +41,7 @@ function Sidebar() {
 
         {/* Profile Section */}
         <div className="sidebar-profile">
-          <img src="/user-avatar.png" alt="User" className="sidebar-avatar" />
+          <img src="/images/react.svg" alt="User" className="sidebar-avatar" />
           <h3 className="sidebar-username">Prasad</h3>
         </div>
 
