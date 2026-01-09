@@ -45,7 +45,7 @@ export default function ConfirmPI() {
         status: "awaiting_verification",
         updatedAt: new Date().toISOString(),
       };
-      const updated = await updateOrder(order.id, patch);
+      await updateOrder(order.id, patch);
       setMsg("Submitted. Admin will verify and mark paid.");
       setTimeout(() => navigate("/"), 2000);
     } catch (err) {
@@ -55,7 +55,7 @@ export default function ConfirmPI() {
     }
   }
 
-  if (!order) return <main style={{ padding: 20 }}>Loading invoice…</main>;
+  if (!order) return <main style={{ padding: 20 }}>Loading invoiceï¿½</main>;
 
   return (
     <main style={{ padding: 20 }}>
@@ -83,3 +83,6 @@ export default function ConfirmPI() {
     </main>
   );
 }
+
+
+

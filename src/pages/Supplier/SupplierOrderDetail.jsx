@@ -22,8 +22,7 @@ function SupplierOrderDetail() {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
       });
       setData(res.data);
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
     }
   };
 
@@ -35,8 +34,7 @@ function SupplierOrderDetail() {
         { headers: { Authorization: "Bearer " + localStorage.getItem("token") } }
       );
       loadOrder();
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Failed to update status");
     }
   };
@@ -92,3 +90,6 @@ function SupplierOrderDetail() {
 }
 
 export default SupplierOrderDetail;
+
+
+

@@ -9,10 +9,13 @@ export default function CitySearchBar() {
       <div className="search-bar">
         <input 
           type="text" 
-          ="Search groceries, flowers, services, restaurants…" 
+          placeholder="Search groceries, flowers, services, restaurants…" 
         />
         <button>Search</button>
       </div>
     </div>
   );
 }
+
+
+

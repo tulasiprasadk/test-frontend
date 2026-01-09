@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { API_BASE } from "../config/api";
@@ -20,7 +21,7 @@ export function CrackerCartProvider({ children }) {
           qty: Number(item.qty || item.quantity || 1)
         })));
       }
-    } catch (e) {
+    } catch {
       // ignore
     }
   }, []);
@@ -54,7 +55,7 @@ export function CrackerCartProvider({ children }) {
           try {
             await axios.post(`${API_BASE}/cart/add`, { productId: normalizedProduct.id, quantity: normalizedProduct.qty }, { withCredentials: true });
             window.dispatchEvent(new Event('cart-updated'));
-          } catch (err) {
+          } catch {
             // ignore server sync errors (guest/local cart preserved)
             console.error('Failed to sync cart to server', err?.message || err);
             // fallback: persist to localStorage
@@ -69,7 +70,7 @@ export function CrackerCartProvider({ children }) {
               }
               localStorage.setItem('bag', JSON.stringify(saved));
               window.dispatchEvent(new Event('cart-updated'));
-            } catch (e) {
+            } catch {
               // ignore
             }
           }
@@ -87,11 +88,11 @@ export function CrackerCartProvider({ children }) {
           }
           localStorage.setItem('bag', JSON.stringify(saved));
           window.dispatchEvent(new Event('cart-updated'));
-        } catch (e) {
+        } catch {
           // ignore
         }
       }
-    } catch (e) {
+    } catch {
       // ignore
     }
   };
@@ -105,12 +106,12 @@ export function CrackerCartProvider({ children }) {
             try {
               await axios.post(`${API_BASE}/cart/remove`, { productId }, { withCredentials: true });
               window.dispatchEvent(new Event('cart-updated'));
-            } catch (err) {
+            } catch {
               console.error('Failed to remove from server cart', err?.message || err);
             }
           })();
         }
-      } catch (e) {}
+      } catch { /* ignore */ }
     };
 
     const clearCart = () => {
@@ -122,12 +123,12 @@ export function CrackerCartProvider({ children }) {
             try {
               await axios.post(`${API_BASE}/cart/clear`, {}, { withCredentials: true });
               window.dispatchEvent(new Event('cart-updated'));
-            } catch (err) {
+            } catch {
               console.error('Failed to clear server cart', err?.message || err);
             }
           })();
         }
-      } catch (e) {}
+      } catch { /* ignore */ }
     };
 
     const updateQty = (id, qty) => {
@@ -152,12 +153,12 @@ export function CrackerCartProvider({ children }) {
                 await axios.post(`${API_BASE}/cart/remove`, { productId: id }, { withCredentials: true });
               }
               window.dispatchEvent(new Event('cart-updated'));
-            } catch (err) {
+            } catch {
               console.error('Failed to sync qty update', err?.message || err);
             }
           })();
         }
-      } catch (e) {}
+      } catch { /* ignore */ }
     };
 
     const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
@@ -174,7 +175,7 @@ export function CrackerCartProvider({ children }) {
         }));
         localStorage.setItem('bag', JSON.stringify(normalized));
         window.dispatchEvent(new Event('cart-updated'));
-      } catch (e) {
+      } catch {
         // ignore
       }
     }, [cart]);
@@ -187,3 +188,6 @@ export function CrackerCartProvider({ children }) {
 }
 
 export const useCrackerCart = () => useContext(CartContext);
+
+
+

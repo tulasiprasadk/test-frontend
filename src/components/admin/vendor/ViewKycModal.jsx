@@ -71,3 +71,6 @@ export default function ViewKycModal({ vendor, close, reload }) {
     </div>
   );
 }
+
+
+

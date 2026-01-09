@@ -25,7 +25,7 @@ export default function LoginPhone() {
       const res = await sendOtp(phone);
       setMsg(`OTP sent to ${phone}. (dev code: ${res.code})`);
       navigate(`/auth/otp?phone=${encodeURIComponent(phone)}`);
-    } catch (err) {
+    } catch {
       setMsg(err?.message || "Failed to send OTP");
     } finally {
       setSending(false);
@@ -49,3 +49,6 @@ export default function LoginPhone() {
     </main>
   );
 }
+
+
+

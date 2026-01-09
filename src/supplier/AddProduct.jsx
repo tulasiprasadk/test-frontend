@@ -5,7 +5,6 @@ import { API_BASE } from '../config/api';
 export default function AddProduct() {
   const [name,setName] = useState('');
   const [basePrice,setBasePrice] = useState('');
-  const [images,setImages] = useState([]);
   const [variants,setVariants] = useState([{ name:'Default', price:'', stock:0 }]);
   // Use API_BASE from client.js
 
@@ -20,7 +19,7 @@ export default function AddProduct() {
     if (!name || !basePrice) return alert('name & price required');
     const payload = {
       shopId: '000000000000000000000001', // replace with real shop id (or derive from logged in user)
-      name, basePrice: Number(basePrice), images, variants: variants.map(v => ({ name:v.name, price: Number(v.price), stock: Number(v.stock) }))
+      name, basePrice: Number(basePrice), variants: variants.map(v => ({ name:v.name, price: Number(v.price), stock: Number(v.stock) }))
     };
     const token = localStorage.getItem('token'); // expect supplier JWT
     const res = await fetch(`${API_BASE}/products`, { method:'POST', headers: { 'Content-Type':'application/json', Authorization: token ? `Bearer ${token}` : '' }, body: JSON.stringify(payload) });
@@ -57,3 +56,6 @@ export default function AddProduct() {
     </div>
   );
 }
+
+
+

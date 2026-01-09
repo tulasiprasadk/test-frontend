@@ -17,7 +17,7 @@ export default function ProductDetail() {
       try {
         const res = await api.get(`/products/${id}`);
         setProduct(res.data);
-      } catch (err) {
+      } catch {
         console.error("Product fetch failed", err);
         setError("Server error while loading product.");
         setProduct(null);
@@ -44,3 +44,6 @@ export default function ProductDetail() {
     </div>
   );
 }
+
+
+

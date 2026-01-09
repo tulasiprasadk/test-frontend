@@ -29,7 +29,7 @@ function ProductBrowser() {
 
 	useEffect(() => {
 		fetchProducts();
-		// eslint-disable-next-line
+		 
 	}, [searchQuery, categoryId]);
 
 	const fetchProducts = async () => {
@@ -37,7 +37,7 @@ function ProductBrowser() {
 		try {
 			const data = await getProducts(searchQuery, categoryId);
 			setProducts(data || []);
-		} catch (err) {
+		} catch {
 			setProducts([]);
 			console.error("Error loading products:", err);
 		} finally {
@@ -101,3 +101,6 @@ function ProductBrowser() {
 }
 
 export default ProductBrowser;
+
+
+

@@ -128,7 +128,7 @@ export default function AdminLayout() {
     try {
       await axios.post("http://localhost:3000/api/admin/logout");
       window.location.href = "/admin/login";
-    } catch (err) {
+    } catch {
       console.error("Logout error:", err);
     }
   };
@@ -194,3 +194,6 @@ export default function AdminLayout() {
     </div>
   );
 }
+
+
+

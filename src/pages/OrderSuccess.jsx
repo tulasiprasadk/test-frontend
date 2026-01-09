@@ -31,7 +31,7 @@ export default function OrderSuccess() {
       } else {
         setMessage(data.error || data.message || JSON.stringify(data));
       }
-    } catch (err) {
+    } catch {
       setMessage(String(err));
     } finally {
       setLoading(false);
@@ -70,3 +70,6 @@ export default function OrderSuccess() {
     </div>
   );
 }
+
+
+

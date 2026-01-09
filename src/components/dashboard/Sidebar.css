@@ -14,10 +14,7 @@
   transition: transform 0.3s ease;
 }
 
-/* Mobile default = sidebar hidden */
-.sidebar {
-  transform: translateX(-100%);
-}
+/* Mobile default = sidebar hidden (duplicate removed — first .sidebar kept above) */
 
 /* Mobile open */
 .sidebar.open {

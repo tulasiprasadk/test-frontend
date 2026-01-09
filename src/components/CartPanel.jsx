@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCrackerCart } from "../context/CrackerCartContext";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 /**
@@ -9,10 +8,7 @@ import { useAuth } from "../context/AuthContext";
  * @param {string} deliveryNote - e.g. "Delivery in 7–15 days" or "Same-day / Next-day delivery"
  * @param {string} orderType - e.g. "CRACKERS", "FLOWERS"
  */
-export default function CartPanel({
-  deliveryNote = "",
-  orderType = "GENERAL"
-}) {
+export default function CartPanel() {
   const { user } = useAuth();
   const [bag, setBag] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,7 +35,7 @@ export default function CartPanel({
     const onStorage = () => !user && loadBag();
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
-    // eslint-disable-next-line
+     
   }, [user]);
 
   // When the in-memory cart (context) changes, update displayed bag for guests
@@ -83,3 +79,6 @@ export default function CartPanel({
     </div>
   );
 }
+
+
+

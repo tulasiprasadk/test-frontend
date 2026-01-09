@@ -316,30 +316,52 @@
 }
 
 /* Keep product cards visually solid and readable on neon background */
-.fresh-picks .product-card { background: #fff !important; box-shadow: 0 4px 12px rgb(0 0 0 / 8%) !important; border-radius: 12px !important; padding-bottom: 6px; }
-.fresh-picks .product-card > div:first-child { background: #f6f6f6 !important; }
-.fresh-picks .product-card h3, .fresh-picks .product-card p, .fresh-picks .product-card div { color: #b00018 !important; }
+.fresh-picks .product-card {
+  background: #fff !important;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 8%) !important;
+  border-radius: 12px !important;
+  padding-bottom: 6px;
+}
+
+.fresh-picks .product-card > div:first-child {
+  background: #f6f6f6 !important;
+}
+
+.fresh-picks .product-card h3,
+.fresh-picks .product-card p,
+.fresh-picks .product-card div {
+  color: #b00018 !important;
+}
 
 /* Ensure titles and text wrap inside cards and have compact padding */
-.fresh-picks .product-card h3 { white-space: normal !important; overflow-wrap: break-word; padding: 3px 4px 0; margin: 0; font-size: 11px; }
-.fresh-picks .product-card p { padding: 0 4px 4px; margin: 0; font-size: 10px; }
-.fresh-picks .product-card { padding-bottom: 6px; }
+.fresh-picks .product-card h3 {
+  white-space: normal !important;
+  overflow-wrap: break-word;
+  padding: 3px 4px 0;
+  margin: 0;
+  font-size: 11px;
+}
+.fresh-picks .product-card p {
+  padding: 0 4px 4px;
+  margin: 0;
+  font-size: 10px;
+}
 
 /* Slightly tighter grid for smaller fresh-picks boxes */
 
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
   .fresh-picks .products-grid {
     grid-template-columns: repeat(4, minmax(70px, 1fr));
   }
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .fresh-picks .products-grid {
     grid-template-columns: repeat(3, minmax(80px, 1fr));
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .fresh-picks .products-grid {
     grid-template-columns: repeat(2, minmax(90px, 1fr));
   }
@@ -354,12 +376,21 @@
 }
 
 /* Ensure product card titles wrap across the site */
-.product-card h3 { white-space: normal; overflow-wrap: break-word; }
+.product-card h3 {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
 
 /* wrapper used in Home for clickable tiles to avoid nested product-card rules */
-.product-tile { display: block; width: 100%; }
+.product-tile {
+  display: block;
+  width: 100%;
+}
 
-.product-tile .product-card { display: block; width: 100%; }
+.product-tile .product-card {
+  display: block;
+  width: 100%;
+}
 
 .product-card:hover {
   transform: translateY(-4px);
@@ -369,19 +400,19 @@
 /* =================================================
    RESPONSIVE
 ================================================= */
-@media (max-width: 1100px) {
+@media (width <= 1100px) {
   .cat-row {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .cat-row {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .hero {
     height: 220px;
   }

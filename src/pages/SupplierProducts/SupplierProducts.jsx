@@ -13,8 +13,7 @@ function SupplierProducts() {
         withCredentials: true
       });
       setProducts(res.data);
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
     }
   };
 
@@ -25,8 +24,7 @@ function SupplierProducts() {
         withCredentials: true
       });
       loadProducts();
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Failed to delete product");
     }
   };
@@ -69,3 +67,6 @@ function SupplierProducts() {
 }
 
 export default SupplierProducts;
+
+
+

@@ -23,7 +23,7 @@ ChartJS.register(
 );
 
 const AdminDashboard = () => {
-  const { adminToken } = useAdminAuth();
+  useAdminAuth();
 
   const [stats, setStats] = useState(null);
   const [revenueData, setRevenueData] = useState([]);
@@ -121,3 +121,6 @@ const DashboardCard = ({ title, value }) => (
 );
 
 export default AdminDashboard;
+
+
+

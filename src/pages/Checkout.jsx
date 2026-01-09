@@ -8,14 +8,14 @@ import { fetchOrder } from "../api/orders";
  * - Shows PaymentOptions and a success view after order is created.
  */
 export default function Checkout() {
-  const [cart, setCart] = useState(() => {
+  const [cart] = useState(() => {
     try {
       const bag = JSON.parse(localStorage.getItem("bag") || "null");
       if (Array.isArray(bag) && bag.length) return bag.map(it => ({ ...it, qty: it.qty || it.quantity || it.qty || 1 }));
       // fallback to legacy 'cart'
       const legacy = JSON.parse(localStorage.getItem("cart") || "[]");
       return Array.isArray(legacy) ? legacy.map(it => ({ ...it, qty: it.qty || it.quantity || 1 })) : [];
-    } catch (e) {
+    } catch {
       return [];
     }
   });
@@ -71,3 +71,6 @@ export default function Checkout() {
     </main>
   );
 }
+
+
+

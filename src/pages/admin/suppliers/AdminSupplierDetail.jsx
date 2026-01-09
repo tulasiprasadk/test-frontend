@@ -28,7 +28,7 @@ export default function AdminSupplierDetail() {
       const res = await axios.get(`${API_BASE}/admin/suppliers/${id}`);
       // some endpoints return { data: ... } while others return direct object
       setSupplier(res.data?.data || res.data);
-    } catch (err) {
+    } catch {
       console.error("Error fetching supplier", err);
     } finally {
       setLoading(false);
@@ -39,7 +39,7 @@ export default function AdminSupplierDetail() {
     try {
       const res = await axios.get(`${API_BASE}/admin/suppliers/${id}/products`);
       setProducts(res.data.products || []);
-    } catch (err) {
+    } catch {
       console.error("Error loading products", err);
       setProducts([]);
     }
@@ -61,7 +61,7 @@ export default function AdminSupplierDetail() {
         await axios.put(`${API_BASE}/admin/suppliers/${id}`, { status: newStatus });
       }
       await loadSupplier(); // refresh supplier data
-    } catch (err) {
+    } catch {
       console.error("Status update failed", err);
     }
   }
@@ -71,7 +71,7 @@ export default function AdminSupplierDetail() {
     try {
       await axios.delete(`${API_BASE}/admin/suppliers/${id}`);
       navigate("/admin/suppliers");
-    } catch (err) {
+    } catch {
       console.error("Delete failed", err);
     }
   }
@@ -234,3 +234,6 @@ export default function AdminSupplierDetail() {
     </div>
   );
 }
+
+
+

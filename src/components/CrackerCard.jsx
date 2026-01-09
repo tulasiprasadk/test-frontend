@@ -35,3 +35,6 @@ export default function CrackerCard({ product }) {
     </div>
   );
 }
+
+
+

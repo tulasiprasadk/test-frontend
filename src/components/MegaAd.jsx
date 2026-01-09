@@ -24,3 +24,6 @@ export default function MegaAd({ image, link, alt = "Ad", children, position = "
     </div>
   );
 }
+
+
+

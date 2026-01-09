@@ -85,7 +85,7 @@ export default function AddressManagerPage() {
       if (form.isDefault && newAddressId) {
         try {
           await api.put(`/customers/addresses/${newAddressId}/default`);
-        } catch (e) {
+        } catch {
           console.warn("Could not set default:", e);
         }
       }
@@ -94,7 +94,7 @@ export default function AddressManagerPage() {
       console.log("Address saved successfully, navigating to /address");
       setSaving(false);
       navigate("/address");
-    } catch (err) {
+    } catch {
       setSaving(false);
       if (err.response?.status === 401) {
         setError("Please log in first");
@@ -181,3 +181,6 @@ export default function AddressManagerPage() {
     </div>
   );
 }
+
+
+

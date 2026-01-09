@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState } from "react";
 
 const QuickCartContext = createContext();
@@ -28,3 +29,6 @@ export function QuickCartProvider({ children }) {
 export function useQuickCart() {
   return useContext(QuickCartContext);
 }
+
+
+

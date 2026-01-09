@@ -13,7 +13,6 @@ export default function SupplierDashboard() {
   const [err, setErr] = useState("");
   const [form, setForm] = useState({ title: "", price: "" });
   const [busy, setBusy] = useState(false);
-  const [kycCompleted, setKycCompleted] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -42,7 +41,7 @@ export default function SupplierDashboard() {
           return { ...it, supplier_price: supplierNum, platform_price: platformNum };
         });
         setItems(normalized);
-      } catch (e) {
+      } catch {
         if (mounted) setErr(e.message || "Failed to load");
       }
     }
@@ -137,3 +136,6 @@ export default function SupplierDashboard() {
     </main>
   );
 }
+
+
+

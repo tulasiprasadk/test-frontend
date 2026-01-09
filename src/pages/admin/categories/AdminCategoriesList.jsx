@@ -92,3 +92,6 @@ const AdminCategoriesList = () => {
 };
 
 export default AdminCategoriesList;
+
+
+

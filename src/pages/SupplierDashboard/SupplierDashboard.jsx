@@ -24,7 +24,7 @@ export default function SupplierDashboard() {
         if (res.ok) {
           setStats(data);
         }
-      } catch (err) {
+      } catch {
         console.error("Dashboard load error:", err);
       }
 
@@ -82,3 +82,6 @@ export default function SupplierDashboard() {
     </div>
   );
 }
+
+
+

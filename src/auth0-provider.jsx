@@ -13,3 +13,6 @@ export default function AuthProviderWrapper({ children }) {
     </Auth0Provider>
   );
 }
+
+
+

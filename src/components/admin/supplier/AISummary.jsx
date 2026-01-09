@@ -1,3 +1,6 @@
+import React, { useState } from "react";
+import axios from "axios";
+
 function AISummary({ data }) {
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
@@ -11,8 +14,7 @@ function AISummary({ data }) {
       });
 
       setSummary(res.data.summary);
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
     }
 
     setLoading(false);
@@ -38,3 +40,8 @@ function AISummary({ data }) {
     </div>
   );
 }
+
+  export default AISummary;
+
+
+

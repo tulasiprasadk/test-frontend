@@ -58,14 +58,13 @@ export default function ProductEditor({ product, onSaved }) {
         fd.append('status', form.status || 'pending');
         fd.append('featured', form.featured ? 1 : 0);
         files.forEach(f => fd.append('images', f));
-        const res = await axios.post('/api/admin/products', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+        await axios.post('/api/admin/products', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
         // if created successfully - optionally reload or call onSaved
       }
 
       alert('Saved');
       onSaved && onSaved();
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert('Error saving product');
     }
   }
@@ -151,3 +150,6 @@ export default function ProductEditor({ product, onSaved }) {
     </div>
   );
 }
+
+
+

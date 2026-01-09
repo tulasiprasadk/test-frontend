@@ -39,7 +39,7 @@ export default function AdminProductForm({ initial = null, onSubmit, onCancel })
         price: form.price === '' ? null : Number(form.price),
       };
       await onSubmit(payload);
-    } catch (err) {
+    } catch {
       setError(err.message || 'Save failed');
     } finally {
       setSaving(false);
@@ -77,3 +77,6 @@ export default function AdminProductForm({ initial = null, onSubmit, onCancel })
     </form>
   );
 }
+
+
+

@@ -36,7 +36,7 @@ export default function CustomerVerify() {
             } else {
               setShowAddressForm(true);
             }
-          } catch (err) {
+          } catch {
             if (res.data.isNewUser) {
               setShowAddressForm(true);
             } else {
@@ -47,8 +47,7 @@ export default function CustomerVerify() {
       } else {
         console.log('[CustomerVerify] No user/token in response:', res.data);
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Login failed");
     }
   };
@@ -79,7 +78,7 @@ export default function CustomerVerify() {
         state: { selectedAddress: savedAddress } 
       });
 
-    } catch (err) {
+    } catch {
       console.error("Address save error:", err);
       alert("Failed to save address: " + (err.response?.data?.error || err.message));
     }
@@ -163,3 +162,6 @@ export default function CustomerVerify() {
     </div>
   );
 }
+
+
+

@@ -46,7 +46,7 @@ export default function CheckoutPayment() {
     if (orderId) formData.append("orderId", String(orderId));
 
     try {
-      const res = await axios.post(
+      await axios.post(
         "/api/orders/submit-payment",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
@@ -61,8 +61,7 @@ export default function CheckoutPayment() {
         },
       });
 
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Something went wrong while submitting payment.");
     }
 
@@ -134,3 +133,6 @@ export default function CheckoutPayment() {
     </div>
   );
 }
+
+
+

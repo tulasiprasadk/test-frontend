@@ -24,7 +24,7 @@ export default function AdminOrderDetail() {
 
       const setRes = await axios.get(`/api/admin/orders/${id}/settlement`, { withCredentials: true });
       setSettlement(setRes.data.settlement);
-    } catch (err) {
+    } catch {
       console.error("Failed to load order", err);
     }
     setLoading(false);
@@ -34,7 +34,7 @@ export default function AdminOrderDetail() {
     try {
       await axios.put(`/api/admin/orders/${id}/status`, { status }, { withCredentials: true });
       loadOrder();
-    } catch (err) {
+    } catch {
       console.error("Status update failed", err);
     }
   }
@@ -43,7 +43,7 @@ export default function AdminOrderDetail() {
     try {
       await axios.put(`/api/admin/orders/${id}/approve`, {}, { withCredentials: true });
       loadOrder();
-    } catch (err) {
+    } catch {
       console.error("Approve failed", err);
     }
   }
@@ -52,7 +52,7 @@ export default function AdminOrderDetail() {
     try {
       await axios.put(`/api/admin/orders/${id}/reject`, {}, { withCredentials: true });
       loadOrder();
-    } catch (err) {
+    } catch {
       console.error("Reject failed", err);
     }
   }
@@ -154,3 +154,6 @@ export default function AdminOrderDetail() {
     </div>
   );
 }
+
+
+

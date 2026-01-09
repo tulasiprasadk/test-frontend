@@ -12,3 +12,6 @@ export const getBuyerId = () => {
 export const clearBuyerSession = () => {
   localStorage.removeItem("buyerId");
 };
+
+
+

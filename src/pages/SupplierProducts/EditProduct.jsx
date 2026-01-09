@@ -22,7 +22,7 @@ export default function EditProduct() {
 
       const data = await res.json();
       if (res.ok) setProduct(data.product);
-    } catch (err) {
+    } catch {
       console.error("Error loading product:", err);
     }
   };
@@ -49,8 +49,7 @@ export default function EditProduct() {
 
       alert("Product Updated!");
       setSaving(false);
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Server Error");
       setSaving(false);
     }
@@ -89,3 +88,6 @@ export default function EditProduct() {
     </div>
   );
 }
+
+
+

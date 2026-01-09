@@ -16,7 +16,7 @@ export default function AddressPage() {
       const res = await api.get("/customers/addresses");
       console.log("Addresses loaded from API:", res.data);
       setList(res.data);
-    } catch (err) {
+    } catch {
       console.error("Failed to load addresses:", err);
       if (err.response?.status === 401) {
         setError("Please log in to view your addresses");
@@ -125,3 +125,6 @@ export default function AddressPage() {
     </div>
   );
 }
+
+
+

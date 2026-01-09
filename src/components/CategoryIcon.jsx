@@ -68,3 +68,6 @@ export default function CategoryIcon({ category, variety, size = 16, className, 
   // Default emoji bag
   return <span className={className} style={{ fontSize: size, lineHeight: 1 }}>🛍️</span>;
 }
+
+
+

@@ -13,8 +13,7 @@ function SupplierOrders() {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
       });
       setOrders(res.data);
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
     }
   };
 
@@ -51,3 +50,6 @@ function SupplierOrders() {
 }
 
 export default SupplierOrders;
+
+
+

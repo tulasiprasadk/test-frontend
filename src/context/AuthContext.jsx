@@ -1,4 +1,5 @@
 
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
@@ -60,3 +61,6 @@ const login = (user, token) => {
 export function useAuth() {
   return useContext(AuthContext);
 }
+
+
+

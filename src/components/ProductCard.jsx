@@ -3,37 +3,18 @@ import { useCrackerCart } from "../context/CrackerCartContext";
 import CategoryIcon from "./CategoryIcon";
 
 
-// Unified emoji mapping for all categories (refined, more descriptive)
-const unifiedEmojiMap = {
-  FRUITS: "🍎",
-  VEGETABLES: "🥕",
-  LEAFY: "🥬",
-  BAKERY: "🥐",
-  MILK: "🥛",
-  DAIRY: "🧀",
-  STAPLES: "🍚",
-  CRACKERS: "🧨",
-  SNACKS: "🍪",
-  FLOWERS: "💐",
-  BEVERAGES: "🧃",
-  MEAT: "🍖",
-  FISH: "🐟",
-  GROCERIES: "🧺",
-  GROCERY: "🧺",
-  OTHER: "🛍️",
-  OTHERS: "🛍️",
-};
+// Emoji mapping consolidated in `CategoryIcon` — removed local unused map
 
 export default function ProductCard({ product, onClick, variant, iconSize }) {
   const { addItem } = useCrackerCart();
   if (!product) return null;
   const {
-    id,
+    id: _id,
     name,
     title,
     kn,
     knDisplay,
-    emoji,
+    emoji: _emoji,
     titleKannada,
     price,
     image,
@@ -51,13 +32,7 @@ export default function ProductCard({ product, onClick, variant, iconSize }) {
   const displayPrice = typeof price === "number" ? price : null;
   const displayKn = knDisplay || kn || titleKannada;
   // Keep backward-compatibility: emoji prop still considered, otherwise use category/variety
-  function getUnifiedEmoji() {
-    if (emoji) return emoji;
-    if (variety && unifiedEmojiMap[variety.toUpperCase()]) return unifiedEmojiMap[variety.toUpperCase()];
-    if (category && unifiedEmojiMap[category.toUpperCase()]) return unifiedEmojiMap[category.toUpperCase()];
-    return unifiedEmojiMap.OTHERS;
-  }
-  const displayEmoji = getUnifiedEmoji();
+  // emoji helper removed — centralized emoji rendering via `CategoryIcon`
 
   const handleClick = () => {
     if (onClick) {
@@ -186,3 +161,6 @@ export default function ProductCard({ product, onClick, variant, iconSize }) {
     </div>
   );
 }
+
+
+

@@ -16,8 +16,7 @@ export default function SupplierDetail() {
       const res = await axios.get(`/api/admin/suppliers/${id}/detail`);
       setSupplier(res.data.data);
       setLoading(false);
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       setLoading(false);
     }
   };
@@ -126,3 +125,6 @@ function OrdersList({ orders }) {
     </div>
   );
 }
+
+
+

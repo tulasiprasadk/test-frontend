@@ -21,68 +21,13 @@
   font-weight: bold;
 }
 
-.welcome-phone {
-  margin: 5px 0 0;
-  font-size: 18px;
-  color: #333;
-}
-
-.welcome-email {
-  margin: 5px 0 0;
-  font-size: 16px;
-  color: #444;
-}
-
-/* DASHBOARD CARDS */
-.dash-cards {
-  display: flex;
-  justify-content: space-between;
-  gap: 25px;
-}
-
-.dash-card {
-  flex: 1;
-  background: white;
-  border-radius: 14px;
-  padding: 35px 20px;
-  text-align: center;
-  cursor: pointer;
-  border: 2px solid #ffd500;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
-  transition: 0.25s ease;
-}
-
-.dash-card:hover {
-  transform: translateY(-5px);
-  border-color: #c8102e;
-}
-
-.card-number {
-  font-size: 40px;
-  font-weight: bold;
+.order-header h4 {
+  margin: 0;
   color: #c8102e;
+  font-size: 18px;
 }
 
-.card-label {
-  font-size: 20px;
-  margin-top: 10px;
-  font-weight: 600;
-}
-
-/* Simple fade animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* DASHBOARD SECTIONS */
-.dash-section {
-  background: white;
-  border-radius: 12px;
-  padding: 25px;
-  margin-top: 25px;
-  border: 2px solid #f0f0f0;
-}
+/* Later duplicate status and order-date blocks removed; first occurrences retained above */
 
 .section-header {
   display: flex;
@@ -297,76 +242,7 @@
   box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
 }
 
-.order-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.order-header h4 {
-  margin: 0;
-  color: #c8102e;
-  font-size: 18px;
-}
-
-.order-date {
-  margin: 5px 0 0;
-  color: #999;
-  font-size: 14px;
-}
-
-.order-status-section {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.badge {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.status-created,
-.status-pending {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.status-paid {
-  background: #d4edda;
-  color: #155724;
-}
-
-.status-delivered {
-  background: #d1ecf1;
-  color: #0c5460;
-}
-
-.status-cancelled {
-  background: #f8d7da;
-  color: #721c24;
-}
-
-.payment-pending {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.payment-approved {
-  background: #d4edda;
-  color: #155724;
-}
-
-.payment-rejected {
-  background: #f8d7da;
-  color: #721c24;
-}
+/* Duplicate order header/status blocks removed; original definitions retained earlier */
 
 .order-body {
   margin-bottom: 20px;

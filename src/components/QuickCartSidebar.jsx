@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNotifications } from "../contexts/NotificationContext";  // ✅ Correct import
 
 // Diagnostic import to verify what Vite is loading
@@ -117,3 +117,6 @@ export default function QuickCartSidebar({ isOpen, onClose, cartItems = [], onCh
     </div>
   );
 }
+
+
+

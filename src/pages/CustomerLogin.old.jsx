@@ -22,8 +22,7 @@ export default function CustomerLogin() {
       // navigate to OTP verify screen
       navigate("/verify", { state: { phone } });
 
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       setError("Failed to send OTP. Please try again.");
     }
   };
@@ -50,3 +49,6 @@ export default function CustomerLogin() {
     </div>
   );
 }
+
+
+

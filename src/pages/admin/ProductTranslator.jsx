@@ -20,7 +20,7 @@ export default function ProductTranslator() {
     try {
       const res = await axios.get(`${API_BASE}/products`, { withCredentials: true });
       setProducts(res.data);
-    } catch (err) {
+    } catch {
       console.error('Error fetching products:', err);
       setMessage('Error loading products');
     }
@@ -48,7 +48,7 @@ export default function ProductTranslator() {
 
       setTranslations(res.data.translations);
       setMessage(`Translated ${res.data.translations.length} products. Review and save.`);
-    } catch (err) {
+    } catch {
       console.error('Translation error:', err);
       setMessage('Translation failed: ' + (err.response?.data?.message || err.message));
     } finally {
@@ -83,7 +83,7 @@ export default function ProductTranslator() {
       await fetchProducts();
       setTranslations([]);
       setSelectedIds([]);
-    } catch (err) {
+    } catch {
       console.error('Save error:', err);
       setMessage('Save failed: ' + (err.response?.data?.message || err.message));
     } finally {
@@ -115,7 +115,7 @@ export default function ProductTranslator() {
       setMessage(`Saved English for ${successCount} products!`);
 
       await fetchProducts();
-    } catch (err) {
+    } catch {
       console.error('Save English error:', err);
       setMessage('Save English failed: ' + (err.response?.data?.message || err.message));
     } finally {
@@ -366,3 +366,6 @@ export default function ProductTranslator() {
     </div>
   );
 }
+
+
+

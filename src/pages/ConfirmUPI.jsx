@@ -47,7 +47,7 @@ export default function ConfirmUPI() {
         status: "awaiting_verification",
         updatedAt: new Date().toISOString(),
       };
-      const updated = await updateOrder(order.id, patch);
+      await updateOrder(order.id, patch);
       setMsg("Submitted. Admin will verify and mark paid.");
       // Optionally navigate to a success page
       setTimeout(() => navigate("/"), 2000);
@@ -58,7 +58,7 @@ export default function ConfirmUPI() {
     }
   }
 
-  if (!order) return <main style={{ padding: 20 }}>Loading order…</main>;
+  if (!order) return <main style={{ padding: 20 }}>Loading orderï¿½</main>;
 
   return (
     <main style={{ padding: 20 }}>
@@ -93,3 +93,6 @@ export default function ConfirmUPI() {
     </main>
   );
 }
+
+
+

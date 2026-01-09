@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [googleAvailable, setGoogleAvailable] = useState(false);
 
@@ -18,7 +17,7 @@ export default function Login() {
         const res = await api.get('/auth/status');
         if (!mounted) return;
         setGoogleAvailable(!!res.data.googleConfigured);
-      } catch (e) {
+      } catch {
         // assume not configured
         if (mounted) setGoogleAvailable(false);
       }
@@ -133,3 +132,6 @@ export default function Login() {
     </div>
   );
 }
+
+
+

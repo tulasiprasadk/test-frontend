@@ -2,7 +2,6 @@
 // Path: frontend/src/components/auth/RequireAdmin.jsx
 
 import { Navigate, Outlet } from "react-router-dom";
-import { useAdminAuth } from "../../context/AdminAuthContext";
 import { useEffect, useState } from "react";
 
 const RequireAdmin = () => {
@@ -35,3 +34,6 @@ const RequireAdmin = () => {
 };
 
 export default RequireAdmin;
+
+
+

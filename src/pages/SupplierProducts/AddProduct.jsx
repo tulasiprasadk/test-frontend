@@ -91,8 +91,7 @@ export default function AddProduct() {
       setUnit("piece");
       setSelectedTemplate(null);
 
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Server Error");
       setSaving(false);
     }
@@ -212,3 +211,6 @@ export default function AddProduct() {
     </div>
   );
 }
+
+
+

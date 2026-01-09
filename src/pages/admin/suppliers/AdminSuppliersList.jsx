@@ -16,7 +16,7 @@ export default function AdminSuppliersList() {
       const res = await axios.get("/api/suppliers"); 
       setSuppliers(res.data?.data || res.data || []);
       console.log("Suppliers loaded:", res.data);
-    } catch (err) {
+    } catch {
       console.error("Error loading suppliers", err);
     }
   }
@@ -26,7 +26,7 @@ export default function AdminSuppliersList() {
       await axios.post(`/api/suppliers/${id}/approve`);
       alert("Supplier approved!");
       fetchSuppliers();
-    } catch (err) {
+    } catch {
       console.error("Approve failed:", err);
       alert("Failed to approve supplier");
     }
@@ -38,7 +38,7 @@ export default function AdminSuppliersList() {
       await axios.post(`/api/suppliers/${id}/reject`, { reason });
       alert("Supplier rejected");
       fetchSuppliers();
-    } catch (err) {
+    } catch {
       console.error("Reject failed:", err);
       alert("Failed to reject supplier");
     }
@@ -49,7 +49,7 @@ export default function AdminSuppliersList() {
     try {
       await axios.delete(`/api/admin/suppliers/${id}`);
       fetchSuppliers();
-    } catch (err) {
+    } catch {
       console.error("Delete failed:", err);
     }
   }
@@ -144,3 +144,6 @@ export default function AdminSuppliersList() {
     </div>
   );
 }
+
+
+

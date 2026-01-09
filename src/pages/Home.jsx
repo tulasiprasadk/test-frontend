@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 import "./Home.css";
 import ExploreItem from "../components/ExploreItem";
@@ -114,7 +113,6 @@ export default function Home() {
 
   /* ================= PRODUCTS ================= */
   const [products, setProducts] = useState([]);
-  const [addingToCart, setAddingToCart] = useState(null);
 
   useEffect(() => {
     loadProducts();
@@ -451,3 +449,6 @@ export default function Home() {
     
   );
 }
+
+
+

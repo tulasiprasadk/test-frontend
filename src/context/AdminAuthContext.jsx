@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 // FRONTEND FILE
 // Path: frontend/src/context/AdminAuthContext.jsx
 
@@ -33,3 +34,6 @@ export const AdminAuthProvider = ({ children }) => {
 export const useAdminAuth = () => {
   return useContext(AdminAuthContext);
 };
+
+
+

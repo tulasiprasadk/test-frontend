@@ -25,8 +25,7 @@ export default function SupplierPerformance() {
       });
 
       setRankings(res.data.data.rankings);
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
     }
   };
 <div className="flex gap-4 mb-4">
@@ -60,3 +59,6 @@ export default function SupplierPerformance() {
     </div>
   );
 }
+
+
+

@@ -9,7 +9,7 @@ const AdminAdsList = () => {
     try {
       const res = await axios.get("/api/ads");
       setAds(res.data);
-    } catch (err) {
+    } catch {
       console.error("Failed loading ads:", err);
     }
   };
@@ -25,7 +25,7 @@ const AdminAdsList = () => {
     try {
       await axios.delete(`/api/admin/ads/${id}`);
       loadAds();
-    } catch (err) {
+    } catch {
       alert("Failed to delete ad");
     }
   };
@@ -101,3 +101,6 @@ const AdminAdsList = () => {
 };
 
 export default AdminAdsList;
+
+
+

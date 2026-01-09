@@ -84,3 +84,6 @@ export default function SupplierFilterBar({ filters, setFilters }) {
     </div>
   );
 }
+
+
+

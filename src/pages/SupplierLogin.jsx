@@ -55,7 +55,7 @@ export default function SupplierLogin() {
         setSuccess("Login successful!");
         navigate("/supplier/dashboard");
       }
-    } catch (error) {
+    } catch {
       const backendMsg =
         error?.response?.data?.error || "Failed to login";
 
@@ -200,3 +200,6 @@ export default function SupplierLogin() {
     </main>
   );
 }
+
+
+

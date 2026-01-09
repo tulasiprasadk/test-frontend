@@ -71,7 +71,7 @@ export default function SupplierBulkUpload() {
           setErrors([]);
           setRows(normalized);
         }
-      } catch (err) {
+      } catch {
         setErrors([`Failed to parse file: ${err.message || err}`]);
       }
     };
@@ -98,7 +98,7 @@ export default function SupplierBulkUpload() {
         };
         await post("/admin/products", payload, "supplier");
         results.push({ row: r.__row, ok: true });
-      } catch (err) {
+      } catch {
         results.push({ row: r.__row, ok: false, error: err.message || String(err) });
       }
     }
@@ -175,3 +175,6 @@ export default function SupplierBulkUpload() {
     </main>
   );
 }
+
+
+

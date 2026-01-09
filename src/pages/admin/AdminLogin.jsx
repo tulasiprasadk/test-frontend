@@ -32,7 +32,7 @@ const AdminLogin = () => {
       let data = null;
       try {
         data = await res.json();
-      } catch (parseErr) {
+      } catch {
         // non-JSON response
         data = null;
       }
@@ -84,3 +84,6 @@ const AdminLogin = () => {
 };
 
 export default AdminLogin;
+
+
+

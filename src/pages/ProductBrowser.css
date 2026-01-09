@@ -162,18 +162,7 @@
   color: #333;
 }
 
-.category-list button:hover,
-.variety-list button:hover {
-  background: #fff3cd;
-  border-color: #ffd600;
-}
-
-.category-list button.active,
-.variety-list button.active {
-  background: #ffd600;
-  border-color: #e6c200;
-  font-weight: 600;
-}
+/* duplicate hover/active rules removed; first definitions above retained */
 
 .sub-count {
   font-size: 11px;

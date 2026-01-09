@@ -30,8 +30,12 @@ export const routes = [
     path: "/customer/dashboard",
     element: <CustomerDashboard />
   }
+  ,
   {
     path: "/supplier/products/:id/edit",
     element: <SupplierEditProduct />
   }
 ];
+
+
+

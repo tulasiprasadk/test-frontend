@@ -27,7 +27,7 @@ export default function UserDashboard() {
     try {
       const profileRes = await axios.get(`${API_BASE}/customer/profile`, reqConfig);
       setProfile(profileRes.data);
-    } catch (err) {
+    } catch {
       console.log("Dashboard profile load error:", err);
       return;
     }
@@ -79,7 +79,7 @@ export default function UserDashboard() {
       document.body.appendChild(link);
       link.click();
       link.parentElement.removeChild(link);
-    } catch (err) {
+    } catch {
       console.error('Invoice download error:', err);
       alert('Failed to download invoice');
     }
@@ -349,3 +349,6 @@ export default function UserDashboard() {
     </div>
   );
 }
+
+
+

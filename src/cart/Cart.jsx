@@ -12,8 +12,7 @@ function Cart() {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
       });
       setItems(res.data);
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
     }
   };
 
@@ -25,8 +24,7 @@ function Cart() {
         { headers: { Authorization: "Bearer " + localStorage.getItem("token") } }
       );
       loadCart();
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
     }
   };
 
@@ -92,3 +90,6 @@ function Cart() {
 }
 
 export default Cart;
+
+
+

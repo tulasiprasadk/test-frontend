@@ -56,8 +56,7 @@ export default function PaymentOptions({ items = [], total = 0 }) {
       }
 
       navigate(`/order-success/${data.orderId}`);
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Server error");
     }
 
@@ -151,3 +150,6 @@ export default function PaymentOptions({ items = [], total = 0 }) {
     </div>
   );
 }
+
+
+

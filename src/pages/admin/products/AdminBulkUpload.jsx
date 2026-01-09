@@ -99,8 +99,7 @@ Sparklers 7cm,SPARKLERS,,90,box,,8,Crackers
       if (data.errors === 0) {
         setCsvText("");
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Server error during bulk upload");
     } finally {
       setUploading(false);
@@ -157,3 +156,6 @@ Sparklers 7cm,SPARKLERS,,90,box,,8,Crackers
     </div>
   );
 }
+
+
+

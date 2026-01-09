@@ -28,7 +28,7 @@ const AdminLogin = () => {
       } else {
         alert(data.message || "Invalid credentials");
       }
-    } catch (err) {
+    } catch {
       alert("Something went wrong");
     }
 
@@ -70,3 +70,6 @@ const AdminLogin = () => {
 };
 
 export default AdminLogin;
+
+
+

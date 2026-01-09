@@ -128,3 +128,6 @@ function formatKPI(value, key) {
     return value ? value.toFixed(2) : "N/A";
   return value;
 }
+
+
+

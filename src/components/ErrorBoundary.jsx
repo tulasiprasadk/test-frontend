@@ -10,7 +10,7 @@ export default class ErrorBoundary extends React.Component {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch() {
     // Optionally send error + info to a logging service here.
     // console.error("ErrorBoundary caught:", error, info);
   }
@@ -27,3 +27,6 @@ export default class ErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
+
+
+

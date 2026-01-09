@@ -22,7 +22,7 @@ export default function SupplierVerify() {
       await verifyOtp({ email, code });
       // on success navigate to supplier portal
       navigate("/supplier", { replace: true });
-    } catch (err) {
+    } catch {
       console.error("OTP verify error:", err);
       setErr(err?.message || "Verification failed");
     } finally {
@@ -64,3 +64,6 @@ export default function SupplierVerify() {
     </main>
   );
 }
+
+
+

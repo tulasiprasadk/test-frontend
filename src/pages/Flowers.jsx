@@ -6,27 +6,7 @@ import ProductCard from "../components/ProductCard";
 import CategoryIcon from "../components/CategoryIcon";
 import CartPanel from "../components/CartPanel";
 
-// Map common flower names to emojis
-const flowerEmojiMap = {
-  "ROSE": "🌹",
-  "JASMINE": "🌼",
-  "MARIGOLD": "🌻",
-  "LILY": "🌺",
-  "LOTUS": "🪷",
-  "TULIP": "🌷",
-  "CHRYSANTHEMUM": "💮",
-  "GERBERA": "🌸",
-  "ORCHID": "🦋",
-  "CARNATION": "🥀",
-  "MOGRA": "🌼",
-  "DAISY": "🌼",
-  "HIBISCUS": "🌺",
-  "TUBE ROSE": "🌾",
-  "GLADIOLUS": "🌷",
-  "ANTHURIUM": "🌺",
-  "RAJANIGANDHA": "🌾",
-  "OTHERS": "💐"
-};
+// Emoji mapping handled by `CategoryIcon`; removed unused local map
 
 export default function Flowers() {
   const [products, setProducts] = useState([]);
@@ -44,7 +24,7 @@ export default function Flowers() {
 
         const data = await getProducts("", catId || "");
         if (mounted) setProducts(Array.isArray(data) ? data : []);
-      } catch (e) {
+      } catch {
         console.error(e);
         if (mounted) setProducts([]);
       } finally {
@@ -67,7 +47,6 @@ export default function Flowers() {
     }
 
     // Pick emoji based on flower name (case-insensitive) — icon rendering moved to centralized component
-    let flowerName = (name || p.title || '').trim().toUpperCase();
 
     if (!acc[variety]) acc[variety] = [];
     acc[variety].push({
@@ -138,3 +117,6 @@ export default function Flowers() {
     </div>
   );
 }
+
+
+

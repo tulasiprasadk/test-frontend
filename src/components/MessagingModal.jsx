@@ -34,7 +34,7 @@ export default function MessagingModal({ open, onClose, onSend, recipientId, rec
       setSubject("");
       setBody("");
       onClose();
-    } catch (err) {
+    } catch {
       setError(err?.message || "Failed to send message");
     } finally {
       setLoading(false);
@@ -137,3 +137,6 @@ const styles = {
   },
   error: { color: "crimson", fontSize: 13 },
 };
+
+
+

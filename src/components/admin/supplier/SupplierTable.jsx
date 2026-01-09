@@ -39,3 +39,6 @@ export function SupplierTable({ rankings }) {
     </div>
   );
 }
+
+
+

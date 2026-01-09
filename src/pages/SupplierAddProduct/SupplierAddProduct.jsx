@@ -38,8 +38,7 @@ function SupplierAddProduct() {
       );
       alert("Product added!");
       window.location.href = "/supplier/products";
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Failed to add product");
     }
   };
@@ -133,3 +132,6 @@ function SupplierAddProduct() {
 }
 
 export default SupplierAddProduct;
+
+
+

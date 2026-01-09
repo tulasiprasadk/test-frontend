@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import api from "../api/client";
 
 export default function CheckoutReview() {
@@ -127,7 +126,7 @@ export default function CheckoutReview() {
       localStorage.setItem("cart", JSON.stringify([]));
       navigate("/payment", { state: { orderId: gres.data.orderId, orderDetails: gres.data } });
       
-    } catch (err) {
+    } catch {
       console.error("Order creation error:", err);
       alert("Failed to create order: " + (err.response?.data?.error || err.message));
     }
@@ -319,3 +318,6 @@ export default function CheckoutReview() {
     </div>
   );
 }
+
+
+

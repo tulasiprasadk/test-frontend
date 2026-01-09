@@ -15,7 +15,7 @@ export default function AdminProducts(){
       const params = { ...filters };
       const res = await axios.get('/api/admin/products', { params });
       setProducts(res.data.data || []);
-    } catch (err){ console.error(err); }
+    } catch (err) { console.error(err); }
   }
 
   return (
@@ -58,3 +58,6 @@ export default function AdminProducts(){
     </div>
   );
 }
+
+
+

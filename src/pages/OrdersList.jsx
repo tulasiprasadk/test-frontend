@@ -4,7 +4,6 @@ import api from "../api/client";
 
 export default function OrdersList() {
   const [orders, setOrders] = useState([]);
-  const token = localStorage.getItem("customerToken");
 
   useEffect(() => {
     api.get("/customer/orders")
@@ -30,3 +29,6 @@ export default function OrdersList() {
     </div>
   );
 }
+
+
+

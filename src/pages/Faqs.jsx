@@ -8,3 +8,6 @@ export default function FAQs() {
     </div>
   );
 }
+
+
+

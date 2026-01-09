@@ -21,7 +21,7 @@ function ProductSuppliers({ productId, onClose }) {
         const data = await res.json();
         setSuppliers(data);
       }
-    } catch (error) {
+    } catch {
       console.error('Error fetching product suppliers:', error);
     } finally {
       setLoading(false);
@@ -36,7 +36,7 @@ function ProductSuppliers({ productId, onClose }) {
         // Only show approved suppliers
         setAllSuppliers(data.filter(s => s.status === 'approved'));
       }
-    } catch (error) {
+    } catch {
       console.error('Error fetching suppliers:', error);
     }
   };
@@ -68,7 +68,7 @@ function ProductSuppliers({ productId, onClose }) {
         const error = await res.json();
         alert(`Error: ${error.error || 'Failed to assign supplier'}`);
       }
-    } catch (error) {
+    } catch {
       console.error('Error assigning supplier:', error);
       alert('Failed to assign supplier');
     }
@@ -89,7 +89,7 @@ function ProductSuppliers({ productId, onClose }) {
       } else {
         alert('Failed to remove supplier');
       }
-    } catch (error) {
+    } catch {
       console.error('Error removing supplier:', error);
       alert('Failed to remove supplier');
     }
@@ -195,3 +195,6 @@ function ProductSuppliers({ productId, onClose }) {
 }
 
 export default ProductSuppliers;
+
+
+

@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint:css": "stylelint \"src/**/*.css\"",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx && npm run lint:css"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.11.0",

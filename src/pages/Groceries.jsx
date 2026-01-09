@@ -7,16 +7,7 @@ import ProductCard from "../components/ProductCard";
 import CategoryIcon from "../components/CategoryIcon";
 import CartPanel from "../components/CartPanel";
 
-// Emoji mapping for grocery products (expand as needed)
-const groceryEmojiMap = {
-  "Fruits": "🍎",
-  "Vegetables": "🥕",
-  "Leafy Vegetables": "🥬",
-  "Bakery": "🍞",
-  "Milk Products": "🥛",
-  "Staples": "🍚",
-  // Add more as needed
-};
+// Emoji mapping is handled by `CategoryIcon`; removed unused local map
 
 export default function Groceries() {
   const [products, setProducts] = useState([]);
@@ -151,4 +142,7 @@ export default function Groceries() {
     </div>
   );
 }
+
+
+
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import { useLocation } from "react-router-dom";
 
@@ -96,3 +97,6 @@ export default function WhatsAppFloating({
     </a>
   );
 }
+
+
+

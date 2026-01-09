@@ -15,7 +15,7 @@ const crackerInfo = {
   "Deluxe": { emoji: "🎆", kn: "ಡಿಲಕ್ಸ್" },
   // Add more as needed
 };
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ProductCard from "../components/ProductCard";
 import CategoryIcon from "../components/CategoryIcon";
 import { API_BASE } from "../config/api";
@@ -63,8 +63,7 @@ export default function Crackers() {
             )
           : [];
         setProducts(filtered);
-      } catch (err) {
-        console.error(err);
+      } catch (err) { console.error(err);
         if (mounted) setError("Failed to load products");
       } finally {
         if (mounted) setLoading(false);
@@ -140,3 +139,6 @@ export default function Crackers() {
     </div>
   );
 }
+
+
+

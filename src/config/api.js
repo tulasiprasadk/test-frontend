@@ -4,3 +4,6 @@ const BASE = import.meta.env.VITE_API_BASE?.trim() || (typeof window !== 'undefi
 
 // ✅ Backend mounts routes under /api
 export const API_BASE = `${BASE.replace(/\/$/, '')}/api`;
+
+
+

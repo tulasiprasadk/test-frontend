@@ -43,9 +43,7 @@ body, html {
 }
 
 /* ============ BODY ============ */
-body {
-  min-height: 100vh;
-}
+/* (duplicate `body` block removed — first occurrence retained) */
 
 * {
   box-sizing: border-box;

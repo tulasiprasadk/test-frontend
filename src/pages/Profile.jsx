@@ -17,7 +17,7 @@ export default function ProfilePage() {
         name: res.data.name || "",
         email: res.data.email || "",
       });
-    } catch (err) {
+    } catch {
       console.error("PROFILE LOAD ERROR:", err);
     }
   };
@@ -36,7 +36,7 @@ export default function ProfilePage() {
       // Redirect to main shopping page
       navigate("/");
 
-    } catch (err) {
+    } catch {
       console.error("PROFILE SAVE ERROR:", err);
       alert("Failed to update profile");
     }
@@ -101,3 +101,6 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+
+

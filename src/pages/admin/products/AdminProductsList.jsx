@@ -14,7 +14,7 @@ const AdminProductsList = () => {
       setLoading(true);
       const res = await axios.get("/api/products");
       setProducts(res.data);
-    } catch (err) {
+    } catch {
       console.error("Failed to load products", err);
       alert("Failed to load products");
     } finally {
@@ -34,7 +34,7 @@ const AdminProductsList = () => {
         withCredentials: true
       });
       loadProducts();
-    } catch (err) {
+    } catch {
       console.error("Failed to delete product", err);
       alert("Failed to delete product");
     }
@@ -137,3 +137,6 @@ const AdminProductsList = () => {
 };
 
 export default AdminProductsList;
+
+
+

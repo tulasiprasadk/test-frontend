@@ -24,7 +24,7 @@ export default function Cart() {
       }
 
       setCart(data.items || []);
-    } catch (err) {
+    } catch {
       console.error("Cart load error:", err);
     }
     setLoading(false);
@@ -55,8 +55,7 @@ export default function Cart() {
       }
 
       loadCart();
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
     }
   };
 
@@ -79,8 +78,7 @@ export default function Cart() {
       }
 
       loadCart();
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
     }
   };
 
@@ -91,8 +89,7 @@ export default function Cart() {
     try {
       await fetch("/cart/clear", { method: "POST" });
       loadCart();
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
     }
   };
 
@@ -170,3 +167,6 @@ export default function Cart() {
     </div>
   );
 }
+
+
+

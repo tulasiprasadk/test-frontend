@@ -92,7 +92,7 @@
    Mobile layout
    -------------------------------- */
 @media (width <= 780px) {
-@media (max-width: 780px) {
+@media (width <= 780px) {
     padding: 12px 0;
   }
 

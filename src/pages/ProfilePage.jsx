@@ -13,7 +13,7 @@ export default function ProfilePage() {
     try {
       const res = await api.get("/customers/profile");
       setProfile(res.data);
-    } catch (err) {
+    } catch {
       console.error("Profile Load Error:", err);
     }
   }
@@ -57,3 +57,6 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+
+

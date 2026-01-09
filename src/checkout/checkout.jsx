@@ -29,8 +29,7 @@ function Checkout() {
 
       const orderIds = res.data.orders.map((o) => o.id);
       window.location.href = `/order-success?ids=${orderIds.join(",")}`;
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Checkout failed");
     }
     setLoading(false);
@@ -79,3 +78,6 @@ function Checkout() {
 }
 
 export default Checkout;
+
+
+

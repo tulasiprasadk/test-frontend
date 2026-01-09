@@ -10,7 +10,6 @@ import { useAuth } from "../context/AuthContext";
 export default function Header() {
   const [bagCount, setBagCount] = useState(0);
   const { user, logout } = useAuth();
-  const navigate = window.location && window.location.pathname ? null : null; // placeholder for useNavigate if needed
 
   // 🔁 Update bag count from localStorage
   const updateBagCount = () => {
@@ -70,3 +69,6 @@ export default function Header() {
     </header>
   );
 }
+
+
+

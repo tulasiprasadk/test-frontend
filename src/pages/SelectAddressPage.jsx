@@ -16,7 +16,7 @@ export default function SelectAddressPage() {
       const res = await axios.get(`${API_BASE}/customer/address`);
       console.log("Addresses loaded:", res.data);
       setList(res.data);
-    } catch (err) {
+    } catch {
       console.error("Address load error:", err);
       if (err.response?.status === 401) {
         setError("Please login first");
@@ -97,3 +97,6 @@ export default function SelectAddressPage() {
     </div>
   );
 }
+
+
+

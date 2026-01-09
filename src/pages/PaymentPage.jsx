@@ -12,7 +12,6 @@ export default function PaymentPage() {
   const orderId = state?.orderId;
   const [txnId, setTxnId] = useState("");
   const [file, setFile] = useState(null);
-  const [uploadedPath, setUploadedPath] = useState("");
 
   // ------------------------------
   // Compress Image Before Upload
@@ -37,7 +36,7 @@ export default function PaymentPage() {
         "MB"
       );
       return compressed;
-    } catch (err) {
+    } catch {
       console.error("Compression failed:", err);
       return imageFile; // fallback if compression fails
     }
@@ -215,3 +214,6 @@ export default function PaymentPage() {
     </div>
   );
 }
+
+
+

@@ -25,7 +25,7 @@ export default function AdminOrdersList() {
     try {
       const res = await axios.get("/api/admin/suppliers", { withCredentials: true });
       setSuppliers(res.data.data || res.data || []);
-    } catch (err) {
+    } catch {
       console.error("Failed to load suppliers", err);
     }
   }
@@ -47,7 +47,7 @@ export default function AdminOrdersList() {
       // API returns an array; fall back to res.data.orders if present
       const payload = Array.isArray(res.data) ? res.data : res.data?.orders || [];
       setOrders(payload);
-    } catch (err) {
+    } catch {
       console.error("Failed to load orders", err);
     }
 
@@ -162,3 +162,6 @@ export default function AdminOrdersList() {
     </div>
   );
 }
+
+
+

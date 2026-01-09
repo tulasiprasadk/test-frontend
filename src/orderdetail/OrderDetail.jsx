@@ -21,8 +21,7 @@ function OrderDetail() {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
       });
       setOrder(res.data);
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
     }
   };
 
@@ -70,3 +69,6 @@ function OrderDetail() {
 }
 
 export default OrderDetail;
+
+
+

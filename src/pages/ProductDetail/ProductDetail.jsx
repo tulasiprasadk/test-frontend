@@ -40,8 +40,7 @@ export default function ProductDetail() {
         } else {
           setSelectedVariety(null);
         }
-      } catch (err) {
-        console.error(err);
+      } catch (err) { console.error(err);
         setError("Server error while loading product");
         setProduct(null);
       } finally {
@@ -93,8 +92,7 @@ export default function ProductDetail() {
         }
         window.dispatchEvent(new Event("cart-updated"));
         alert("Added to bag!");
-      } catch (err) {
-        console.error(err);
+      } catch (err) { console.error(err);
         alert("Server error");
       }
     } else {
@@ -211,3 +209,6 @@ export default function ProductDetail() {
     </div>
   );
 }
+
+
+

@@ -24,8 +24,7 @@ function SupplierEditProduct() {
       setDescription(p.description || "");
       setImages(p.images || []);
       setVarieties(p.varieties || []);
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Failed to load product");
     }
     setLoading(false);
@@ -63,8 +62,7 @@ function SupplierEditProduct() {
 
       alert("Product updated successfully!");
       window.location.href = "/supplier/products";
-    } catch (err) {
-      console.error(err);
+    } catch (err) { console.error(err);
       alert("Failed to update product");
     }
   };
@@ -161,3 +159,6 @@ function SupplierEditProduct() {
 }
 
 export default SupplierEditProduct;
+
+
+
