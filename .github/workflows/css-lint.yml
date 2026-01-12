@@ -12,6 +12,9 @@ jobs:
   css-lint:
     name: CSS Lint
     runs-on: ubuntu-latest
+    env:
+      GITHUB_FRONTEND_REPO: https://github.com/tulasiprasadk/rrnagarfinal-frontend
+      GITHUB_BACKEND_REPO: https://github.com/tulasiprasadk/rrnagarfinal-backend
 
     steps:
       - name: Checkout

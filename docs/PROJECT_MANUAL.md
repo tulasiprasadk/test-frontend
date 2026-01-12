@@ -115,6 +115,13 @@ Notes: The stylelint config is currently conservative to avoid unknown-rule erro
 - Add unit/integration tests for critical pages (cart, checkout, auth flows).
 - Create a simple system diagram image (PNG/SVG) in `docs/` for onboarding non-technical stakeholders.
 
+## 14. Canonical repository URLs (use these for deploys/CI)
+
+- **Frontend repo:** https://github.com/tulasiprasadk/rrnagarfinal-frontend
+- **Backend repo:** https://github.com/tulasiprasadk/rrnagarfinal-backend
+
+Add these to your environment in CI or local `.env` as `GITHUB_FRONTEND_REPO` and `GITHUB_BACKEND_REPO`.
+
 ## 13. Deliverables created
 - This manual: `docs/PROJECT_MANUAL.md` in the repo root (this file).
 

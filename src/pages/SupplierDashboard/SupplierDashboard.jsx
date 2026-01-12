@@ -14,25 +14,38 @@ export default function SupplierDashboard() {
 
   const [loading, setLoading] = useState(true);
 
-  // Fetch dashboard stats from backend
+  // Auth guard + fetch dashboard stats from backend
   useEffect(() => {
-    const loadStats = async () => {
+    const init = async () => {
       try {
+        const authRes = await fetch(
+          "https://rrnagarfinal-backend.vercel.app/api/supplier/auth/me",
+          { credentials: "include" }
+        );
+
+        const auth = await authRes.json();
+
+        if (auth && auth.loggedIn === false) {
+          navigate("/login");
+          return;
+        }
+
+        // If logged in (or auth check passed), load dashboard stats
         const res = await fetch("/supplier/dashboard");
         const data = await res.json();
 
         if (res.ok) {
           setStats(data);
         }
-      } catch {
+      } catch (err) {
         console.error("Dashboard load error:", err);
       }
 
       setLoading(false);
     };
 
-    loadStats();
-  }, []);
+    init();
+  }, [navigate]);
 
   if (loading) {
     return <div className="sd-loading">Loading dashboard...</div>;

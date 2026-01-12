@@ -59,10 +59,10 @@ const CustomerDashboard = () => {
             🔍 Search
           </button>
         </div>
-        <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem' }}>
-          <StatCard title="Orders" value={12} />
-          <StatCard title="Saved Shops" value={5} />
-          <StatCard title="Profile Complete" value="80%" />
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+          <StatCard label="Orders" value={12} icon={<span>🧾</span>} color="#4f46e5" />
+          <StatCard label="Saved Shops" value={5} icon={<span>🏪</span>} color="#059669" />
+          <StatCard label="Profile Complete" value="80%" icon={<span>✅</span>} color="#f59e0b" />
         </div>
         <div style={{ display: 'flex', gap: '2rem' }}>
           <OrdersPreview />
