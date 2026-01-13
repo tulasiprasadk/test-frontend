@@ -1,6 +1,6 @@
 // frontend/src/pages/CustomerLogin.jsx
 import { useState } from "react";
-import axios from "axios";
+import api from "../api/client";
 import { useNavigate } from "react-router-dom";
 
 export default function CustomerLogin() {
@@ -12,8 +12,8 @@ export default function CustomerLogin() {
     try {
       setError("");
 
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/request-otp",
+      const res = await api.post(
+        "/auth/request-otp",
         { mobile: phone }   // backend requires "mobile", not "phone"
       );
 
@@ -22,7 +22,8 @@ export default function CustomerLogin() {
       // navigate to OTP verify screen
       navigate("/verify", { state: { phone } });
 
-    } catch (err) { console.error(err);
+    } catch (err) { 
+      console.error(err);
       setError("Failed to send OTP. Please try again.");
     }
   };

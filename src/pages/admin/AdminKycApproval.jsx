@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { BACKEND_BASE } from "../../config/api";
 import "./AdminKycApproval.css";
 
 export default function AdminKycApproval() {
@@ -167,7 +168,7 @@ export default function AdminKycApproval() {
                   <div className="documents-grid">
                     {supplier.businessLicense && (
                       <a 
-                        href={`http://localhost:3000/${supplier.businessLicense}`} 
+                        href={`${BACKEND_BASE}/${supplier.businessLicense}`} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="document-link"
@@ -177,7 +178,7 @@ export default function AdminKycApproval() {
                     )}
                     {supplier.gstCertificate && (
                       <a 
-                        href={`http://localhost:3000/${supplier.gstCertificate}`} 
+                        href={`${BACKEND_BASE}/${supplier.gstCertificate}`} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="document-link"
@@ -187,7 +188,7 @@ export default function AdminKycApproval() {
                     )}
                     {supplier.idProof && (
                       <a 
-                        href={`http://localhost:3000/${supplier.idProof}`} 
+                        href={`${BACKEND_BASE}/${supplier.idProof}`} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="document-link"
@@ -260,7 +261,7 @@ export default function AdminKycApproval() {
                     <div className="doc-preview">
                       <strong>Business License</strong>
                       <a 
-                        href={`http://localhost:3000/${selectedSupplier.businessLicense}`} 
+                        href={`${BACKEND_BASE}/${selectedSupplier.businessLicense}`} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="preview-link"
@@ -273,7 +274,7 @@ export default function AdminKycApproval() {
                     <div className="doc-preview">
                       <strong>GST Certificate</strong>
                       <a 
-                        href={`http://localhost:3000/${selectedSupplier.gstCertificate}`} 
+                        href={`${BACKEND_BASE}/${selectedSupplier.gstCertificate}`} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="preview-link"
@@ -286,7 +287,7 @@ export default function AdminKycApproval() {
                     <div className="doc-preview">
                       <strong>ID Proof</strong>
                       <a 
-                        href={`http://localhost:3000/${selectedSupplier.idProof}`} 
+                        href={`${BACKEND_BASE}/${selectedSupplier.idProof}`} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="preview-link"

@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import api from "../../api/client";
 import "./AdminLayout.css";
 
 // ================== ADMIN NOTIFICATION BELL ==================
@@ -126,9 +127,9 @@ function AdminNotifications() {
 export default function AdminLayout() {
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:3000/api/admin/logout");
+      await api.post("/admin/logout");
       window.location.href = "/admin/login";
-    } catch {
+    } catch (err) {
       console.error("Logout error:", err);
     }
   };
