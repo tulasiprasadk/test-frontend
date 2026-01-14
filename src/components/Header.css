@@ -84,3 +84,50 @@
   font-size: 11px;
   font-weight: bold;
 }
+
+/* Responsive Design */
+@media (width <= 900px) {
+  .rn-topbar {
+    padding: 8px 12px;
+    flex-wrap: wrap;
+  }
+
+  .rn-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .rn-nav {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .rn-nav-item {
+    font-size: 14px;
+    padding: 4px 6px;
+  }
+}
+
+@media (width <= 600px) {
+  .rn-topbar {
+    padding: 6px 8px;
+  }
+
+  .rn-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .rn-nav {
+    gap: 6px;
+  }
+
+  .rn-nav-item {
+    font-size: 12px;
+    padding: 4px;
+  }
+
+  .rn-logo-wrap {
+    gap: 6px;
+  }
+}

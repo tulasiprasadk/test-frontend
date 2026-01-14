@@ -3,6 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import api from "../../api/client";
+import { translate, isKannadaEnabled } from "../../utils/kannadaTranslator";
 import "./AdminLayout.css";
 
 // ================== ADMIN NOTIFICATION BELL ==================

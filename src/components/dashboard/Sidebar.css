@@ -48,6 +48,28 @@
   .sidebar {
     transform: translateX(0) !important;
   }
+  
+  .sidebar-hamburger {
+    display: none !important;
+  }
+  
+  .sidebar-overlay {
+    display: none !important;
+  }
+}
+
+/* Tablet responsive adjustments */
+@media (width >= 600px) and (width < 900px) {
+  .sidebar {
+    width: 220px;
+  }
+  
+  .dashboard-container main {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    max-width: calc(100vw - 220px);
+  }
+}
 }
 
 /* Profile Section */

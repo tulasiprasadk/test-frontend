@@ -52,12 +52,16 @@ function SupplierSidebar() {
             <FiHome /> Dashboard
           </Link>
 
-          <Link to="/supplier/products" className={isActive("/supplier/products") ? "active" : ""}>
-            <FiShoppingBag /> Products & Pricing
+          <Link to="/supplier/orders" className={isActive("/supplier/orders") ? "active" : ""}>
+            <FiPackage /> View Orders
           </Link>
 
-          <Link to="/supplier/orders" className={isActive("/supplier/orders") ? "active" : ""}>
-            <FiPackage /> Orders
+          <Link to="/supplier/products" className={isActive("/supplier/products") ? "active" : ""}>
+            <FiShoppingBag /> Manage Products
+          </Link>
+
+          <Link to="/supplier/products/add" className={isActive("/supplier/products/add") ? "active" : ""}>
+            <FiPlus /> Add Products
           </Link>
 
           <Link to="/supplier/analytics" className={isActive("/supplier/analytics") ? "active" : ""}>

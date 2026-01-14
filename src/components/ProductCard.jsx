@@ -134,9 +134,13 @@ export default function ProductCard({ product, onClick, variant, iconSize }) {
       {/* NAME */}
       <h3 style={titleStyle}>{displayName}</h3>
 
-      {/* KANNADA NAME */}
-      {displayKn && (
+      {/* KANNADA NAME - Always show if available, otherwise show placeholder */}
+      {displayKn ? (
         <div style={knStyle}>{displayKn}</div>
+      ) : (
+        <div style={{ ...knStyle, color: '#999', fontStyle: 'italic', fontSize: 10 }}>
+          {displayName} {/* Fallback: show English name in smaller text if no Kannada */}
+        </div>
       )}
 
       {/* DESCRIPTION */}

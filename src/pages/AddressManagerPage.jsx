@@ -70,21 +70,21 @@ export default function AddressManagerPage() {
       if (address.id) {
         // Updating existing
         console.log("Updating address with ID:", address.id, "Data:", form);
-        result = await api.put(`/customers/addresses/${address.id}`, form);
+        result = await api.put(`/customer/address/${address.id}`, form);
         newAddressId = address.id;
       } else {
         // Creating new
         console.log("Creating new address with data:", form);
-        result = await api.post(`/customers/addresses`, form);
+        result = await api.post(`/customer/address`, form);
         console.log("API response:", result.data);
-        newAddressId = result.data?.address?.id;
+        newAddressId = result.data?.address?.id || result.data?.id;
         console.log("New address ID from API:", newAddressId);
       }
 
       // Set default if checked
       if (form.isDefault && newAddressId) {
         try {
-          await api.put(`/customers/addresses/${newAddressId}/default`);
+          await api.put(`/customer/address/${newAddressId}/default`);
         } catch (e) {
           console.warn("Could not set default:", e);
         }
@@ -145,21 +145,29 @@ export default function AddressManagerPage() {
         style={{ marginTop: 8 }}
       /><br />
 
-      <input
-        name="city"
-        placeholder="City *"
-        value={form.city}
-        onChange={handleChange}
-        style={{ marginTop: 8 }}
-      /><br />
-
+      <div style={{ display: 'flex', gap: '8px', marginTop: 8 }}>
+        <input
+          name="city"
+          placeholder="City *"
+          value={form.city}
+          onChange={handleChange}
+          style={{ flex: 1 }}
+        />
+        <input
+          name="pincode"
+          placeholder="Pincode *"
+          value={form.pincode}
+          onChange={handleChange}
+          style={{ width: '120px' }}
+        />
+      </div>
       <input
         name="state"
         placeholder="State"
         value={form.state}
         onChange={handleChange}
-        style={{ marginTop: 8 }}
-      /><br />
+        style={{ marginTop: 8, width: '100%' }}
+      />
 
       <label style={{ marginTop: 8 }}>
         <input

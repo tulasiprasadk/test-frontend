@@ -18,6 +18,8 @@ export default function CheckoutReview() {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
   const selectedAddress = location.state?.selectedAddress || defaultAddress;
 
   useEffect(() => {
@@ -96,6 +98,8 @@ export default function CheckoutReview() {
           productId: productId,
           qty: firstItem.quantity || firstItem.qty || 1,
           addressId: selectedAddress.id,
+          promoCode: promoCode || null,
+          discount: discount || 0,
         };
         const res = await api.post("/orders/create", order);
         // Clear bag
@@ -118,7 +122,9 @@ export default function CheckoutReview() {
         qty: firstItem.quantity || firstItem.qty || 1,
         customerName: guestName,
         customerPhone: guestPhone,
-        customerAddress: guestAddr
+        customerAddress: guestAddr,
+        promoCode: promoCode || null,
+        discount: discount || 0,
       };
       console.debug('Creating guest order payload:', guestOrder);
       const gres = await api.post("/orders/create-guest", guestOrder);
@@ -264,11 +270,53 @@ export default function CheckoutReview() {
                     </div>
                   ))}
 
+                  {discount > 0 && (
+                    <div style={{ textAlign: 'right', paddingTop: 8, fontSize: 13, color: '#28a745' }}>
+                      Discount ({promoCode}): -₹{discount.toFixed(2)}
+                    </div>
+                  )}
                   <div style={{ textAlign: 'right', paddingTop: 10, borderTop: '1px dashed #e0e0e0', fontWeight: 700 }}>
-                    Total: ₹{cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0).toFixed(2)}
+                    Total: ₹{(cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0) - discount).toFixed(2)}
                   </div>
                 </div>
               )}
+
+              {/* Promo Code Section */}
+              <div style={{ marginTop: 16, background: '#FFF9C4', borderRadius: 10, padding: 12, boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
+                <label style={{ display: 'block', marginBottom: 8, fontWeight: 600 }}>Promo Code / Reference Code</label>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <input
+                    type="text"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                    placeholder="Enter code (e.g., WELCOME10)"
+                    style={{ flex: 1, padding: '8px 12px', border: '1px solid #ddd', borderRadius: 6 }}
+                  />
+                  <button
+                    onClick={() => {
+                      // Simple promo code validation (can be enhanced with backend API)
+                      const codes = { 'WELCOME10': 0.1, 'FIRST20': 0.2, 'SAVE15': 0.15 };
+                      const code = promoCode.trim().toUpperCase();
+                      if (codes[code]) {
+                        const total = cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
+                        setDiscount(total * codes[code]);
+                        alert(`Promo code ${code} applied! ${codes[code] * 100}% discount.`);
+                      } else if (code) {
+                        setDiscount(0);
+                        alert('Invalid promo code. Please try again.');
+                      }
+                    }}
+                    style={{ padding: '8px 16px', background: '#28a745', color: 'white', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 600 }}
+                  >
+                    Apply
+                  </button>
+                </div>
+                {promoCode && discount === 0 && (
+                  <div style={{ marginTop: 8, fontSize: 12, color: '#666' }}>
+                    💡 Try codes: WELCOME10, FIRST20, SAVE15
+                  </div>
+                )}
+              </div>
 
               <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
                 <button

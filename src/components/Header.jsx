@@ -10,6 +10,13 @@ import { useAuth } from "../context/AuthContext";
 export default function Header() {
   const [bagCount, setBagCount] = useState(0);
   const { user, logout } = useAuth();
+  const [isSupplier, setIsSupplier] = useState(false);
+
+  // Check if user is supplier
+  useEffect(() => {
+    const supplierToken = localStorage.getItem("supplierToken");
+    setIsSupplier(!!supplierToken);
+  }, []);
 
   // 🔁 Update bag count from localStorage
   const updateBagCount = () => {
@@ -27,6 +34,20 @@ export default function Header() {
     return () => window.removeEventListener("storage", updateBagCount);
   }, []);
 
+  const handleLogout = () => {
+    logout();
+    // Clear supplier data if exists
+    if (isSupplier) {
+      localStorage.removeItem("supplierToken");
+      localStorage.removeItem("supplierId");
+      localStorage.removeItem("supplierData");
+    }
+    window.location.href = "/";
+  };
+
+  const isLoggedIn = user || isSupplier;
+  const dashboardPath = isSupplier ? "/supplier/dashboard" : "/customer/dashboard";
+
   return (
     <header>
       <div className="rn-topbar">
@@ -41,15 +62,12 @@ export default function Header() {
         <nav className="rn-nav">
           <Link className="rn-nav-item" to="/">Home</Link>
           <Link className="rn-nav-item" to="/blog">Blog</Link>
-          {user ? (
+          {isLoggedIn ? (
             <>
-              <Link className="rn-nav-item" to="/customer/dashboard">Dashboard</Link>
+              <Link className="rn-nav-item" to={dashboardPath}>Dashboard</Link>
               <button
                 className="rn-nav-item"
-                onClick={() => {
-                  logout();
-                  window.location.href = "/";
-                }}
+                onClick={handleLogout}
                 style={{ background: 'none', border: 'none', cursor: 'pointer' }}
               >
                 Logout

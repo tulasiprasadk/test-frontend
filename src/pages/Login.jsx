@@ -76,11 +76,18 @@ export default function Login() {
             </div>
 
             <button
-              onClick={handleLogin}
-              disabled={loading}
+              onClick={() => {
+                // Redirect to Google OAuth until email/phone login is implemented
+                if (googleAvailable) {
+                  window.location.href = `${API_BASE}/customers/auth/google`;
+                } else {
+                  alert("Google login is not available. Please try again later.");
+                }
+              }}
+              disabled={loading || !googleAvailable}
               className="login-button primary"
             >
-              {loading ? 'Processing...' : 'Continue with Email'}
+              {loading ? 'Processing...' : 'Continue with Google'}
             </button>
 
             <div className="login-divider">

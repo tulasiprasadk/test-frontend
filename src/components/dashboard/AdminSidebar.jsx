@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAdminAuth } from "../../context/AdminAuthContext";
+import { translate, isKannadaEnabled } from "../../utils/kannadaTranslator";
 import {
   FiMenu,
   FiX,
@@ -23,6 +24,7 @@ function AdminSidebar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const { admin, logoutAdmin } = useAdminAuth();
+  const [kannadaEnabled, setKannadaEnabled] = useState(isKannadaEnabled());
 
   const isActive = (path) => {
     if (path === "/admin") {
@@ -30,6 +32,8 @@ function AdminSidebar() {
     }
     return location.pathname.startsWith(path);
   };
+
+  const t = (text) => translate(text, kannadaEnabled);
 
   const handleLogout = async () => {
     try {
@@ -64,24 +68,43 @@ function AdminSidebar() {
           <img src="/images/react.svg" alt="Admin" className="sidebar-avatar" />
           <h3 className="sidebar-username" style={{ color: '#fff' }}>{admin?.name || "Admin"}</h3>
           <p style={{ fontSize: "12px", color: "#ffd700", marginTop: "4px" }}>Admin Account</p>
+          <button
+            onClick={() => {
+              const newState = !kannadaEnabled;
+              setKannadaEnabled(newState);
+              localStorage.setItem('admin_language', newState ? 'kannada' : 'english');
+            }}
+            style={{
+              marginTop: 8,
+              padding: '4px 8px',
+              fontSize: 11,
+              background: kannadaEnabled ? '#ffd700' : 'rgba(255,255,255,0.2)',
+              color: kannadaEnabled ? '#333' : '#fff',
+              border: 'none',
+              borderRadius: 4,
+              cursor: 'pointer'
+            }}
+          >
+            {kannadaEnabled ? 'ಕನ್ನಡ' : 'English'}
+          </button>
         </div>
 
         {/* Menu Items */}
         <nav className="sidebar-menu">
           <Link to="/admin" className={isActive("/admin") && !isActive("/admin/") ? "active" : ""} style={{ color: '#fff' }}>
-            <FiHome /> Dashboard
+            <FiHome /> {t("Dashboard")}
           </Link>
 
           <Link to="/admin/orders" className={isActive("/admin/orders") ? "active" : ""} style={{ color: '#fff' }}>
-            <FiPackage /> Orders
+            <FiPackage /> {t("Orders")}
           </Link>
 
           <Link to="/admin/suppliers" className={isActive("/admin/suppliers") ? "active" : ""} style={{ color: '#fff' }}>
-            <FiShoppingBag /> Suppliers
+            <FiShoppingBag /> {t("Suppliers")}
           </Link>
 
           <Link to="/admin/products" className={isActive("/admin/products") ? "active" : ""} style={{ color: '#fff' }}>
-            <FiPackage /> Products
+            <FiPackage /> {t("Products")}
           </Link>
 
           <Link to="/admin/translator" className={isActive("/admin/translator") ? "active" : ""} style={{ color: '#fff' }}>
@@ -105,7 +128,7 @@ function AdminSidebar() {
           </Link>
 
           <Link to="/admin/platform-config" className={isActive("/admin/platform-config") ? "active" : ""} style={{ color: '#fff' }}>
-            <FiSettings /> Platform Config
+            <FiSettings /> {t("Settings")}
           </Link>
 
           <Link to="/admin/admins" className={isActive("/admin/admins") ? "active" : ""} style={{ color: '#fff' }}>
@@ -117,7 +140,7 @@ function AdminSidebar() {
           </Link>
 
           <button className="logout-btn" onClick={handleLogout} style={{ color: '#fff' }}>
-            <FiLogOut /> Logout
+            <FiLogOut /> {t("Logout")}
           </button>
         </nav>
       </aside>

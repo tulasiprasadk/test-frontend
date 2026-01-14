@@ -13,7 +13,7 @@ export default function AddressPage() {
       setLoading(true);
       setError("");
       console.log("Loading addresses...");
-      const res = await api.get("/customers/addresses");
+      const res = await api.get("/customer/address");
       console.log("Addresses loaded from API:", res.data);
       setList(res.data);
     } catch (err) {
@@ -36,12 +36,12 @@ export default function AddressPage() {
 
   const deleteAddress = async (id) => {
     if (!window.confirm("Delete this address?")) return;
-    await api.delete(`/customers/addresses/${id}`);
+    await api.delete(`/customer/address/${id}`);
     load();
   };
 
   const makeDefault = async (id) => {
-    await api.put(`/customers/addresses/${id}/default`);
+    await api.put(`/customer/address/${id}/default`);
     load();
   };
 

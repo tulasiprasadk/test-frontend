@@ -44,7 +44,7 @@ const AdminLogin = () => {
       }
 
       // Session is set on backend, just navigate
-      navigate("/admin");
+      navigate("/admin/dashboard");
     } catch (err) {
       setError(err?.message || "Server error. Try again.");
     }

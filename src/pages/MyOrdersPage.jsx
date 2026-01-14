@@ -14,17 +14,22 @@ export default function MyOrdersPage() {
         setLoading(true);
         setError(null);
         const res = await api.get("/orders");
-        setOrders(res.data || []);
+        setOrders(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error("Error loading orders:", err);
-        setError(err.response?.data?.error || "Failed to load orders");
+        if (err.response?.status === 401) {
+          setError("Please log in to view your orders");
+          setTimeout(() => navigate("/login"), 2000);
+        } else {
+          setError(err.response?.data?.error || "Failed to load orders");
+        }
         setOrders([]);
       } finally {
         setLoading(false);
       }
     }
     load();
-  }, []);
+  }, [navigate]);
 
   const badge = (text, type) => {
     const colors = {
@@ -67,7 +72,17 @@ export default function MyOrdersPage() {
       <div style={{ padding: 20 }}>
         <h2>My Orders</h2>
         <p style={{ color: "#e74c3c" }}>Error: {error}</p>
-        <button onClick={() => window.location.reload()}>Retry</button>
+        {error.includes("log in") ? (
+          <div>
+            <button onClick={() => navigate("/login")} style={{ marginTop: 10, padding: '8px 16px', background: '#007bff', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
+              Go to Login
+            </button>
+          </div>
+        ) : (
+          <button onClick={() => window.location.reload()} style={{ marginTop: 10, padding: '8px 16px', background: '#28a745', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
+            Retry
+          </button>
+        )}
       </div>
     );
   }

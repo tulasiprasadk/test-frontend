@@ -81,19 +81,11 @@ export default function SupplierDashboard() {
         </div>
       </div>
 
-      {/* ACTION BUTTONS */}
-      <div className="sd-actions">
-        <button onClick={() => navigate("/supplier/orders")}>
-          View Orders
-        </button>
-
-        <button onClick={() => navigate("/supplier/products")}>
-          Manage Products
-        </button>
-
-        <button onClick={() => navigate("/supplier/products/add")}>
-          Add New Product
-        </button>
+      {/* Quick Stats Info */}
+      <div style={{ marginTop: 24, padding: 16, background: '#f8f9fa', borderRadius: 8 }}>
+        <p style={{ margin: 0, color: '#666', fontSize: 14 }}>
+          💡 Use the left sidebar to navigate to Orders, Products, and Analytics
+        </p>
       </div>
     </div>
   );
