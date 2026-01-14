@@ -26,15 +26,41 @@ export default function Groceries() {
         console.debug('Groceries page - resolved groceriesCat:', groceriesCat);
 
         if (groceriesCat && groceriesCat.id) {
-          const data = await getProducts('', groceriesCat.id);
+          const data = await getProducts("", groceriesCat.id);
           console.debug(`Groceries page - fetched products for categoryId=${groceriesCat.id}:`, data);
-          if (mounted) setProducts(data || []);
+
+          if (Array.isArray(data) && data.length > 0) {
+            if (mounted) setProducts(data || []);
+          } else {
+            // fallback: fetch all and filter by Category name
+            const allData = await getProducts();
+            console.debug("Groceries page - fetched all products (fallback):", allData);
+            const groceries = (allData || []).filter(
+              (p) =>
+                p.Category &&
+                (p.Category.name === "Groceries" ||
+                  (p.Category.name || "").toLowerCase() === "groceries")
+            );
+            console.debug(
+              "Groceries page - filtered groceries count (fallback):",
+              (groceries || []).length
+            );
+            if (mounted) setProducts(groceries);
+          }
         } else {
           // fallback: fetch all and filter by Category name
           const data = await getProducts();
-          console.debug('Groceries page - fetched all products (fallback):', data);
-          const groceries = (data || []).filter(p => p.Category && (p.Category.name === 'Groceries' || (p.Category.name || '').toLowerCase() === 'groceries'));
-          console.debug('Groceries page - filtered groceries count (fallback):', (groceries || []).length);
+          console.debug("Groceries page - fetched all products (fallback):", data);
+          const groceries = (data || []).filter(
+            (p) =>
+              p.Category &&
+              (p.Category.name === "Groceries" ||
+                (p.Category.name || "").toLowerCase() === "groceries")
+          );
+          console.debug(
+            "Groceries page - filtered groceries count (fallback):",
+            (groceries || []).length
+          );
           if (mounted) setProducts(groceries);
         }
       } catch (e) {
