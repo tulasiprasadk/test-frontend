@@ -30,6 +30,8 @@ export default function ProductCard({ product, onClick, variant, iconSize }) {
   // Extract category name and icon (support both Category object and string)
   const categoryName = Category?.name || category || "";
   const categoryIcon = Category?.icon || null;
+  // Debug: Log product data for icon matching
+  // console.log('ProductCard icon data:', { displayName, categoryName, categoryIcon, variety });
   // ensure title/desc wrappers have no unexpected border/background
   const titleStyle = { margin: 0, fontSize: 12, fontWeight: 600, color: "#b00018", textAlign: 'center', background: 'transparent', border: 'none' };
   const knStyle = { color: "#b00018", fontSize: 11, fontFamily: 'Noto Sans Kannada, Tunga, Arial, sans-serif', fontWeight: 600, textAlign: 'center', background: 'transparent', border: 'none' };

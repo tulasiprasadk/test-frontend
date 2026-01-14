@@ -8,7 +8,11 @@ export default function CategoryIcon({ category, variety, size = 16, className, 
     return <span className={className} style={{ fontSize: size, lineHeight: 1, display: 'inline-block' }}>{icon}</span>;
   }
 
-  const key = (name || variety || category || "").toString().toLowerCase();
+  // Build search key from all available fields for better matching
+  const nameStr = (name || "").toString().toLowerCase();
+  const varietyStr = (variety || "").toString().toLowerCase();
+  const categoryStr = (category || "").toString().toLowerCase();
+  const key = `${nameStr} ${varietyStr} ${categoryStr}`.trim();
 
   const contains = (s) => key.indexOf(s) !== -1;
 
