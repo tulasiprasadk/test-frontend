@@ -40,11 +40,23 @@ export default function ProductCard({ product, onClick, variant, iconSize }) {
   // Keep backward-compatibility: emoji prop still considered, otherwise use category/variety
   // emoji helper removed — centralized emoji rendering via `CategoryIcon`
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    // Prevent navigation if clicking on the card itself
+    e.preventDefault();
+    e.stopPropagation();
+    
     if (onClick) {
       onClick(product);
     } else {
-      addItem(product, 1);
+      // Ensure product has required fields for addItem
+      const productToAdd = {
+        ...product,
+        id: product.id || product._id,
+        price: product.price || 0,
+        qty: 1,
+        quantity: 1
+      };
+      addItem(productToAdd);
     }
   };
   const baseStyle = {
