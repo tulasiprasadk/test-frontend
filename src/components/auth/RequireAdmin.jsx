@@ -11,7 +11,10 @@ const RequireAdmin = () => {
 
   useEffect(() => {
     // Check if admin is logged in via session
-    fetch(`${API_BASE}/admin/me`, { credentials: "include" })
+    const token = localStorage.getItem("adminToken");
+    const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+
+    fetch(`${API_BASE}/admin/me`, { credentials: "include", headers })
       .then(async (res) => {
         if (!res.ok) {
           return { loggedIn: false };
@@ -19,11 +22,12 @@ const RequireAdmin = () => {
         return res.json();
       })
       .then((data) => {
-        setIsAuthenticated(!!data?.loggedIn);
+        const loggedIn = !!data?.loggedIn || !!token;
+        setIsAuthenticated(loggedIn);
         setIsChecking(false);
       })
       .catch(() => {
-        setIsAuthenticated(false);
+        setIsAuthenticated(!!token);
         setIsChecking(false);
       });
   }, []);

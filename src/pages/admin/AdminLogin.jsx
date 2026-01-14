@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE } from "../../config/api";
 import "./AdminLogin.css";
+import { useAdminAuth } from "../../context/AdminAuthContext";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
+  const { loginAdmin } = useAdminAuth();
 
   const [form, setForm] = useState({
     email: "",
@@ -43,7 +45,11 @@ const AdminLogin = () => {
         return;
       }
 
-      // Session is set on backend, just navigate
+      if (data?.token) {
+        loginAdmin(data.token, data.admin || null);
+      }
+
+      // Session is set on backend (or token stored), just navigate
       navigate("/admin");
     } catch (err) {
       setError(err?.message || "Server error. Try again.");
