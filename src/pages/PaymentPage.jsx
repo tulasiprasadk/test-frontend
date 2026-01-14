@@ -119,18 +119,19 @@ export default function PaymentPage() {
       {method === "upi" && (
         <div style={{ background: '#FFF9C4', padding: 18, borderRadius: 10, marginBottom: 24, boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
           <h3 style={{ margin: 0, fontSize: 18 }}>Pay via UPI</h3>
-          <div style={{ margin: '12px 0' }}>
-            <img src="/images/rrlogo.png" alt="UPI QR" style={{ width: 160, height: 160, borderRadius: 8, border: '1.5px solid #007bff' }} />
+          <div style={{ margin: '12px 0', display: 'flex', justifyContent: 'center' }}>
+            <img src="/UPI QR Code.jpeg" alt="UPI QR Code" style={{ width: 200, height: 200, borderRadius: 8, border: '1.5px solid #007bff', objectFit: 'contain' }} />
           </div>
-          <div style={{ fontSize: 16, marginBottom: 6 }}>UPI ID: <b>yourupi@bank</b> <button style={{ marginLeft: 8, fontSize: 13 }} onClick={() => {navigator.clipboard.writeText('yourupi@bank');}}>Copy</button></div>
-          <div style={{ fontSize: 14, color: '#555' }}>Scan the QR or pay to the UPI ID above. Then upload your payment screenshot and enter the UPI transaction ID below.</div>
+          <div style={{ fontSize: 14, color: '#555', textAlign: 'center' }}>Scan the QR code above to make payment. Then upload your payment screenshot and enter the UPI transaction ID below.</div>
         </div>
       )}
       {method === "pi" && (
         <div style={{ background: '#FFF9C4', padding: 18, borderRadius: 10, marginBottom: 24, boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
           <h3 style={{ margin: 0, fontSize: 18 }}>Pay via Pi Network</h3>
-          <div style={{ fontSize: 16, margin: '12px 0' }}>Send payment to: <b>your-pi-username</b></div>
-          <div style={{ fontSize: 14, color: '#555' }}>Open the Pi Network app, send the payment, then upload your screenshot and enter the Pi transaction ID below.</div>
+          <div style={{ margin: '12px 0', display: 'flex', justifyContent: 'center' }}>
+            <img src="/Pi network QR code.jpg" alt="Pi Network QR Code" style={{ width: 200, height: 200, borderRadius: 8, border: '1.5px solid #007bff', objectFit: 'contain' }} />
+          </div>
+          <div style={{ fontSize: 14, color: '#555', textAlign: 'center' }}>Scan the QR code above with Pi Network app to make payment. Then upload your payment screenshot and enter the Pi transaction ID below.</div>
         </div>
       )}
 

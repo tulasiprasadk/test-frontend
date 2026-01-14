@@ -23,9 +23,13 @@ export default function ProductCard({ product, onClick, variant, iconSize }) {
     description,
     variety,
     category,
+    Category,
   } = product;
   const displayName = name || title || "Product";
   const displayImage = image || imageUrl || image_url || "";
+  // Extract category name and icon (support both Category object and string)
+  const categoryName = Category?.name || category || "";
+  const categoryIcon = Category?.icon || null;
   // ensure title/desc wrappers have no unexpected border/background
   const titleStyle = { margin: 0, fontSize: 12, fontWeight: 600, color: "#b00018", textAlign: 'center', background: 'transparent', border: 'none' };
   const knStyle = { color: "#b00018", fontSize: 11, fontFamily: 'Noto Sans Kannada, Tunga, Arial, sans-serif', fontWeight: 600, textAlign: 'center', background: 'transparent', border: 'none' };
@@ -116,13 +120,13 @@ export default function ProductCard({ product, onClick, variant, iconSize }) {
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <CategoryIcon name={displayName} category={category} variety={variety} size={iconSize || 16} />
+              <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={categoryIcon} size={iconSize || 16} />
             </span>
           </>
         ) : (
           // Show icon large if no image
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <CategoryIcon name={displayName} category={category} variety={variety} size={iconSize ? Math.max(20, iconSize*1.6) : 28} />
+            <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={categoryIcon} size={iconSize ? Math.max(20, iconSize*1.6) : 28} />
           </div>
         )}
       </div>

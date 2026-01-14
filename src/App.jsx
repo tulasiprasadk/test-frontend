@@ -60,6 +60,10 @@ import SupplierProducts from "./pages/SupplierProducts/SupplierProducts.jsx";
 import AddProduct from "./pages/SupplierProducts/AddProduct.jsx";
 import EditProduct from "./pages/SupplierProducts/EditProduct.jsx";
 
+/* LAYOUT COMPONENTS */
+import SupplierLayout from "./components/dashboard/SupplierLayout.jsx";
+import CustomerLayout from "./components/dashboard/CustomerLayout.jsx";
+
 /* ADMIN CORE */
 import AdminLogin from "./pages/admin/AdminLogin.jsx";
 import AdminLayout from "./pages/admin/AdminLayout.jsx";
@@ -155,12 +159,14 @@ function AppWrapper() {
           {/* SUPPLIER */}
           <Route path="/supplier/login" element={<SupplierLogin />} />
           <Route path="/supplier/register" element={<SupplierRegister />} />
-          <Route path="/supplier/dashboard" element={<SupplierDashboard />} />
-          <Route path="/supplier/orders" element={<SupplierOrders />} />
-          <Route path="/supplier/orders/:orderId" element={<SupplierOrderDetail />} />
-          <Route path="/supplier/products" element={<SupplierProducts />} />
-          <Route path="/supplier/products/add" element={<AddProduct />} />
-          <Route path="/supplier/products/:productId/edit" element={<EditProduct />} />
+          <Route path="/supplier" element={<SupplierLayout />}>
+            <Route path="dashboard" element={<SupplierDashboard />} />
+            <Route path="orders" element={<SupplierOrders />} />
+            <Route path="orders/:orderId" element={<SupplierOrderDetail />} />
+            <Route path="products" element={<SupplierProducts />} />
+            <Route path="products/add" element={<AddProduct />} />
+            <Route path="products/:productId/edit" element={<EditProduct />} />
+          </Route>
 
           {/* ADMIN */}
           <Route path="/admin/login" element={<AdminLogin />} />

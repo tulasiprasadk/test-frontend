@@ -2,7 +2,12 @@ import React from "react";
 
 // Small inline SVG icons for common categories/varieties.
 // Keeps bundle small and avoids external assets.
-export default function CategoryIcon({ category, variety, size = 16, className, svg = false, name }) {
+export default function CategoryIcon({ category, variety, size = 16, className, svg = false, name, icon }) {
+  // If icon is provided directly (from database), use it first
+  if (icon && !svg) {
+    return <span className={className} style={{ fontSize: size, lineHeight: 1, display: 'inline-block' }}>{icon}</span>;
+  }
+
   const key = (name || variety || category || "").toString().toLowerCase();
 
   const contains = (s) => key.indexOf(s) !== -1;

@@ -1,16 +1,27 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { API_BASE } from "../config/api";
+import api from "../api/client";
 import { useNavigate } from "react-router-dom";
 
 export default function MyOrdersPage() {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     async function load() {
-      const res = await axios.get(`${API_BASE}/orders`);
-      setOrders(res.data);
+      try {
+        setLoading(true);
+        setError(null);
+        const res = await api.get("/orders");
+        setOrders(res.data || []);
+      } catch (err) {
+        console.error("Error loading orders:", err);
+        setError(err.response?.data?.error || "Failed to load orders");
+        setOrders([]);
+      } finally {
+        setLoading(false);
+      }
     }
     load();
   }, []);
@@ -41,6 +52,25 @@ export default function MyOrdersPage() {
       </span>
     );
   };
+
+  if (loading) {
+    return (
+      <div style={{ padding: 20 }}>
+        <h2>My Orders</h2>
+        <p>Loading orders...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ padding: 20 }}>
+        <h2>My Orders</h2>
+        <p style={{ color: "#e74c3c" }}>Error: {error}</p>
+        <button onClick={() => window.location.reload()}>Retry</button>
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: 20 }}>
