@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCrackerCart } from "../context/CrackerCartContext";
-import axios from "axios";
+import api from "../api/client";
 import { useAuth } from "../context/AuthContext";
 
 /**
@@ -17,7 +17,7 @@ export default function CartPanel() {
   const loadBag = async () => {
     if (user) {
       try {
-        const res = await axios.get("/api/cart", { withCredentials: true });
+        const res = await api.get("/cart");
         setBag(res.data.items || []);
       } catch {
         setBag([]);
