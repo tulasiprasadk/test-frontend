@@ -24,31 +24,44 @@ export default function CartPanel() {
   };
 
   const loadBag = async () => {
-    // Always try localStorage first (source of truth for bag UI)
+    // Always use localStorage as the primary source for UI sync
     const localBag = readLocalBag();
+    if (localBag.length > 0) {
+      setBag(localBag);
+      setLoading(false);
+      return;
+    }
 
     if (user) {
       try {
         const res = await api.get("/cart");
         const serverItems = res.data?.items || [];
-        setBag(serverItems.length > 0 ? serverItems : localBag);
+        setBag(serverItems);
       } catch {
-        setBag(localBag);
+        setBag([]);
       }
     } else {
-      // use in-memory CrackerCart context for guest users, fallback to local bag
-      setBag(Array.isArray(cart) && cart.length ? cart : localBag);
+      // use in-memory CrackerCart context for guest users
+      setBag(Array.isArray(cart) ? cart : []);
     }
     setLoading(false);
   };
 
   useEffect(() => {
     loadBag();
-    // Listen for localStorage changes (for guests) — keep for legacy flows
+    // Listen for localStorage changes — keep for legacy flows
     const onStorage = () => loadBag();
     window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-     
+    const interval = setInterval(() => {
+      // Poll localStorage to stay in sync with header/bag count
+      const localBag = readLocalBag();
+      setBag(localBag);
+      setLoading(false);
+    }, 1000);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      clearInterval(interval);
+    };
   }, [user]);
 
   // When the in-memory cart (context) changes, update displayed bag for guests
