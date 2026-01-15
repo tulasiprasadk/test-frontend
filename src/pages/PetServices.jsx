@@ -52,7 +52,7 @@ export default function PetServices() {
         {Object.entries(grouped).map(([variety, items]) => (
           <div key={variety} style={{ marginBottom: 32, background: '#FFF9C4', borderRadius: 12, padding: 12 }}>
             <h2 style={{ borderBottom: '2px solid #C8102E', paddingBottom: 6, color: '#C8102E', fontSize: 20, textAlign: 'center' }}>{variety}</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 16, marginTop: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 20, marginTop: 16, alignItems: 'stretch' }}>
               {items.map((service) => (
                 <ProductCard
                   key={service.id}
@@ -77,7 +77,15 @@ export default function PetServices() {
           </div>
         ))}
       </div>
-      <CartPanel orderType="PET_SERVICES" />
+      <div style={{
+        position: 'sticky',
+        top: 32,
+        alignSelf: 'flex-start',
+        height: 'fit-content',
+        zIndex: 10
+      }}>
+        <CartPanel orderType="PET_SERVICES" />
+      </div>
     </div>
   );
 }
