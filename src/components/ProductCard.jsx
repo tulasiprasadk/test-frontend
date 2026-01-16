@@ -41,6 +41,7 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
   const knStyle = { color: "#b00018", fontSize: 11, fontFamily: 'Noto Sans Kannada, Tunga, Arial, sans-serif', fontWeight: 600, textAlign: 'center', background: 'transparent', border: 'none' };
   const displayPrice = typeof price === "number" ? price : null;
   const displayKn = knDisplay || kn || titleKannada;
+  const showKannada = Boolean(displayKn) && displayKn !== displayName;
   // Keep backward-compatibility: emoji prop still considered, otherwise use category/variety
   // emoji helper removed — centralized emoji rendering via `CategoryIcon`
 
@@ -155,8 +156,8 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
       {/* NAME */}
       <h3 style={titleStyle}>{displayName}</h3>
 
-      {/* KANNADA NAME - Always show if available, otherwise show placeholder */}
-      <div style={knStyle}>{displayKn || displayName}</div>
+      {/* KANNADA NAME - show only when different to avoid duplicates */}
+      {showKannada && <div style={knStyle}>{displayKn}</div>}
 
       {/* DESCRIPTION */}
       {description && (
