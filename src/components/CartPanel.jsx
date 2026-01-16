@@ -148,10 +148,18 @@ export default function CartPanel() {
           Total: ₹{bag.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || item.qty || 1), 0).toFixed(2)}
         </div>
       )}
-      <button style={{ marginTop: 16, width: '100%', padding: 10, background: '#ffcc00', border: 'none', borderRadius: 6, fontWeight: 600, cursor: 'pointer' }} onClick={() => window.location.href = '/bag'}>
+      <button style={{ marginTop: 16, width: '100%', padding: 12, background: '#ffcc00', border: 'none', borderRadius: 8, fontWeight: 700, cursor: 'pointer', fontSize: 16 }} onClick={() => window.location.href = '/bag'}>
         Go to Bag
       </button>
         </>
+      )}
+      {isMobile && (
+        <div className="mobile-sticky-bar">
+          <div style={{ fontWeight: 700 }}>Total: ₹{bag.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || item.qty || 1), 0).toFixed(2)}</div>
+          <button className="mobile-sticky-btn" onClick={() => window.location.href = '/bag'}>
+            Go to Bag
+          </button>
+        </div>
       )}
     </div>
   );

@@ -172,4 +172,33 @@ input, textarea, select, button {
     font-weight: 700;
     font-size: 16px;
   }
+
+  body {
+    padding-bottom: 72px;
+  }
+
+  .mobile-sticky-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff8c4;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    z-index: 999;
+  }
+
+  .mobile-sticky-btn {
+    padding: 12px 16px;
+    background: #ffcc00;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    min-width: 140px;
+  }
 }
