@@ -6,6 +6,7 @@ import "../components/dashboard/StatCard.css";
 import "../components/dashboard/ProfileCard.css";
 import "../components/dashboard/OrdersPreview.css";
 import "../components/dashboard/SavedShopsPreview.css";
+import "./CustomerDashboard.css";
 
 import StatCard from "../components/dashboard/StatCard";
 import ProfileCard from "../components/dashboard/ProfileCard";
@@ -29,10 +30,10 @@ const CustomerDashboard = () => {
     }
   }, [user, login]);
     return (
-      <div style={{ minHeight: '70vh' }}>
+      <div className="customer-dashboard" style={{ minHeight: '70vh' }}>
         <h2>Welcome to your Dashboard!</h2>
         {/* Search bar for shopping */}
-        <div style={{ margin: '24px 0', display: 'flex', alignItems: 'center' }}>
+        <div className="cd-search" style={{ margin: '24px 0', display: 'flex', alignItems: 'center' }}>
           <input
             type="text"
             placeholder="Search for products, varieties..."
@@ -55,16 +56,16 @@ const CustomerDashboard = () => {
             🔍 Search
           </button>
         </div>
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+        <div className="cd-stats" style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
           <StatCard label="Orders" value={12} icon={<span>🧾</span>} color="#4f46e5" />
           <StatCard label="Saved Shops" value={5} icon={<span>🏪</span>} color="#059669" />
           <StatCard label="Profile Complete" value="80%" icon={<span>✅</span>} color="#f59e0b" />
         </div>
-        <div style={{ display: 'flex', gap: '2rem' }}>
+        <div className="cd-panels" style={{ display: 'flex', gap: '2rem' }}>
           <OrdersPreview />
           <SavedShopsPreview />
         </div>
-        <div style={{ marginTop: '2rem' }}>
+        <div className="cd-profile" style={{ marginTop: '2rem' }}>
           <ProfileCard />
         </div>
       </div>
