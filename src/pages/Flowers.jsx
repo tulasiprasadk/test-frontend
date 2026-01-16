@@ -57,7 +57,7 @@ export default function Flowers() {
   }, {});
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#FFFDE7" }}>
+    <div className="with-cart-panel" style={{ minHeight: "100vh", background: "#FFFDE7" }}>
       <div style={{ flex: 1, padding: "24px 32px" }}>
         <h1 style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
           <CategoryIcon category="flowers" size={20} /> Flowers

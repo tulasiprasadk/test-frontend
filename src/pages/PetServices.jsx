@@ -41,7 +41,7 @@ export default function PetServices() {
   }
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#FFFDE7" }}>
+    <div className="with-cart-panel" style={{ minHeight: "100vh", background: "#FFFDE7" }}>
       <div style={{ flex: 1, padding: "24px 32px" }}>
         <h1 style={{ marginBottom: 8, color: "#C8102E", textAlign: 'center' }}>
           <span style={{ color: '#C8102E' }}>🐾</span> <span style={{ color: '#C8102E' }}>Pet Services</span>

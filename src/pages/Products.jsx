@@ -28,7 +28,7 @@ export default function Products() {
   }, [searchQuery]);
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#FFFDE7" }}>
+    <div className="with-cart-panel" style={{ minHeight: "100vh", background: "#FFFDE7" }}>
       <div style={{ flex: 1, padding: "2rem" }}>
       <h2>Products {searchQuery ? `"${searchQuery}"` : ""}</h2>
 
