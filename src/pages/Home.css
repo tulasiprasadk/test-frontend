@@ -291,13 +291,13 @@
 
 /* Force Fresh Picks to use consistent card size like other pages */
 .fresh-picks .products-grid {
-  /* Desktop: Use consistent card size (220px min) like other product views */
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
+  /* Desktop: smaller card size to match reduced grids */
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 12px;
   justify-items: center;
   position: relative;
   z-index: 1;
-  padding: 20px; /* Add padding for consistent spacing */
+  padding: 12px; /* Add padding for consistent spacing */
 }
 
 /* Place a large ellipse behind the Fresh Picks content (section-level eclipse) */
@@ -308,7 +308,7 @@
   top: 18%;
   transform: translateX(-50%);
   width: 110%;
-  height: 120px; /* smaller so it doesn't reach footer */
+  height: 80px; /* smaller so it doesn't reach footer */
   background: radial-gradient(ellipse at center, rgb(255 255 255 / 98%) 0%, rgb(255 255 255 / 85%) 60%, rgb(255 255 255 / 0%) 100%);
   border-radius: 50%;
   z-index: 0;
@@ -350,22 +350,22 @@
 /* Responsive grid - maintain consistent sizing */
 @media (width <= 1200px) {
   .fresh-picks .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 12px;
   }
 }
 
 @media (width <= 900px) {
   .fresh-picks .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 12px;
   }
 }
 
 @media (width <= 480px) {
   .fresh-picks .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 10px;
   }
 }
 

@@ -37,8 +37,8 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
   // Debug: Log product data for icon matching
   // console.log('ProductCard icon data:', { displayName, categoryName, categoryIcon, variety });
   // ensure title/desc wrappers have no unexpected border/background
-  const titleStyle = { margin: 0, fontSize: 12, fontWeight: 600, color: "#b00018", textAlign: 'center', background: 'transparent', border: 'none' };
-  const knStyle = { color: "#b00018", fontSize: 11, fontFamily: 'Noto Sans Kannada, Tunga, Arial, sans-serif', fontWeight: 600, textAlign: 'center', background: 'transparent', border: 'none' };
+  const titleStyle = { margin: 0, fontSize: 11, fontWeight: 600, color: "#b00018", textAlign: 'center', background: 'transparent', border: 'none' };
+  const knStyle = { color: "#b00018", fontSize: 10, fontFamily: 'Noto Sans Kannada, Tunga, Arial, sans-serif', fontWeight: 600, textAlign: 'center', background: 'transparent', border: 'none' };
   const displayPrice = typeof price === "number" ? price : null;
   const displayKn = knDisplay || kn || titleKannada;
   const showKannada = Boolean(displayKn) && displayKn !== displayName;
@@ -70,7 +70,7 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
     background: "#fff",
     display: "flex",
     flexDirection: "column",
-    gap: 8,
+    gap: 4,
     boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
     cursor: "pointer",
     transition: "all 0.2s ease",
@@ -78,7 +78,7 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
     padding: 0,
     overflow: 'hidden',
     minWidth: 0,
-    minHeight: 320,
+    minHeight: 180,
     height: "100%",
   };
 
@@ -136,19 +136,19 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
               position: "absolute",
               top: 6,
               left: 6,
-              width: (iconSize || 18) + 2,
-              height: (iconSize || 18) + 2,
+              width: (iconSize || 14) + 2,
+              height: (iconSize || 14) + 2,
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={preferredIcon || categoryIcon} size={iconSize || 16} />
+              <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={preferredIcon || categoryIcon} size={iconSize || 14} />
             </span>
           </>
         ) : (
           // Show icon large if no image
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={preferredIcon || categoryIcon} size={iconSize ? Math.max(20, iconSize*1.6) : 28} />
+            <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={preferredIcon || categoryIcon} size={iconSize ? Math.max(18, iconSize*1.5) : 22} />
           </div>
         )}
       </div>
@@ -173,7 +173,7 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: 700,
           color: "#c8102e",
           textAlign: 'center',

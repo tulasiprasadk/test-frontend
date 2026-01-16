@@ -9,6 +9,7 @@ import DiscoverPopup from "../components/DiscoverPopup";
 import MegaAd from "../components/MegaAd";
 import api from "../api/client";
 import ProductCard from "../components/ProductCard";
+import CartPanel from "../components/CartPanel";
 import CategoryIcon from "../components/CategoryIcon";
 import { useCrackerCart } from "../context/CrackerCartContext";
 
@@ -494,7 +495,8 @@ export default function Home() {
         </section>
 
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 40, alignItems: 'stretch', alignSelf: 'flex-start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24, alignItems: 'stretch', alignSelf: 'flex-start' }}>
+        <CartPanel />
         <MegaAd image={ad4} link={ads[3].link} position="right" />
         <MegaAd image={ad2} link={ads[1].link} position="right" />
         {/* Extra MegaAd slot */}

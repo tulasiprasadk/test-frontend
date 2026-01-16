@@ -42,8 +42,8 @@ export default function Products() {
         style={{
           marginTop: "1.5rem",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-          gap: "1.5rem",
+          gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))",
+          gap: "0.75rem",
           alignItems: "stretch"
         }}
       >

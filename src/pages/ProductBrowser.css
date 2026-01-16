@@ -223,8 +223,8 @@
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 12px;
 }
 
 .product-card {
@@ -328,8 +328,8 @@
   }
 
   .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 10px;
   }
 
   .products-table {
