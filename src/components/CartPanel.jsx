@@ -16,6 +16,9 @@ export default function CartPanel() {
 
   const readLocalBag = () => {
     try {
+      const token = localStorage.getItem("token");
+      const cartActive = sessionStorage.getItem("rrnagar_cart_active") === "1";
+      if (!token && !cartActive) return [];
       const bagData = JSON.parse(localStorage.getItem("bag") || "[]");
       return Array.isArray(bagData) ? bagData : [];
     } catch {

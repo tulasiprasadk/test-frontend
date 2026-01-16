@@ -11,6 +11,13 @@ export function CrackerCartProvider({ children }) {
   // Hydrate cart from localStorage on mount for guest users
   useEffect(() => {
     try {
+      const token = localStorage.getItem("token");
+      const cartActive = sessionStorage.getItem("rrnagar_cart_active") === "1";
+      if (!token && !cartActive) {
+        localStorage.removeItem("bag");
+        setCart([]);
+        return;
+      }
       const saved = JSON.parse(localStorage.getItem('bag') || 'null');
       if (Array.isArray(saved) && saved.length > 0) {
         setCart(saved.map(item => ({
@@ -27,6 +34,11 @@ export function CrackerCartProvider({ children }) {
   }, []);
 
   const addItem = (product) => {
+    try {
+      sessionStorage.setItem("rrnagar_cart_active", "1");
+    } catch {
+      // ignore
+    }
     // Normalize incoming product shape to ensure `id`, `price`, `title`, and `qty` exist
     const normalizedProduct = {
       id: product.id || product._id || (product.product && (product.product.id || product.product._id)) || product.sku || null,

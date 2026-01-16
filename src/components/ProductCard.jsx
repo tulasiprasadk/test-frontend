@@ -30,10 +30,6 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
   // Extract category name and icon (support both Category object and string)
   const categoryName = Category?.name || category || "";
   const categoryIcon = Category?.icon || null;
-  const productIcon = product?.icon || product?.emoji || _emoji || null;
-  const normalizedIcon = (productIcon || "").toString().trim();
-  const genericIcons = new Set(["📦", "🛍️", "🛒", "📁", "⬜", "◻️"]);
-  const preferredIcon = normalizedIcon && !genericIcons.has(normalizedIcon) ? normalizedIcon : null;
   // Debug: Log product data for icon matching
   // console.log('ProductCard icon data:', { displayName, categoryName, categoryIcon, variety });
   // ensure title/desc wrappers have no unexpected border/background
@@ -142,13 +138,13 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={preferredIcon || categoryIcon} size={iconSize || 14} />
+              <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={categoryIcon} size={iconSize || 14} />
             </span>
           </>
         ) : (
           // Show icon large if no image
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={preferredIcon || categoryIcon} size={iconSize ? Math.max(18, iconSize*1.5) : 22} />
+            <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={categoryIcon} size={iconSize ? Math.max(18, iconSize*1.5) : 22} />
           </div>
         )}
       </div>
