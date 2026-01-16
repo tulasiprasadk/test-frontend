@@ -35,6 +35,7 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
   // ensure title/desc wrappers have no unexpected border/background
   const titleStyle = { margin: 0, fontSize: 11, fontWeight: 600, color: "#b00018", textAlign: 'center', background: 'transparent', border: 'none' };
   const knStyle = { color: "#b00018", fontSize: 10, fontFamily: 'Noto Sans Kannada, Tunga, Arial, sans-serif', fontWeight: 600, textAlign: 'center', background: 'transparent', border: 'none' };
+  const iconSizeBase = iconSize || 20;
   const displayPrice = typeof price === "number" ? price : null;
   const displayKn = knDisplay || kn || titleKannada;
   const showKannada = Boolean(displayKn) && displayKn !== displayName;
@@ -138,13 +139,13 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={categoryIcon} size={iconSize || 14} />
+              <CategoryIcon name="" category={categoryName} variety="" icon={categoryIcon} size={iconSizeBase} />
             </span>
           </>
         ) : (
           // Show icon large if no image
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <CategoryIcon name={displayName} category={categoryName} variety={variety} icon={categoryIcon} size={iconSize ? Math.max(18, iconSize*1.5) : 22} />
+            <CategoryIcon name="" category={categoryName} variety="" icon={categoryIcon} size={iconSizeBase} />
           </div>
         )}
       </div>
