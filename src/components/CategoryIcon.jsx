@@ -129,6 +129,7 @@ export default function CategoryIcon({ category, variety, size = 16, className, 
     ["meat", "🥩"], ["meats", "🥩"],
     
     // Staples/Groceries - Specific first
+    ["rice - basmati", "🍚"], ["rice - brown", "🍚"], ["rice - idli", "🍚"], ["rice - sona masuri", "🍚"],
     ["sona masuri", "🍚"], ["basmati rice", "🍚"], ["brown rice", "🍚"],
     ["wheat flour", "🌾"], ["ragi flour", "🌾"], ["jowar flour", "🌾"], ["maida", "🌾"],
     ["toor dal", "🫘"], ["moong dal", "🫘"], ["chana dal", "🫘"], ["urad dal", "🫘"], ["masoor dal", "🫘"],
