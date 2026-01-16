@@ -1,6 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
-import { API_BASE } from "../config/api";
+import api from "../api/client";
 import imageCompression from "browser-image-compression";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -47,6 +46,11 @@ export default function PaymentPage() {
   // Submit Payment (Screenshot or UNR)
   // ------------------------------
   const submitPayment = async () => {
+    if (!orderId) {
+      alert("Missing order details. Please return to checkout and try again.");
+      navigate("/checkout");
+      return;
+    }
     if (!file && !txnId) {
       alert("Please provide either a payment screenshot or a transaction ID.");
       return;
@@ -64,8 +68,8 @@ export default function PaymentPage() {
     }
 
     try {
-      await axios.post(`${API_BASE}/orders/submit-payment`, form, {
-        headers: { "Content-Type": "multipart/form-data" }
+      await api.post("/orders/submit-payment", form, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       navigate("/payment-success", {
         state: {
@@ -78,10 +82,28 @@ export default function PaymentPage() {
     } catch (error) {
       console.error("Error submitting payment:", error);
       alert(
-        error?.response?.data?.msg || "Failed to submit payment. Please try again."
+        error?.response?.data?.error ||
+        error?.response?.data?.msg ||
+        error?.message ||
+        "Failed to submit payment. Please try again."
       );
     }
   };
+
+  if (!orderId) {
+    return (
+      <div style={{ padding: 24 }}>
+        <h2>Payment</h2>
+        <p style={{ color: "#b00018" }}>Missing order details. Please go back to checkout.</p>
+        <button
+          onClick={() => navigate("/checkout")}
+          style={{ padding: "10px 16px", background: "#28a745", color: "#fff", border: "none", borderRadius: 6 }}
+        >
+          Back to Checkout
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div style={{ 
