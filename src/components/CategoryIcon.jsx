@@ -21,7 +21,7 @@ export default function CategoryIcon({ category, variety, size = 16, className, 
   const varietyStr = normalize(variety);
   const key = `${nameStr} ${varietyStr}`.trim();
 
-  const contains = (s) => key.indexOf(s) !== -1;
+  const contains = (s) => key.indexOf(normalize(s)) !== -1;
 
   // Emoji-first mapping: try to match product name/variety, then category
   // IMPORTANT: Longer/more specific terms MUST come first to avoid partial matches
