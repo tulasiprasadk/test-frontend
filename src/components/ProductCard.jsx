@@ -42,6 +42,17 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
   // Keep backward-compatibility: emoji prop still considered, otherwise use category/variety
   // emoji helper removed — centralized emoji rendering via `CategoryIcon`
 
+  const addToBag = () => {
+    const productToAdd = {
+      ...product,
+      id: product.id || product._id,
+      price: product.price || 0,
+      qty: 1,
+      quantity: 1
+    };
+    addItem(productToAdd);
+  };
+
   const handleClick = (e) => {
     // Prevent navigation if clicking on the card itself
     e.preventDefault();
@@ -50,15 +61,7 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
     if (onClick) {
       onClick(product);
     } else {
-      // Ensure product has required fields for addItem
-      const productToAdd = {
-        ...product,
-        id: product.id || product._id,
-        price: product.price || 0,
-        qty: 1,
-        quantity: 1
-      };
-      addItem(productToAdd);
+      addToBag();
     }
   };
   const baseStyle = {
@@ -93,7 +96,7 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
 
   return (
     <div
-      className="product-card"
+      className="product-card pc-card"
       role="button"
       tabIndex={0}
       onClick={handleClick}
@@ -102,6 +105,7 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
     >
       {/* IMAGE + EMOJI */}
       <div
+        className="pc-image"
         style={{
           width: "100%",
           aspectRatio: '1 / 1',
@@ -150,20 +154,21 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
       </div>
 
       {/* NAME */}
-      <h3 style={titleStyle}>{displayName}</h3>
+      <h3 className="pc-title" style={titleStyle}>{displayName}</h3>
 
       {/* KANNADA NAME - show only when different to avoid duplicates */}
-      {showKannada && <div style={knStyle}>{displayKn}</div>}
+      {showKannada && <div className="pc-kn" style={knStyle}>{displayKn}</div>}
 
       {/* DESCRIPTION */}
       {description && (
-        <p style={{ margin: 0, fontSize: 10, color: "#c8102e", textAlign: 'center' }}>
+        <p className="pc-desc" style={{ margin: 0, fontSize: 10, color: "#c8102e", textAlign: 'center' }}>
           {description}
         </p>
       )}
 
       {/* PRICE */}
       <div
+        className="pc-price"
         style={{
           marginTop: "auto",
           display: "flex",
@@ -178,6 +183,16 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
       >
         {displayPrice !== null ? `₹${displayPrice}` : "—"}
       </div>
+      <button
+        className="pc-add"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          addToBag();
+        }}
+      >
+        Add to Bag
+      </button>
     </div>
   );
 }

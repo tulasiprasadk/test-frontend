@@ -108,7 +108,8 @@ export default function Groceries() {
                         <CategoryIcon category="groceries" variety={variety} size={16} /> {variety}
                       </span>
                     </h2>
-                    <div
+                <div
+                  className="product-grid"
                       style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))",

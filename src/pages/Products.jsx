@@ -39,6 +39,7 @@ export default function Products() {
       )}
 
       <div
+        className="product-grid"
         style={{
           marginTop: "1.5rem",
           display: "grid",

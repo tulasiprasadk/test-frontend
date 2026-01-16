@@ -116,3 +116,60 @@ input, textarea, select, button {
     border-top: 1px solid #eee !important;
   }
 }
+
+@media (max-width: 768px) {
+  .with-cart-panel {
+    flex-direction: column !important;
+    gap: 16px;
+  }
+
+  button,
+  input,
+  select,
+  textarea,
+  .rn-nav-item {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .pc-card {
+    min-height: auto !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+  }
+
+  .pc-image {
+    height: 180px !important;
+    aspect-ratio: auto !important;
+  }
+
+  .pc-title,
+  .pc-kn,
+  .pc-desc,
+  .pc-price {
+    text-align: left !important;
+    padding: 0 12px !important;
+  }
+
+  .pc-price {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+  }
+
+  .pc-add {
+    display: block;
+    margin: 12px;
+    width: calc(100% - 24px);
+    padding: 12px;
+    background: #ffd600;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 16px;
+  }
+}
