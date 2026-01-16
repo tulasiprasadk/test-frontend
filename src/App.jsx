@@ -48,6 +48,7 @@ import OrderDetailPage from "./pages/OrderDetailPage.jsx";
 import SelectAddressPage from "./pages/SelectAddressPage.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import TermsOfService from "./pages/TermsOfService.jsx";
+import Blog from "./pages/Blog.jsx";
 
 /* SUPPLIER PAGES */
 import SupplierLogin from "./pages/SupplierLogin.jsx";
@@ -111,6 +112,8 @@ function AppWrapper() {
           <Route path="/dashboard" element={<Navigate to="/customer/dashboard" replace />} />
           <Route path="/saved-suppliers" element={<SavedSuppliersPage />} />
           <Route path="/checkout/select-address" element={<SelectAddressPage />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<Blog />} />
 
           {/* SPECIAL */}
           <Route path="/crackers" element={<Crackers />} />
