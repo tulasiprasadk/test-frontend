@@ -128,16 +128,14 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
                 e.currentTarget.style.display = "none";
               }}
             />
-            {/* Always show emoji as badge if present */}
+            {/* Centered icon overlay to match category icon style */}
             <span style={{
               position: "absolute",
-              top: 6,
-              left: 6,
-              width: (iconSizeBase) + 4,
-              height: (iconSizeBase) + 4,
+              inset: 0,
               display: 'inline-flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              background: 'rgba(255,255,255,0.2)'
             }}>
               <CategoryIcon name={displayName} category={categoryName} variety={variety} size={iconSizeBase} />
             </span>
