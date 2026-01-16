@@ -68,6 +68,7 @@ export default function ProductCard({ product, onClick, variant, iconSize, style
     display: "flex",
     flexDirection: "column",
     gap: 4,
+    margin: 4,
     boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
     cursor: "pointer",
     transition: "all 0.2s ease",
