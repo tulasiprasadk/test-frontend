@@ -112,7 +112,7 @@ export default function Groceries() {
                       style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))",
-                        gap: 16,
+                        gap: 20,
                         marginTop: 16,
                         alignItems: "stretch"
                       }}

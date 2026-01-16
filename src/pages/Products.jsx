@@ -43,7 +43,7 @@ export default function Products() {
           marginTop: "1.5rem",
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))",
-          gap: "1rem",
+          gap: "1.25rem",
           alignItems: "stretch"
         }}
       >
