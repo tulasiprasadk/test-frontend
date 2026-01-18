@@ -18,37 +18,33 @@ export default function Groceries() {
     (async () => {
       setLoading(true);
       try {
-        // Resolve Groceries category id and fetch only that category's products
-        const cats = await getCategories();
-        const groceriesCat = cats.find(c => (c.name || '').toLowerCase().includes('groc'));
-        if (groceriesCat && groceriesCat.id) {
-          const data = await getProducts("", groceriesCat.id);
+        // Resolve Groceries category id, but don't fail if categories API errors
+        let groceriesCat = null;
+        try {
+          const cats = await getCategories();
+          groceriesCat = cats.find(c => (c.name || '').toLowerCase().includes('groc')) || null;
+        } catch (err) {
+          console.warn("Groceries page - categories lookup failed, falling back:", err);
+        }
 
-          if (Array.isArray(data) && data.length > 0) {
-            if (mounted) setProducts(data || []);
-          } else {
-            // fallback: fetch all and filter by Category name
-            const allData = await getProducts();
-            let groceries = (allData || []).filter(
-              (p) => p.Category && (p.Category.name || "").toLowerCase().includes("groc")
-            );
-            // If still empty, show all products to avoid blank page
-            if (groceries.length === 0) {
-              groceries = allData || [];
-            }
-            if (mounted) setProducts(groceries);
-          }
+        let data = [];
+        if (groceriesCat && groceriesCat.id) {
+          data = await getProducts("", groceriesCat.id);
         } else {
-          // fallback: fetch all and filter by Category name
-          const data = await getProducts();
-          let groceries = (data || []).filter(
+          data = await getProducts();
+        }
+
+        let groceries = Array.isArray(data) ? data : [];
+        if (!groceriesCat) {
+          groceries = groceries.filter(
             (p) => p.Category && (p.Category.name || "").toLowerCase().includes("groc")
           );
           if (groceries.length === 0) {
-            groceries = data || [];
+            groceries = Array.isArray(data) ? data : [];
           }
-          if (mounted) setProducts(groceries);
         }
+
+        if (mounted) setProducts(groceries);
       } catch (e) {
         console.error('Groceries page - load error:', e);
         if (mounted) setProducts([]);
