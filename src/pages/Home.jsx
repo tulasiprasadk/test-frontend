@@ -9,6 +9,7 @@ import DiscoverPopup from "../components/DiscoverPopup";
 import MegaAd from "../components/MegaAd";
 import api from "../api/client";
 import ProductCard from "../components/ProductCard";
+import CartPanel from "../components/CartPanel";
 import CategoryIcon from "../components/CategoryIcon";
 import { useCrackerCart } from "../context/CrackerCartContext";
 
@@ -113,12 +114,16 @@ export default function Home() {
 
   /* ================= PRODUCTS ================= */
   const [products, setProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(true);
+  const [productsError, setProductsError] = useState(null);
 
   useEffect(() => {
     loadProducts();
   }, []);
 
   async function loadProducts() {
+    setProductsLoading(true);
+    setProductsError(null);
     try {
       const res = await api.get(`/products`);
       const pdata = res && res.data ? res.data : [];
@@ -126,20 +131,27 @@ export default function Home() {
       setProducts(productsArray);
     } catch (err) {
       setProducts([]);
+      setProductsError(err.message || "Failed to load products");
       console.error("Error loading products:", err);
+    } finally {
+      setProductsLoading(false);
     }
   }
 
   
 
-  /* ================= CATEGORIES (UNCHANGED) ================= */
-  const [categories, setCategories] = useState([]);
+  /* ================= CATEGORIES ================= */
+  const [categories, setCategories] = useState(defaultCategories); // Start with defaults for instant display
+  const [categoriesLoading, setCategoriesLoading] = useState(false);
+  const [categoriesError, setCategoriesError] = useState(null);
 
   useEffect(() => {
     loadCategories();
   }, []);
 
   async function loadCategories() {
+    setCategoriesLoading(true);
+    setCategoriesError(null);
     try {
       const res = await api.get(`/categories`);
       const pdata = res && res.data ? res.data : [];
@@ -150,52 +162,36 @@ export default function Home() {
         return;
       }
 
-      // Map backend categories to include icons/nameKannada from defaults
-      const mapped = data.map((cat) => {
-        const norm = (cat.name || "").replace(/\s+/g, "").toLowerCase();
-        const def = defaultCategories.find(
-          (d) => (d.name || "").replace(/\s+/g, "").toLowerCase() === norm
-        );
-        return {
-          ...cat,
-          icon: def?.icon || emojiMap[norm] || cat.icon || "🛍️",
-          nameKannada: def?.nameKannada || cat.nameKannada || "",
-        };
+      const normalize = (value) => (value || "").replace(/\s+/g, "").toLowerCase();
+      const allowed = new Map(defaultCategories.map((c) => [normalize(c.name), c]));
+
+      // Only keep the approved default categories; ignore any extras
+      const mapped = data
+        .map((cat) => {
+          const norm = normalize(cat.name);
+          const def = allowed.get(norm);
+          if (!def) return null;
+          return {
+            ...cat,
+            icon: def.icon || emojiMap[norm] || cat.icon || "🛍️",
+            nameKannada: def.nameKannada || cat.nameKannada || "",
+          };
+        })
+        .filter(Boolean);
+
+      // Preserve the default order, while keeping backend IDs when present
+      const ordered = defaultCategories.map((def) => {
+        const norm = normalize(def.name);
+        return mapped.find((m) => normalize(m.name) === norm) || def;
       });
 
-      // Remove unwanted categories from popular list (robust substring checks)
-      const filtered = mapped.filter((c) => {
-        const n = (c.name || "").toLowerCase();
-        if (!n) return true;
-        // exclude any categories that are fruits, vegetables, or milk products
-        if (n.includes("fruit") || n.includes("veget") || n.includes("milk")) return false;
-        return true;
-      });
-
-      // Enforce desired category order at the top, keep any other categories after
-      const desiredOrder = [
-        "Crackers",
-        "Flowers",
-        "Groceries",
-        "Local Services",
-        "Pet Services",
-        "Consultancy",
-      ];
-      const desiredNorm = desiredOrder.map((s) => s.replace(/\s+/g, "").toLowerCase());
-      filtered.sort((a, b) => {
-        const na = (a.name || "").replace(/\s+/g, "").toLowerCase();
-        const nb = (b.name || "").replace(/\s+/g, "").toLowerCase();
-        const ia = desiredNorm.indexOf(na);
-        const ib = desiredNorm.indexOf(nb);
-        if (ia === -1 && ib === -1) return (a.name || "").localeCompare(b.name || "");
-        if (ia === -1) return 1;
-        if (ib === -1) return -1;
-        return ia - ib;
-      });
-
-      setCategories(filtered);
-    } catch {
-      setCategories(defaultCategories);
+      setCategories(ordered);
+    } catch (err) {
+      setCategoriesError(err.message || "Failed to load categories");
+      console.error("Error loading categories:", err);
+      // Keep default categories on error
+    } finally {
+      setCategoriesLoading(false);
     }
   }
 
@@ -222,6 +218,13 @@ export default function Home() {
     { image: ad4, title: "Pet Services", link: "https://thevetbuddy.com" },
   ];
   const adsLoop = [...ads, ...ads];
+  const megaGridAds = [
+    { image: ad3, link: ads[2].link, alt: ads[2].title },
+    { image: ad1, link: ads[0].link, alt: ads[0].title },
+    { image: "/motard.svg", link: "https://motardgears.com", alt: "Motard" },
+    { image: ad4, link: ads[3].link, alt: ads[3].title },
+    { image: ad2, link: ads[1].link, alt: ads[1].title },
+  ];
 
   /* ================= DISCOVER ================= */
   const discover = [
@@ -275,8 +278,8 @@ export default function Home() {
   };
 
   return (
-    <main className="home" style={{ display: "flex", width: "100vw", margin: 0, padding: 0, alignItems: "stretch" }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 40, alignItems: 'stretch' }}>
+    <main className="home" style={{ display: "flex", width: "100vw", margin: 0, padding: 0, alignItems: "flex-start" }}>
+      <div className="mega-column mega-column-left" style={{ display: 'flex', flexDirection: 'column', gap: 40, alignItems: 'stretch', alignSelf: 'flex-start' }}>
         <MegaAd image={ad3} link={ads[2].link} position="left" />
         <MegaAd image={ad1} link={ads[0].link} position="left" />
         {/* Extra MegaAd slot under top-left — Motard partner logo */}
@@ -315,9 +318,35 @@ export default function Home() {
           </div>
         </section>
 
+        {/* MEGA GRID (mobile/tablet view) */}
+        <section className="section mega-grid-section">
+          <h2 className="section-title">Mega Grid</h2>
+          <div className="mega-grid">
+            {megaGridAds.map((item, index) => (
+              <MegaAd
+                key={`${item.alt}-${index}`}
+                image={item.image}
+                link={item.link}
+                alt={item.alt}
+                position="grid"
+              />
+            ))}
+          </div>
+        </section>
+
         {/* CATEGORIES */}
         <section className="section">
           <h2 className="section-title">Popular Categories</h2>
+          {categoriesLoading && (
+            <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
+              Loading categories...
+            </div>
+          )}
+          {categoriesError && (
+            <div style={{ textAlign: 'center', padding: '10px', color: '#d32f2f', fontSize: '14px' }}>
+              {categoriesError} (Using default categories)
+            </div>
+          )}
           <div className="cat-row">
             {categories.map((cat) => (
               <div
@@ -420,30 +449,61 @@ export default function Home() {
         {/* PRODUCTS */}
         <section className="section fresh-picks">
           <h2 className="section-title">Fresh Picks for You</h2>
-            <div className="products-grid">
-            {featuredProducts.map((product) => (
-              <div
-                key={product.id}
-                className="product-tile"
-                onClick={() => handleAddFromGrid(product)}
-                style={{ cursor: 'pointer' }}
+          {productsLoading && (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+              <div style={{ fontSize: '18px', marginBottom: '10px' }}>Loading products...</div>
+              <div style={{ fontSize: '14px' }}>Please wait while we fetch the latest items</div>
+            </div>
+          )}
+          {productsError && !productsLoading && (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#d32f2f' }}>
+              <div style={{ fontSize: '18px', marginBottom: '10px' }}>⚠️ Unable to load products</div>
+              <div style={{ fontSize: '14px', marginBottom: '20px' }}>{productsError}</div>
+              <button 
+                onClick={loadProducts}
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#1976d2',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '14px'
+                }}
               >
-                <ProductCard variant="fresh" product={products.find(p => p.id === product.id) || product} />
-              </div>
-            ))}
-          </div>
+                Try Again
+              </button>
+            </div>
+          )}
+          {!productsLoading && !productsError && featuredProducts.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+              <div style={{ fontSize: '18px' }}>No products available at the moment</div>
+              <div style={{ fontSize: '14px', marginTop: '10px' }}>Check back soon for new items!</div>
+            </div>
+          )}
+          {!productsLoading && !productsError && featuredProducts.length > 0 && (
+            <div className="products-grid">
+              {featuredProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="product-tile"
+                  onClick={() => handleAddFromGrid(product)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <ProductCard variant="fresh" product={products.find(p => p.id === product.id) || product} />
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 24, alignItems: 'stretch', justifyContent: 'space-between', minHeight: '100vh', paddingTop: 8, paddingBottom: 8 }}>
-        <div>
-          <MegaAd image={ad4} link={ads[3].link} position="right" />
-          <MegaAd image={ad2} link={ads[1].link} position="right" />
-        </div>
-        {/* Extra MegaAd slot pinned to bottom-right */}
-        <div>
-          <MegaAd image={ad3} link={ads[2].link} position="right" />
-        </div>
+      <div className="mega-column mega-column-right" style={{ display: 'flex', flexDirection: 'column', gap: 24, alignItems: 'stretch', alignSelf: 'flex-start' }}>
+        <CartPanel />
+        <MegaAd image={ad4} link={ads[3].link} position="right" />
+        <MegaAd image={ad2} link={ads[1].link} position="right" />
+        {/* Extra MegaAd slot */}
+        <MegaAd image={ad3} link={ads[2].link} position="right" />
       </div>
     </main>
     
