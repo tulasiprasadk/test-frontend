@@ -79,29 +79,39 @@ Sparklers 7cm,SPARKLERS,,90,box,,8,Crackers
       const products = parseCSV(csvText);
 
       console.log("Uploading products:", products.length);
+      const chunkSize = 100;
+      let totalCreated = 0;
+      let totalErrors = 0;
 
-      const res = await fetch("/api/products/bulk", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ products }),
-      });
-      const raw = await res.text();
-      let data = null;
-      try {
-        data = raw ? JSON.parse(raw) : null;
-      } catch {
-        data = { error: raw || "Bulk upload failed" };
+      for (let i = 0; i < products.length; i += chunkSize) {
+        const chunk = products.slice(i, i + chunkSize);
+        const res = await fetch("/api/products/bulk", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ products: chunk }),
+        });
+        const raw = await res.text();
+        let data = null;
+        try {
+          data = raw ? JSON.parse(raw) : null;
+        } catch {
+          data = { error: raw || "Bulk upload failed" };
+        }
+
+        if (!res.ok) {
+          alert(data?.error || "Bulk upload failed");
+          return;
+        }
+
+        totalCreated += data.created || 0;
+        totalErrors += data.errors || 0;
       }
 
-      if (!res.ok) {
-        alert(data?.error || "Bulk upload failed");
-        return;
-      }
+      const summary = { created: totalCreated, errors: totalErrors };
+      setResult(summary);
+      alert(`Success! ${summary.created} products created, ${summary.errors} errors.`);
 
-      setResult(data);
-      alert(`Success! ${data.created} products created, ${data.errors} errors.`);
-
-      if (data.errors === 0) {
+      if (summary.errors === 0) {
         setCsvText("");
       }
     } catch (err) { console.error(err);
