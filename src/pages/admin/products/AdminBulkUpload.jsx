@@ -85,11 +85,16 @@ Sparklers 7cm,SPARKLERS,,90,box,,8,Crackers
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ products }),
       });
-
-      const data = await res.json();
+      const raw = await res.text();
+      let data = null;
+      try {
+        data = raw ? JSON.parse(raw) : null;
+      } catch {
+        data = { error: raw || "Bulk upload failed" };
+      }
 
       if (!res.ok) {
-        alert(data.error || "Bulk upload failed");
+        alert(data?.error || "Bulk upload failed");
         return;
       }
 
