@@ -49,6 +49,13 @@ const AdminProductsList = () => {
         >
           📊 Bulk Upload
         </Link>
+        <Link
+          to="/admin/products/new"
+          className="admin-button"
+          style={{ background: '#28a745', color: 'white', padding: '8px 12px', borderRadius: 6, textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}
+        >
+          ➕ Add Product
+        </Link>
       </div>
 
       {loading ? (
