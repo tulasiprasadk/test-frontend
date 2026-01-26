@@ -17,7 +17,7 @@ export const AdminAuthProvider = ({ children }) => {
     if (storedAdmin) {
       try {
         setAdmin(JSON.parse(storedAdmin));
-      } catch {
+      } catch (err) {
         setAdmin(null);
       }
     }

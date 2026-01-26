@@ -34,7 +34,7 @@ export default function MessagingModal({ open, onClose, onSend, recipientId, rec
       setSubject("");
       setBody("");
       onClose();
-    } catch {
+    } catch (err) {
       setError(err?.message || "Failed to send message");
     } finally {
       setLoading(false);

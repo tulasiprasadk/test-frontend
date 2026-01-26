@@ -28,7 +28,7 @@ export default function OrderSuccess() {
         if (product.hasYearlyPackage) options.push("yearly");
         setSubscriptionOptions(options);
         setSubscriptionProductId(product.id || data?.productId || null);
-      } catch {
+      } catch (err) {
         // Ignore failures to keep success page clean
       }
     })();

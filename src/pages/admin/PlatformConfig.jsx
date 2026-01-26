@@ -76,7 +76,7 @@ export default function PlatformConfig() {
       } else if (type === 'json') {
         try {
           processedValue = typeof value === 'string' ? JSON.parse(value) : value;
-        } catch {
+        } catch (err) {
           setMessage({ type: 'error', text: 'Invalid JSON format' });
           return;
         }
@@ -126,7 +126,7 @@ export default function PlatformConfig() {
       try {
         JSON.parse(value);
         updateConfig(key, value, type);
-      } catch {
+      } catch (err) {
         // Invalid JSON, but allow editing
         setConfigs(prev => ({ ...prev, [key]: value }));
       }

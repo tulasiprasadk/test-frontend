@@ -22,7 +22,7 @@ export default function SupplierOrderDetail() {
 
       setOrder(data.order);
       setStatus(data.order.status);
-    } catch {
+    } catch (err) {
       console.error("Order detail error:", err);
     }
     setLoading(false);

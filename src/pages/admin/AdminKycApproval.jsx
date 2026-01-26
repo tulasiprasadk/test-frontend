@@ -20,7 +20,7 @@ export default function AdminKycApproval() {
       setLoading(true);
       const response = await axios.get("/api/suppliers/pending/all");
       setSuppliers(response.data.suppliers || []);
-    } catch {
+    } catch (err) {
       console.error("Error fetching suppliers:", err);
       setError("Failed to load pending suppliers");
     } finally {
@@ -37,7 +37,7 @@ export default function AdminKycApproval() {
       alert("Supplier approved successfully!");
       setSelectedSupplier(null);
       fetchPendingSuppliers();
-    } catch {
+    } catch (err) {
       console.error("Error approving supplier:", err);
       alert(err.response?.data?.error || "Failed to approve supplier");
     } finally {
@@ -62,7 +62,7 @@ export default function AdminKycApproval() {
       setSelectedSupplier(null);
       setRejectionReason("");
       fetchPendingSuppliers();
-    } catch {
+    } catch (err) {
       console.error("Error rejecting supplier:", err);
       alert(err.response?.data?.error || "Failed to reject supplier");
     } finally {

@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
             setUser(null);
           }
         }
-      } catch {
+      } catch (err) {
         if (mounted) setUser(null);
       } finally {
         if (mounted) setIsLoading(false);

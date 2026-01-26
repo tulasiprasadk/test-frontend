@@ -28,7 +28,7 @@ const AdminLogin = () => {
       } else {
         alert(data.message || "Invalid credentials");
       }
-    } catch {
+    } catch (err) {
       alert("Something went wrong");
     }
 

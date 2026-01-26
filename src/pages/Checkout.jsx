@@ -16,7 +16,7 @@ export default function Checkout() {
       // fallback to legacy 'cart'
       const legacy = JSON.parse(localStorage.getItem("cart") || "[]");
       return Array.isArray(legacy) ? legacy.map(it => ({ ...it, qty: it.qty || it.quantity || 1 })) : [];
-    } catch {
+    } catch (err) {
       return [];
     }
   });

@@ -34,7 +34,7 @@ const AdminLogin = () => {
       let data = null;
       try {
         data = await res.json();
-      } catch {
+      } catch (err) {
         // non-JSON response
         data = null;
       }

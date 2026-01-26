@@ -13,7 +13,7 @@ export default function PricingSettings() {
     try {
       const res = await axios.get("/api/admin/pricing");
       setSettings(res.data.settings);
-    } catch {
+    } catch (err) {
       console.error("Failed to load pricing settings:", err);
     }
   }
@@ -26,7 +26,7 @@ export default function PricingSettings() {
       });
 
       alert("Pricing settings updated!");
-    } catch {
+    } catch (err) {
       console.error("Save failed:", err);
       alert("Failed to update settings.");
     }

@@ -23,7 +23,7 @@ export default function AdminChangePassword() {
         body: JSON.stringify({ oldPassword: form.oldPassword, newPassword: form.newPassword })
       });
       let data = null;
-      try { data = await res.json(); } catch { data = null; }
+      try { data = await res.json(); } catch (err) { data = null; }
       if (!res.ok) {
         const msg = (data && (data.error || data.message)) || `Server error ${res.status}`;
         return setErr(msg);

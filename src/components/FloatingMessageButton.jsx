@@ -28,7 +28,7 @@ export default function FloatingMessageButton({ recipientName = "Support", sende
       const result = await sendWhatsAppMessage(bodyPayload);
       setBusy(false);
       return result;
-    } catch {
+    } catch (err) {
       setBusy(false);
       setError(err.message || "Failed to send");
       throw err;

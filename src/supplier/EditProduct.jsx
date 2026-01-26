@@ -50,7 +50,7 @@ export default function SupplierEditProduct() {
         const err = await res.json();
         setError(err.error || 'Update failed');
       }
-    } catch {
+    } catch (err) {
       setError('Update failed');
     }
   };

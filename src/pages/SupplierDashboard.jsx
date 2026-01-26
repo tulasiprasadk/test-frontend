@@ -41,7 +41,7 @@ export default function SupplierDashboard() {
           return { ...it, supplier_price: supplierNum, platform_price: platformNum };
         });
         setItems(normalized);
-      } catch {
+      } catch (err) {
         if (mounted) setErr(e.message || "Failed to load");
       }
     }

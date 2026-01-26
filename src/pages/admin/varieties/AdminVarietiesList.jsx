@@ -29,7 +29,7 @@ export default function AdminVarietiesList() {
     try {
       const res = await axios.get(`${API_BASE}/categories`);
       setCategories(res.data);
-    } catch {
+    } catch (err) {
       console.error('Error loading categories:', err);
     }
   }
@@ -42,7 +42,7 @@ export default function AdminVarietiesList() {
         : '/api/varieties';
       const res = await axios.get(url);
       setVarieties(res.data);
-    } catch {
+    } catch (err) {
       console.error('Error loading varieties:', err);
     } finally {
       setLoading(false);
@@ -56,7 +56,7 @@ export default function AdminVarietiesList() {
       await axios.delete(`/api/varieties/${id}`);
       loadVarieties(selectedCategory);
       alert('Variety deleted successfully!');
-    } catch {
+    } catch (err) {
       console.error('Error deleting variety:', err);
       alert('Failed to delete variety');
     }

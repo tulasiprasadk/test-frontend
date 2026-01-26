@@ -40,7 +40,7 @@ export default function OTPConfirm() {
         // Existing user goes to cart/checkout
         setTimeout(() => navigate("/cart"), 600);
       }
-    } catch {
+    } catch (err) {
       setMsg(err?.response?.data?.error || err?.message || "Verification failed");
     } finally {
       setLoading(false);

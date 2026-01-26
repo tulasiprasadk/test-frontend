@@ -94,7 +94,7 @@ Sparklers 7cm,SPARKLERS,,90,box,,8,Crackers
         let data = null;
         try {
           data = raw ? JSON.parse(raw) : null;
-        } catch {
+        } catch (err) {
           data = { error: raw || "Bulk upload failed" };
         }
 

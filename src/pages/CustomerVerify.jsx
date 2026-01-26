@@ -36,7 +36,7 @@ export default function CustomerVerify() {
             } else {
               setShowAddressForm(true);
             }
-          } catch {
+          } catch (err) {
             if (res.data.isNewUser) {
               setShowAddressForm(true);
             } else {
@@ -78,7 +78,7 @@ export default function CustomerVerify() {
         state: { selectedAddress: savedAddress } 
       });
 
-    } catch {
+    } catch (err) {
       console.error("Address save error:", err);
       alert("Failed to save address: " + (err.response?.data?.error || err.message));
     }

@@ -26,7 +26,7 @@ export default function WhatsAppFloating({
 
   try {
     location = useLocation();
-  } catch {
+  } catch (err) {
     location = { pathname: "/" };
   }
 

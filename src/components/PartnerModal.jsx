@@ -32,7 +32,7 @@ export default function PartnerModal({ isOpen, onClose }) {
         setForm({ name: "", phone: "", email: "", message: "" });
         onClose();
       }, 2000);
-    } catch {
+    } catch (err) {
       setStatus({ 
         type: "error", 
         message: "Failed to send. Please try again or email us at namaste@rrnagar.com" 

@@ -31,7 +31,7 @@ export default function OrderSuccess() {
       } else {
         setMessage(data.error || data.message || JSON.stringify(data));
       }
-    } catch {
+    } catch (err) {
       setMessage(String(err));
     } finally {
       setLoading(false);

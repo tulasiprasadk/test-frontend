@@ -24,7 +24,7 @@ export default function Flowers() {
 
         const data = await getProducts("", catId || "");
         if (mounted) setProducts(Array.isArray(data) ? data : []);
-      } catch {
+      } catch (err) {
         console.error(e);
         if (mounted) setProducts([]);
       } finally {

@@ -23,7 +23,7 @@ export default function CartPanel() {
       if (!token && !cartActive) return [];
       const bagData = JSON.parse(localStorage.getItem("bag") || "[]");
       return Array.isArray(bagData) ? bagData : [];
-    } catch {
+    } catch (err) {
       return [];
     }
   };
@@ -42,7 +42,7 @@ export default function CartPanel() {
         const res = await api.get("/cart");
         const serverItems = res.data?.items || [];
         setBag(serverItems);
-      } catch {
+      } catch (err) {
         setBag([]);
       }
     } else {

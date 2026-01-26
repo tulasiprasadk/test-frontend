@@ -29,7 +29,7 @@ export function CrackerCartProvider({ children }) {
           qty: Number(item.qty || item.quantity || 1)
         })));
       }
-    } catch {
+    } catch (err) {
       // ignore
     }
   }, []);
@@ -37,7 +37,7 @@ export function CrackerCartProvider({ children }) {
   const addItem = (product) => {
     try {
       sessionStorage.setItem("rrnagar_cart_active", "1");
-    } catch {
+    } catch (err) {
       // ignore
     }
     // Normalize incoming product shape to ensure `id`, `price`, `title`, and `qty` exist
@@ -83,7 +83,7 @@ export function CrackerCartProvider({ children }) {
               }
               localStorage.setItem('bag', JSON.stringify(saved));
               window.dispatchEvent(new Event('cart-updated'));
-            } catch {
+            } catch (err) {
               // ignore
             }
           }
@@ -101,11 +101,11 @@ export function CrackerCartProvider({ children }) {
           }
           localStorage.setItem('bag', JSON.stringify(saved));
           window.dispatchEvent(new Event('cart-updated'));
-        } catch {
+        } catch (err) {
           // ignore
         }
       }
-    } catch {
+    } catch (err) {
       // ignore
     }
   };
@@ -124,7 +124,7 @@ export function CrackerCartProvider({ children }) {
             }
           })();
         }
-      } catch { /* ignore */ }
+      } catch (err) { /* ignore */ }
     };
 
     const clearCart = () => {
@@ -141,7 +141,7 @@ export function CrackerCartProvider({ children }) {
             }
           })();
         }
-      } catch { /* ignore */ }
+      } catch (err) { /* ignore */ }
     };
 
     const updateQty = (id, qty) => {
@@ -171,7 +171,7 @@ export function CrackerCartProvider({ children }) {
             }
           })();
         }
-      } catch { /* ignore */ }
+      } catch (err) { /* ignore */ }
     };
 
     const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
@@ -188,7 +188,7 @@ export function CrackerCartProvider({ children }) {
         }));
         localStorage.setItem('bag', JSON.stringify(normalized));
         window.dispatchEvent(new Event('cart-updated'));
-      } catch {
+      } catch (err) {
         // ignore
       }
     }, [cart]);

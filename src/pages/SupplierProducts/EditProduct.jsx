@@ -22,7 +22,7 @@ export default function EditProduct() {
 
       const data = await res.json();
       if (res.ok) setProduct(data.product);
-    } catch {
+    } catch (err) {
       console.error("Error loading product:", err);
     }
   };
