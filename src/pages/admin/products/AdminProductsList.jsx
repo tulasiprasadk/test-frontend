@@ -5,6 +5,9 @@ import ProductSuppliers from "./ProductSuppliers";
 import "./AdminProductsList.css";
 
 const AdminProductsList = () => {
+  // Debug: build timestamp to force rebuild and help verify deployed bundle
+  // BUILD_TS: 2026-01-26T10:20:00Z
+  console.debug('AdminProductsList component loaded (build ts)');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [managingProductId, setManagingProductId] = useState(null);
