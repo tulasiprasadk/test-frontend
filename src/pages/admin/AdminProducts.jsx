@@ -21,8 +21,9 @@ export default function AdminProducts(){
   return (
     <div className="p-4">
       <h1 className="text-2xl mb-4">Product Management</h1>
-      <div style={{ marginBottom: 12 }}>
+      <div style={{ marginBottom: 12, display: 'flex', gap: 12, alignItems: 'center' }}>
         <a className="btn" href="/groceries_bulk_upload.csv" download>⬇️ Download Groceries Sample CSV</a>
+        <button className="btn bg-blue-600 text-white" onClick={() => setSelected({})}>➕ Add Product</button>
         <input id="groceries-file" type="file" accept=".csv" style={{ marginLeft: 12 }} />
         <button className="btn" style={{ marginLeft: 8 }} onClick={async () => {
           const f = document.getElementById('groceries-file').files[0];
