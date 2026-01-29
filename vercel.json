@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://rrnagar-backend-github-app.vercel.app/api/$1" },
+    { "source": "/api", "destination": "https://rrnagar-backend-github-app.vercel.app/api" }
+  ]
+}
+{
   "builds": [
     {
       "src": "package.json",

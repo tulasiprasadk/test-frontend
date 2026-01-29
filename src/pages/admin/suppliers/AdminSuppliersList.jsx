@@ -25,9 +25,10 @@ export default function AdminSuppliersList() {
 
   async function approveSupplier(id) {
     try {
-      await axios.post(`/api/admin/suppliers/${id}/approve`);
+      await axios.post(`/api/admin/suppliers/${id}/approve`, null, { withCredentials: true });
       alert("Supplier approved!");
-      fetchSuppliers();
+      // Refresh suppliers and admin UI (notifications) by reloading
+      window.location.reload();
     } catch (err) {
       console.error("Approve failed:", err);
       alert("Failed to approve supplier");
@@ -37,9 +38,10 @@ export default function AdminSuppliersList() {
   async function rejectSupplier(id) {
     const reason = prompt("Rejection reason (optional):");
     try {
-      await axios.post(`/api/admin/suppliers/${id}/reject`, { reason });
+      await axios.post(`/api/admin/suppliers/${id}/reject`, { reason }, { withCredentials: true });
       alert("Supplier rejected");
-      fetchSuppliers();
+      // Refresh suppliers and admin UI (notifications) by reloading
+      window.location.reload();
     } catch (err) {
       console.error("Reject failed:", err);
       alert("Failed to reject supplier");
@@ -49,7 +51,7 @@ export default function AdminSuppliersList() {
   async function deleteSupplier(id) {
     if (!confirm("Delete this supplier?")) return;
     try {
-      await axios.delete(`/api/admin/suppliers/${id}`);
+      await axios.delete(`/api/admin/suppliers/${id}`, { withCredentials: true });
       fetchSuppliers();
     } catch (err) {
       console.error("Delete failed:", err);
